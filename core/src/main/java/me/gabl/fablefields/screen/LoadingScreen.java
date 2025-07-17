@@ -43,7 +43,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Asset.manager.update(50)) {
-            //TODO
+            this.game.setScreen(new GameScreen());
         }
         this.tb.setProgress(Asset.manager.getProgress());
         this.stage.draw();
