@@ -1,31 +1,69 @@
 package me.gabl.fablefields.asset;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
-public class AnimationLoader {
+public class AnimationLoader extends SynchronousAssetLoader<AnimationD, AnimationLoader.Parameters> {
 
-    public Animation<TextureRegion> loadAnimation(String file, int frameHeight, int frameWidth, int frames) {
-        Texture texture = new Texture(Gdx.files.internal(file));
+    public AnimationLoader(FileHandleResolver resolver) {
+        super(resolver);
+    }
 
-        if (texture.getHeight() % frameHeight != 0) {
-            throw new IllegalTextureException(file + ": Texture height must be a positive multiple of " + frameHeight);
+    public static Parameters params(int frameHeight, int frameWidth, int frames, float frameDuration) {
+        return new Parameters(frameHeight, frameWidth, frames, frameDuration);
+    }
+
+    @Override
+    public AnimationD load(AssetManager manager, String fileName, FileHandle file, Parameters params) {
+        Texture texture = new Texture(file);
+
+
+        if (texture.getHeight() % params.frameHeight != 0) {
+            throw new IllegalTextureException(
+                file + ": Texture height must be a positive multiple of " + params.frameHeight);
         }
-        if (texture.getWidth() % frameWidth != 0) {
-            throw new IllegalTextureException(file + ": Texture width must be a positive multiple of " + frameWidth);
+        if (texture.getWidth() % params.frameWidth != 0) {
+            throw new IllegalTextureException(
+                file + ": Texture width must be a positive multiple of " + params.frameWidth);
         }
 
-        int xFrames = texture.getWidth() / frameWidth;
+        int xFrames = texture.getWidth() / params.frameWidth;
 
-        TextureRegion[] textureRegions = new TextureRegion[frames];
+        TextureRegion[] textureRegions = new TextureRegion[params.frames];
         int x, y;
-        for (int i = 0; i < frames; i++) {
+        for (int i = 0; i < params.frames; i++) {
             x = i % xFrames;
             y = i / xFrames;
-            textureRegions[i] = new TextureRegion(texture, x, y, frameWidth, frameHeight);
+            textureRegions[i] = new TextureRegion(texture, x, y, params.frameWidth, params.frameHeight);
         }
-        return new Animation<>(1f / frames, textureRegions);
+        return AnimationD.of(new Animation<>(params.frameDuration, textureRegions));
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, Parameters parameter) {
+        return null;
+    }
+
+    public static class Parameters extends AssetLoaderParameters<AnimationD> {
+        public final int frameHeight;
+        public final int frameWidth;
+        public final int frames;
+        public final float frameDuration;
+
+        private Parameters(int frameHeight, int frameWidth, int frames, float frameDuration) {
+            this.frameHeight = frameHeight;
+            this.frameWidth = frameWidth;
+            this.frames = frames;
+            this.frameDuration = frameDuration;
+        }
     }
 }

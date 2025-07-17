@@ -22,25 +22,11 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
+        //TODO
         Asset.manager.queuePreLoad();
         Asset.manager.finishLoading();
-        //assuming quick loading of assets listed in preload
         this.logo = new Image(Asset.manager.get(Asset.LOGO));
-        //        this.knob = new TextureRegionDrawable(Asset.manager.get(Asset.UI_BOX).findRegion("white_knob"));
-        //        this.background = new TextureRegionDrawable(Asset.manager.get(Asset.UI_BOX).findRegion("light_cc"));
         this.stage = new Stage();
-
-        //        ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
-        //        barStyle.background = this.background;
-        //        barStyle.knob = this.knob;
-        //        barStyle.knobBefore = this.knob;
-        //        barStyle.knobAfter = this.knob;
-
-        //        this.bar = new ProgressBar(0, 10000, 1, false,
-        //            barStyle
-        //        );
-        //        this.bar.setSize(this.bar.getWidth() * 4, this.bar.getHeight() * 4);
-        //        this.stage.addActor(this.bar);
 
         this.tb = new PlainTiledProgressBar(Asset.UI_BOX_LIGHT, Asset.UI_BOX_DARK);
         this.tb.setWidth(400);
@@ -57,15 +43,16 @@ public class LoadingScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Asset.manager.update(50)) {
-            //
+            //TODO
         }
         this.tb.setProgress(Asset.manager.getProgress());
-        stage.draw();
+        this.stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        int pixelsPerUnit = (int) (Math.round(Math.sqrt(width * height / 300000f)) + 0.6); //arbitrary number, + 0.6 replaceable e (0.5;1.0) ?
+        int pixelsPerUnit = (int) (Math.round(
+            Math.sqrt(width * height / 300000f)) + 0.6); //arbitrary number, + 0.6 replaceable e (0.5;1.0) ?
         this.viewport.setUnitsPerPixel(1f / pixelsPerUnit);
         this.viewport.update(width, height, true);
         float worldWidth = this.viewport.getWorldWidth();

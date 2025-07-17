@@ -1,11 +1,15 @@
 package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.ActionLayer;
 
 public class GameAssetManager extends AssetManager {
+
+    public GameAssetManager() {
+        super();
+        super.setLoader(AnimationD.class, new AnimationLoader(super.getFileHandleResolver()));
+    }
 
     public void queuePreLoad() {
         super.load(Asset.LOGO);
@@ -18,7 +22,7 @@ public class GameAssetManager extends AssetManager {
     public void queueHuman() {
         for (Action action : Action.values()) {
             for (ActionLayer layer : ActionLayer.values()) {
-                super.load(resolveHumanCharacterPath(action, layer), Texture.class);
+                super.load(resolveHumanCharacterPath(action, layer), AnimationD.class, action.getParameters());
             }
         }
     }

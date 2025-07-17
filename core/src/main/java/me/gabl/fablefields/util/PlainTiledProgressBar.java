@@ -8,10 +8,11 @@ import lombok.Setter;
 
 public class PlainTiledProgressBar extends Actor {
 
-    @Getter @Setter
+    private final NinePatch completed;
+    private final NinePatch notCompleted;
+    @Getter
+    @Setter
     float progress;
-    private NinePatch completed;
-    private NinePatch notCompleted;
 
     public PlainTiledProgressBar(NinePatch completed, NinePatch notCompleted) {
         this.completed = completed;
@@ -20,7 +21,7 @@ public class PlainTiledProgressBar extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        float visualProgress = Math.min(Math.max(0 , this.progress), 1);
+        float visualProgress = Math.min(Math.max(0, this.progress), 1);
         this.notCompleted.draw(batch, super.getX(), super.getY(), super.getWidth(), super.getHeight());
         this.completed.draw(batch, super.getX(), super.getY(), super.getWidth() * visualProgress, super.getHeight());
     }
