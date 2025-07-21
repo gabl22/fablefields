@@ -8,27 +8,29 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import me.gabl.fablefields.map.Map;
 import me.gabl.fablefields.test.OrthoCamController;
 
 public class GameScreen implements Screen {
 
     private TiledMap map;
-    private TiledMap map2;
+//    private TiledMap map2;
     private OrthogonalTiledMapRenderer renderer;
-    private OrthogonalTiledMapRenderer renderer2;
+//    private OrthogonalTiledMapRenderer renderer2;
     private OrthographicCamera camera;
 
     @Override
     public void show() {
         TmxMapLoader loader = new TmxMapLoader();
-        this.map = loader.load("map/test1.tmx");
-        this.map2 = loader.load("map/test2.tmx");
+        this.map = Map.getMap();
+//        this.map = loader.load("map/test1.tmx");
+//        this.map2 = loader.load("map/test2.tmx");
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 2f);
-        this.renderer2 = new OrthogonalTiledMapRenderer(this.map2, 2f);
+//        this.renderer2 = new OrthogonalTiledMapRenderer(this.map2, 2f);
         this.camera = new OrthographicCamera();
         this.camera.position.set(-50, 0, 0);
         this.renderer.setView(this.camera);
-        this.renderer2.setView(new OrthographicCamera());
+//        this.renderer2.setView(new OrthographicCamera());
         Gdx.input.setInputProcessor(new OrthoCamController(this.camera));
     }
 
@@ -41,7 +43,7 @@ public class GameScreen implements Screen {
         camera.update();
         this.renderer.setView(camera);
         this.renderer.render();
-        this.renderer2.render();
+//        this.renderer2.render();
     }
 
     @Override

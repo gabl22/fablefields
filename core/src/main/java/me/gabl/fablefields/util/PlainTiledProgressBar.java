@@ -3,18 +3,19 @@ package me.gabl.fablefields.util;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import lombok.Getter;
 import lombok.Setter;
 
 public class PlainTiledProgressBar extends Actor {
 
-    private final NinePatch completed;
-    private final NinePatch notCompleted;
+    private final Drawable completed;
+    private final Drawable notCompleted;
     @Getter
     @Setter
     float progress;
 
-    public PlainTiledProgressBar(NinePatch completed, NinePatch notCompleted) {
+    public PlainTiledProgressBar(Drawable completed, Drawable notCompleted) {
         this.completed = completed;
         this.notCompleted = notCompleted;
     }

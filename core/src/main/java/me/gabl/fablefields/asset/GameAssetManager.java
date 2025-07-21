@@ -25,6 +25,7 @@ public class GameAssetManager extends AssetManager {
                 super.load(resolveHumanCharacterPath(action, layer), AnimationD.class, action.getParameters());
             }
         }
+        super.load(Asset.UI_SKIN);
     }
 
     private static String resolveHumanCharacterPath(Action action, ActionLayer layer) {

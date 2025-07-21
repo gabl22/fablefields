@@ -1,6 +1,7 @@
 package me.gabl.fablefields.util;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import lombok.Getter;
 
 public class TiledProgressBar extends PlainTiledProgressBar {
@@ -8,7 +9,7 @@ public class TiledProgressBar extends PlainTiledProgressBar {
     @Getter
     private float value, min, max;
 
-    public TiledProgressBar(float value, float min, float max, NinePatch completed, NinePatch notCompleted) {
+    public TiledProgressBar(float value, float min, float max, Drawable completed, Drawable notCompleted) {
         super(completed, notCompleted);
         this.value = value;
         this.min = min;

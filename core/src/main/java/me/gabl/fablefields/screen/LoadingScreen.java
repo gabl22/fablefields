@@ -38,12 +38,13 @@ public class LoadingScreen implements Screen {
         this.stage.setViewport(this.viewport);
 
         Asset.manager.queueHuman();
+        Asset.completeLoad();
     }
 
     @Override
     public void render(float delta) {
         if (Asset.manager.update(50)) {
-            this.game.setScreen(new GameScreen());
+            this.game.setScreen(new MenuScreen(this.game));
         }
         this.tb.setProgress(Asset.manager.getProgress());
         this.stage.draw();
