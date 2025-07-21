@@ -23,12 +23,17 @@ public class OrthoCamController extends InputAdapter {
             this.cam.position.add(this.delta);
         }
         this.lastTouch.set(x, y, 0);
-        return false;
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         this.lastTouch.x = -1;
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return true;
     }
 }

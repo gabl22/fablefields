@@ -3,9 +3,11 @@ package me.gabl.fablefields.screen;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.screen.menu.MenuScreen;
 import me.gabl.fablefields.util.PlainTiledProgressBar;
 
 public class LoadingScreen implements Screen {
@@ -28,7 +30,7 @@ public class LoadingScreen implements Screen {
         this.logo = new Image(Asset.manager.get(Asset.LOGO));
         this.stage = new Stage();
 
-        this.tb = new PlainTiledProgressBar(Asset.UI_BOX_LIGHT, Asset.UI_BOX_DARK);
+        this.tb = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT), new NinePatchDrawable(Asset.UI_BOX_DARK));
         this.tb.setWidth(400);
         this.tb.setHeight(50);
         this.stage.addActor(this.tb);

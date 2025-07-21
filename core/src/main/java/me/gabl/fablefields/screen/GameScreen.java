@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        this.camera.position.set((this.camera.position.x + 1) % 100, 0, 0);
+        camera.zoom = (float) ((camera.zoom + 0.002) % 2);
         camera.update();
         this.renderer.setView(camera);
         this.renderer.render();
