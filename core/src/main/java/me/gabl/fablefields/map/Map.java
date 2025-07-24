@@ -14,7 +14,7 @@ public class Map {
         TiledMap tmap = new TiledMap();
         tmap.getTileSets().addTileSet(Asset.TILESET);
         TiledMapTileLayer tiledMapTileLayer = new TiledMapTileLayer(1000, 1000, 16, 16);
-        tmap.getLayers().add(tiledMapTileLayer);
+//        tmap.getLayers().add(tiledMapTileLayer);
         NoiseGenerator noise = FastSimplexNoiseGenerator.newBuilder().setSeed(5).setVariant2D(Simplex2DVariant.CLASSIC).build();
         for (int x = 0; x < 1000; x++) {
             for (int y = 0; y < 1000; y++) {
@@ -22,6 +22,16 @@ public class Map {
                 tiledMapTileLayer.getCell(x, y).setTile(getTile(noise.evaluateNoise(x/50d, y/50d)));
             }
         }
+
+        TiledMapTileLayer sea = new TiledMapTileLayer(1000, 1000, 16, 16);
+        for (int x = 0; x < 1000; x++) {
+            for (int y = 0; y < 1000; y++) {
+                sea.setCell(x, y, new TiledMapTileLayer.Cell());
+                sea.getCell(x, y).setTile(Asset.TILESET.getTile(21*64+11 + (x % 4) - (y % 4) * 64));
+            }
+        }
+        tmap.getLayers().add(sea);
+//        tmap.getLayers().add(tiledMapTileLayer);
         return tmap;
     }
 

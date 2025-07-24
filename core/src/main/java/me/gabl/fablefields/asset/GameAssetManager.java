@@ -28,7 +28,7 @@ public class GameAssetManager extends AssetManager {
         super.load(Asset.UI_SKIN);
     }
 
-    private static String resolveHumanCharacterPath(Action action, ActionLayer layer) {
+    static String resolveHumanCharacterPath(Action action, ActionLayer layer) {
         return "characters/human/" + action.id + "/" + layer.id + "_" + action.id + ".png";
     }
 }

@@ -1,21 +1,35 @@
 package me.gabl.fablefields.test;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class OrthoCamController extends InputAdapter {
     final OrthographicCamera cam;
     final Vector3 current = new Vector3();
     final Vector3 lastTouch = new Vector3(-1, -1, -1);
     final Vector3 delta = new Vector3();
+    final Actor center;
+    boolean followCenter = true;
 
-    public OrthoCamController(OrthographicCamera camera) {
+    public OrthoCamController(OrthographicCamera camera, Actor center) {
         this.cam = camera;
+        this.cam.zoom = 2f;
+        this.center = center;
+    }
+
+    public void update() {
+        if (this.followCenter) {
+            this.cam.position.set(this.center.getX(), this.center.getY(), 0);
+        }
+        this.cam.update();
     }
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
+        this.followCenter = false;
         this.cam.unproject(this.current.set(x, y, 0));
         if (this.lastTouch.x != -1) {
             this.cam.unproject(this.delta.set(this.lastTouch));
@@ -34,6 +48,18 @@ public class OrthoCamController extends InputAdapter {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
+        this.cam.zoom += amountY/20;
         return true;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.C) {
+            this.cam.zoom = 0.5f;
+            this.cam.position.set(this.center.getX(), this.center.getY(), 0);
+            this.followCenter = true;
+            return true;
+        }
+        return false;
     }
 }

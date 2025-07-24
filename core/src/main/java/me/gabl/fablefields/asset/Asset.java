@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import me.gabl.fablefields.player.Action;
+import me.gabl.fablefields.player.ActionLayer;
 
 public class Asset {
 
@@ -21,6 +23,10 @@ public class Asset {
     public static final AssetDescriptor<Texture> TILESET_TEXTURE = new AssetDescriptor<>("tiles/tileset.png",
         Texture.class
     );
+    public static final AssetDescriptor<Texture> TILESET_TEXTURE_DEBUG = new AssetDescriptor<>("tiles/tileset_debug.png",
+        Texture.class
+    );
+
     public static final TiledMapTileSet TILESET = new TiledMapTileSet();
 
     //TODO
@@ -44,6 +50,7 @@ public class Asset {
     }
 
     public static void completeLoad() {
+//        Texture tilesetImage = Asset.get(Asset.TILESET_TEXTURE_DEBUG);
         Texture tilesetImage = Asset.get(Asset.TILESET_TEXTURE);
         for (int i = 0; i < 4096; i++) {
             Asset.TILESET.putTile(i,
@@ -51,5 +58,9 @@ public class Asset {
             );
             //TODO problems rendering at certain viewport sizes =?=
         }
+    }
+
+    public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
+        return new AssetDescriptor<>(GameAssetManager.resolveHumanCharacterPath(action, layer), AnimationD.class);
     }
 }

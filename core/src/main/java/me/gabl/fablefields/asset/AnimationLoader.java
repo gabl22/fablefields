@@ -17,14 +17,13 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         super(resolver);
     }
 
-    public static Parameters params(int frameHeight, int frameWidth, int frames, float frameDuration) {
-        return new Parameters(frameHeight, frameWidth, frames, frameDuration);
+    public static Parameters params(int frameHeight, int frameWidth, int frames, float frameDuration, Animation.PlayMode playMode) {
+        return new Parameters(frameHeight, frameWidth, frames, frameDuration, playMode);
     }
 
     @Override
     public AnimationD load(AssetManager manager, String fileName, FileHandle file, Parameters params) {
         Texture texture = new Texture(file);
-
 
         if (texture.getHeight() % params.frameHeight != 0) {
             throw new IllegalTextureException(
@@ -42,9 +41,11 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         for (int i = 0; i < params.frames; i++) {
             x = i % xFrames;
             y = i / xFrames;
-            textureRegions[i] = new TextureRegion(texture, x, y, params.frameWidth, params.frameHeight);
+            textureRegions[i] = new TextureRegion(texture, x * params.frameWidth, y * params.frameHeight, params.frameWidth, params.frameHeight);
         }
-        return AnimationD.of(new Animation<>(params.frameDuration, textureRegions));
+        Animation<TextureRegion> animation = new Animation<>(params.frameDuration, textureRegions);
+        animation.setPlayMode(params.playMode);
+        return AnimationD.of(animation);
     }
 
     @SuppressWarnings("rawtypes")
@@ -58,12 +59,14 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         public final int frameWidth;
         public final int frames;
         public final float frameDuration;
+        public final Animation.PlayMode playMode;
 
-        private Parameters(int frameHeight, int frameWidth, int frames, float frameDuration) {
+        private Parameters(int frameHeight, int frameWidth, int frames, float frameDuration, Animation.PlayMode playMode) {
             this.frameHeight = frameHeight;
             this.frameWidth = frameWidth;
             this.frames = frames;
             this.frameDuration = frameDuration;
+            this.playMode = playMode;
         }
     }
 }

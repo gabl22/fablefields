@@ -1,4 +1,4 @@
- package me.gabl.fablefields.asset;
+package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
