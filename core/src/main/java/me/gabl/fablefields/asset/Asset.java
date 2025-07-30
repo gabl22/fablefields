@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import me.gabl.fablefields.map.Material;
+import me.gabl.fablefields.map.StaticTile;
+import me.gabl.fablefields.map.Tile;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.ActionLayer;
 
@@ -54,10 +57,22 @@ public class Asset {
         Texture tilesetImage = Asset.get(Asset.TILESET_TEXTURE);
         for (int i = 0; i < 4096; i++) {
             Asset.TILESET.putTile(i,
-                new StaticTiledMapTile(new TextureRegion(tilesetImage, (i % 64) * 16, (i / 64) * 16, 16, 16))
+                new StaticTile(new TextureRegion(tilesetImage, (i % 64) * 16, (i / 64) * 16, 16, 16))
             );
             //TODO problems rendering at certain viewport sizes =?=
         }
+
+        ((Tile) Asset.TILESET.getTile(68)).setMaterial(Material.WATER);
+        ((Tile) Asset.TILESET.getTile(74)).setMaterial(Material.WATER);
+        ((Tile) Asset.TILESET.getTile(2438)).setMaterial(Material.WATER);
+
+        ((Tile) Asset.TILESET.getTile(74)).setMaterial(Material.WATER);
+        ((Tile) Asset.TILESET.getTile(68)).setMaterial(Material.WATER);
+        ((Tile) Asset.TILESET.getTile(74)).setMaterial(Material.WATER);
+
+        ((Tile) Asset.TILESET.getTile(67)).setMaterial(Material.SAND);
+        ((Tile) Asset.TILESET.getTile(69)).setMaterial(Material.SAND);
+        ((Tile) Asset.TILESET.getTile(73)).setMaterial(Material.SAND);
     }
 
     public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
