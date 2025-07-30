@@ -37,51 +37,26 @@ public class MenuScreen implements Screen {
         this.stage = new Stage();
         Gdx.input.setInputProcessor(this.stage);
         this.table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
-        camera = new OrthographicCamera();
-        viewport = new ScreenViewport(camera);
-        viewport.apply();
-        stage.setViewport(viewport);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        camera.update();
+        this.table.setFillParent(true);
+        this.stage.addActor(this.table);
+        this.camera = new OrthographicCamera();
+        this.viewport = new ScreenViewport(this.camera);
+        this.viewport.apply();
+        this.stage.setViewport(this.viewport);
+        this.camera.position.set(this.viewport.getWorldWidth() / 2, this.viewport.getWorldHeight() / 2, 0);
+        this.camera.update();
 
-//        NinePatch ninePatchLight = new NinePatch(Asset.UI_BOX_LIGHT);
-//        ninePatchLight.scale(4f, 4f);
-//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(new NinePatchDrawable(ninePatchLight),
-//            null, null, new BitmapFont()
-//        );
-//        NinePatch ninePatch = new NinePatch(Asset.UI_BOX_DARK);
-//        ninePatch.scale(4f, 4f);
-//        style.over = new NinePatchDrawable(ninePatch);
-//        TextButton.TextButtonStyle style2 = new TextButton.TextButtonStyle(new NinePatchDrawable(Asset.UI_BOX_WHITE),
-//            new NinePatchDrawable(Asset.UI_BOX_WHITE), new NinePatchDrawable(Asset.UI_BOX_WHITE), new BitmapFont()
-//        );
-//        style.font = new BitmapFont();
-//        this.startButton = new TextButton("Start Game PipaPo", style);
-//        startButton.pad(50);
-//        startButton.addListener(new ClickListener() {
-//
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                MenuScreen.this.game.setScreen(new GameScreen());
-//                startButton.setStyle(style2);
-//                return true;
-//            }
-//        });
-//
-//        table.add(startButton).fillX().uniformX();
 
-        startButton = new MenuButton("Start Game");
-        startButton.addListener(new ClickListener() {
+        this.startButton = new MenuButton("Start Game");
+        this.startButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MenuScreen.this.game.setScreen(new GameScreen());
                 return true;
             }
         });
-        exitButton = new MenuButton("Exit");
-        exitButton.addListener(new ClickListener() {
+        this.exitButton = new MenuButton("Exit");
+        this.exitButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MenuScreen.this.game.dispose();
@@ -89,14 +64,11 @@ public class MenuScreen implements Screen {
                 return true;
             }
         });
-//        startButton.setHeight(120);
-//        startButton.setWidth(4000);
-//        startButton.pad(30);
-        table.add(startButton);
-        table.add(exitButton);
-        table.getCell(startButton).height(50).width(120).pad(50);
-        table.getCell(exitButton).height(50).width(120).pad(50);
-        this.logo = new Image(Asset.get(Asset.LOGO));
+        this.table.add(this.startButton);
+        this.table.add(this.exitButton);
+        this.table.getCell(this.startButton).height(50).width(120).pad(50);
+        this.table.getCell(this.exitButton).height(50).width(120).pad(50);
+        this.logo = new Image(this.game.assetManager.get(Asset.LOGO));
         this.logo.setScale(2f);
         this.stage.addActor(this.logo);
 
@@ -106,15 +78,15 @@ public class MenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+        this.stage.act(Gdx.graphics.getDeltaTime());
+        this.stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-//        this.camera.zoom = (float) (1/ (Math.floor(Math.min(width / 640f, height / 480f)) + 1));
-        this.camera.zoom = 1/Math.min(width /640f, height / 480f);
+        this.stage.getViewport().update(width, height, true);
+        //        this.camera.zoom = (float) (1/ (Math.floor(Math.min(width / 640f, height / 480f)) + 1));
+        this.camera.zoom = 1 / Math.min(width / 640f, height / 480f);
 
         this.logo.setX(width / 2 - this.logo.getWidth());
         this.logo.setY(height / 2 - this.logo.getHeight() + 100);

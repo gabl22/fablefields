@@ -8,11 +8,11 @@ import org.jetbrains.annotations.Nullable;
 public class TileMapCellLayerWrapper {
 
     private final int height, width, tileHeight, tileWidth;
+    private final TiledMapTileLayer layer;
     private int update = 0;
-    private TiledMapTileLayer layer;
 
     public TileMapCellLayerWrapper(int width, int height, int tileWidth, int tileHeight) {
-        layer = new TiledMapTileLayer(width, height, tileWidth, tileHeight);
+        this.layer = new TiledMapTileLayer(width, height, tileWidth, tileHeight);
         this.width = width;
         this.height = height;
         this.tileWidth = tileWidth;
@@ -32,7 +32,7 @@ public class TileMapCellLayerWrapper {
             for (int x = 0; x < this.width; x++) {
                 MapCell<Tile> cell = this.getCell(x, y);
                 if (cell != null) {
-                    cell.update(update, 0);
+                    cell.update(this.update++, 0);
                 }
             }
         }
@@ -55,7 +55,6 @@ public class TileMapCellLayerWrapper {
         this.linkCells();
     }
 
-    @Deprecated
     private void linkCells() {
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
@@ -66,43 +65,28 @@ public class TileMapCellLayerWrapper {
 
     private void linkCell(int x, int y) {
         final MapCell<Tile> cell = this.getCell(x, y);
-        if (cell != null) {
-            cell.up = this.getCell(x, y + 1);
-            cell.down = this.getCell(x, y - 1);
-            cell.left = this.getCell(x - 1, y);
-            cell.right = this.getCell(x + 1, y);
+        final MapCell<Tile> up = this.getCell(x, y + 1);
+        final MapCell<Tile> down = this.getCell(x, y - 1);
+        final MapCell<Tile> left = this.getCell(x - 1, y);
+        final MapCell<Tile> right = this.getCell(x + 1, y);
 
-            // link-back
-            if (cell.up != null) {
-                cell.up.down = cell;
-            }
-            if (cell.down != null) {
-                cell.down.up = cell;
-            }
-            if (cell.left != null) {
-                cell.left.right = cell;
-            }
-            if (cell.right != null) {
-                cell.right.left = cell;
-            }
-            return;
+        if (cell != null) {
+            cell.up = up;
+            cell.down = down;
+            cell.left = left;
+            cell.right = right;
         }
-        // cell == null
-        MapCell<Tile> up = this.getCell(x, y + 1);
-        MapCell<Tile> down = this.getCell(x, y - 1);
-        MapCell<Tile> left = this.getCell(x - 1, y);
-        MapCell<Tile> right = this.getCell(x + 1, y);
         if (up != null) {
-            up.down = null;
+            up.down = cell;
         }
         if (down != null) {
-            down.up = null;
+            down.up = cell;
         }
         if (left != null) {
-            left.right = null;
+            left.right = cell;
         }
         if (right != null) {
-            right.left = null;
+            right.left = cell;
         }
     }
 }

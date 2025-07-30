@@ -32,7 +32,7 @@ public class RunningPlayerAnimation {
             if (layers[i] == null) {
                 continue;
             }
-            this.animations[i] = Asset.get(Asset.descriptorHuman(action, layers[i]));
+            this.animations[i] = Asset.manager.get(Asset.descriptorHuman(action, layers[i]));
         }
     }
 

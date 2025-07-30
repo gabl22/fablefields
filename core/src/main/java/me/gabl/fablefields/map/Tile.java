@@ -34,15 +34,15 @@ public abstract class Tile implements TiledMapTile {
 
     @Override
     public MapProperties getProperties() {
-        if (properties == null) {
-            properties = new MapProperties();
+        if (this.properties == null) {
+            this.properties = new MapProperties();
         }
-        return properties;
+        return this.properties;
     }
 
     @Override
     public int getId() {
-        return id;
+        return this.id;
     }
 
     @Override
@@ -82,9 +82,9 @@ public abstract class Tile implements TiledMapTile {
 
     @Override
     public MapObjects getObjects() {
-        if (objects == null) {
-            objects = new MapObjects();
+        if (this.objects == null) {
+            this.objects = new MapObjects();
         }
-        return objects;
+        return this.objects;
     }
 }

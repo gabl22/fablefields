@@ -6,6 +6,15 @@ public class StaticTile extends Tile {
 
     private TextureRegion texture;
 
+    public StaticTile(TextureRegion texture) {
+        this.texture = texture;
+    }
+
+    public StaticTile(StaticTile copy) {
+        super(copy);
+        this.texture = copy.texture;
+    }
+
     @Override
     public TextureRegion getTextureRegion() {
         return this.texture;
@@ -14,14 +23,5 @@ public class StaticTile extends Tile {
     @Override
     public void setTextureRegion(TextureRegion texture) {
         this.texture = texture;
-    }
-
-    public StaticTile(TextureRegion texture) {
-        this.texture = texture;
-    }
-
-    public StaticTile(StaticTile copy) {
-        super(copy);
-        this.texture = copy.texture;
     }
 }

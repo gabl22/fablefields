@@ -41,7 +41,9 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         for (int i = 0; i < params.frames; i++) {
             x = i % xFrames;
             y = i / xFrames;
-            textureRegions[i] = new TextureRegion(texture, x * params.frameWidth, y * params.frameHeight, params.frameWidth, params.frameHeight);
+            textureRegions[i] = new TextureRegion(texture, x * params.frameWidth, y * params.frameHeight,
+                params.frameWidth, params.frameHeight
+            );
         }
         Animation<TextureRegion> animation = new Animation<>(params.frameDuration, textureRegions);
         animation.setPlayMode(params.playMode);

@@ -9,30 +9,29 @@ import lombok.Setter;
 @Getter
 public class MapCell<T extends Tile> extends TiledMapTileLayer.Cell {
 
+    protected long lastUpdateIndex = Long.MIN_VALUE;
     MapCell<T> up;
     MapCell<T> down;
     MapCell<T> left;
     MapCell<T> right;
 
-    protected long lastUpdateIndex = Long.MIN_VALUE;
-
     public void update(long updateIndex, int reach) {
-        if (updateIndex <= lastUpdateIndex) {
+        if (updateIndex <= this.lastUpdateIndex) {
             return;
         }
         this.lastUpdateIndex = updateIndex;
         if (reach > 0) {
             reach--;
-            up.update(updateIndex, reach);
-            down.update(updateIndex, reach);
-            left.update(updateIndex, reach);
-            right.update(updateIndex, reach);
+            this.up.update(updateIndex, reach);
+            this.down.update(updateIndex, reach);
+            this.left.update(updateIndex, reach);
+            this.right.update(updateIndex, reach);
         }
         this.update();
     }
 
     private void update() {
-        Material material = getTile().getMaterial();
+        Material material = this.getTile().getMaterial();
         if (material != null && material.renderCell != null) {
             this.getTile().material.renderCell.accept(this);
         }

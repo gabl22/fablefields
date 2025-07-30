@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.asset.LoadSection;
 import me.gabl.fablefields.screen.menu.MenuScreen;
 import me.gabl.fablefields.util.PlainTiledProgressBar;
 
@@ -25,12 +26,17 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         //TODO
-        Asset.manager.queuePreLoad();
+        Asset.registerAll(Asset.manager);
+        Asset.manager.loadAssets(LoadSection.BEFORE_LOADING_SCREEN);
         Asset.manager.finishLoading();
+        Asset.manager.complete();
+        Asset.manager.loadAssets(LoadSection.BEFORE_GAME_SCREEN);
         this.logo = new Image(Asset.manager.get(Asset.LOGO));
         this.stage = new Stage();
 
-        this.tb = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT), new NinePatchDrawable(Asset.UI_BOX_DARK));
+        this.tb = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT),
+            new NinePatchDrawable(Asset.UI_BOX_DARK)
+        );
         this.tb.setWidth(400);
         this.tb.setHeight(50);
         this.stage.addActor(this.tb);
@@ -38,14 +44,12 @@ public class LoadingScreen implements Screen {
         this.stage.addActor(this.logo);
         this.viewport = new ScreenViewport();
         this.stage.setViewport(this.viewport);
-
-        Asset.manager.queueHuman();
-        Asset.completeLoad();
     }
 
     @Override
     public void render(float delta) {
         if (Asset.manager.update(50)) {
+            Asset.manager.complete();
             this.game.setScreen(new MenuScreen(this.game));
         }
         this.tb.setProgress(Asset.manager.getProgress());

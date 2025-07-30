@@ -32,7 +32,8 @@ public class Player extends Actor {
     @Override
     public void act(float delta) {
         this.calculateMovement();
-        super.setX(super.getX() + this.mx * this.attributes.movementSpeed * delta * 15f); //constant to match animation to speed
+        super.setX(
+            super.getX() + this.mx * this.attributes.movementSpeed * delta * 15f); //constant to match animation to speed
         super.setY(super.getY() + this.my * this.attributes.movementSpeed * delta * 15f);
         if (this.mx == 0 && this.my == 0) {
             this.action = Action.IDLE;
@@ -93,7 +94,6 @@ public class Player extends Actor {
         }
         if (left) {
             this.mx = -1f;
-            return;
         }
     }
 
@@ -103,7 +103,9 @@ public class Player extends Actor {
                 new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, this.direction.flip
             );
             switch (this.action) {
-                case WALKING, RUN: this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed); break;
+                case WALKING, RUN:
+                    this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed);
+                    break;
             }
         } else {
             this.currentAnimation.addDelta(delta);
@@ -112,7 +114,7 @@ public class Player extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.action.getParameters();
+        //        this.action.getParameters();
         this.currentAnimation.draw(batch, super.getX(), super.getY());
     }
 

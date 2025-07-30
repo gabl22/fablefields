@@ -4,26 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import me.gabl.fablefields.asset.AnimationLoader;
 
 public enum Action {
-    ATTACK("attack", 10, false),
-    AXE("axe", 10, false),
-    CARRY("carry", 8, true),
-    CASTING("casting", 15, false),
-    CAUGHT("caught", 10, false),
-    DEATH("death", 13, false),
-    DIG("dig", 13, false),
-    DOING("doing", 8, true),
-    HAMMERING("hammering", 23, false),
-    HURT("hurt", 8, false),
-    IDLE("idle", 9, true, 0.25f),
-    JUMP("jump", 9, false),
-    MINING("mining", 10, false),
-    REELING("reeling", 13, true),
-    ROLL("roll", 10, false),
-    RUN("run", 8, true),
-    SWIMMING("swimming", 12, true),
-    WAITING("waiting", 9, true),
-    WALKING("walking", 8, true, 0.1f),
-    WATERING("watering", 5, false);
+    ATTACK("attack", 10, false), AXE("axe", 10, false), CARRY("carry", 8, true), CASTING("casting", 15, false), CAUGHT(
+        "caught", 10, false), DEATH("death", 13, false), DIG("dig", 13, false), DOING("doing", 8, true), HAMMERING(
+        "hammering", 23, false), HURT("hurt", 8, false), IDLE("idle", 9, true, 0.25f), JUMP("jump", 9, false), MINING(
+        "mining", 10, false), REELING("reeling", 13, true), ROLL("roll", 10, false), RUN("run", 8, true), SWIMMING(
+        "swimming", 12, true), WAITING("waiting", 9, true), WALKING("walking", 8, true, 0.1f), WATERING("watering", 5,
+        false
+    );
 
     public final String id;
     public final int frames;
@@ -49,6 +36,8 @@ public enum Action {
     }
 
     public AnimationLoader.Parameters getParameters() {
-        return AnimationLoader.params(64, 96, this.frames, this.frameDuration, this.looping ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
+        return AnimationLoader.params(64, 96, this.frames, this.frameDuration,
+            this.looping ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL
+        );
     }
 }
