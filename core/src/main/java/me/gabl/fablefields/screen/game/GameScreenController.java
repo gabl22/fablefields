@@ -1,9 +1,10 @@
-package me.gabl.fablefields.screen;
+package me.gabl.fablefields.screen.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import me.gabl.fablefields.player.Player;
 
+@Deprecated
 public class GameScreenController extends InputAdapter {
 
     private final Player player;

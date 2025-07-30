@@ -73,6 +73,8 @@ public class Asset {
         ((Tile) Asset.TILESET.getTile(67)).setMaterial(Material.SAND);
         ((Tile) Asset.TILESET.getTile(69)).setMaterial(Material.SAND);
         ((Tile) Asset.TILESET.getTile(73)).setMaterial(Material.SAND);
+
+        //...
     }
 
     public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
