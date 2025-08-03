@@ -114,7 +114,6 @@ public class Player extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        //        this.action.getParameters();
         this.currentAnimation.draw(batch, super.getX(), super.getY());
     }
 

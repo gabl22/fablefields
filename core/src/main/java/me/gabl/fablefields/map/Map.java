@@ -9,24 +9,28 @@ import de.articdive.jnoise.generators.noisegen.opensimplex.FastSimplexNoiseGener
 import me.gabl.fablefields.asset.Asset;
 
 public class Map {
+
+    private static final int size = 1500; //TODO
+
+
     public static TiledMap getMap() {
         TiledMap tmap = new TiledMap();
         tmap.getTileSets().addTileSet(Asset.TILESET);
         //        MapTileLayer mapTileLayer = new MapTileLayer(1000, 1000, 16, 16);
-        var mapTileLayer = new TileMapCellLayerWrapper(1000, 1000, 16, 16);
+        var mapTileLayer = new TileMapCellLayerWrapper(size, size, 16, 16);
         NoiseGenerator noise = FastSimplexNoiseGenerator.newBuilder().setSeed(5).setVariant2D(Simplex2DVariant.CLASSIC)
             .build();
         mapTileLayer.initCells();
-        for (int x = 0; x < 1000; x++) {
-            for (int y = 0; y < 1000; y++) {
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
                 //                mapTileLayer.setCell(x, y, new MapCell<Tile>());
                 mapTileLayer.getCell(x, y).setTile(getTile(noise.evaluateNoise(x / 150d, y / 150d)));
             }
         }
 
-        TiledMapTileLayer sea = new TiledMapTileLayer(1000, 1000, 16, 16);
-        for (int x = 0; x < 1000; x++) {
-            for (int y = 0; y < 1000; y++) {
+        TiledMapTileLayer sea = new TiledMapTileLayer(size, size, 16, 16);
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
                 sea.setCell(x, y, new TiledMapTileLayer.Cell());
                 sea.getCell(x, y).setTile(Asset.TILESET.getTile(21 * 64 + 11 + (x % 4) - (y % 4) * 64));
             }
