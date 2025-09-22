@@ -10,7 +10,6 @@ public class GdxLoggerPublisher extends Publisher {
 
     @Override
     public void publish(String sender, String message, SeverityLevel severityLevel, Object... objects) {
-
         Throwable throwable = null;
         StringBuilder mb = new StringBuilder();
         if (objects != null && objects.length > 0) {
@@ -25,7 +24,6 @@ public class GdxLoggerPublisher extends Publisher {
         }
 
         String finalMessage = mb.toString();
-
 
         if (severityLevel.getLevel() >= SeverityLevel.ERROR.getLevel()) {
             if (throwable != null) {

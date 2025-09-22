@@ -49,6 +49,7 @@ public class Player extends Actor {
     }
 
     private void calculateMovement() {
+        // TODO rebind keys functionality?
         boolean up = Gdx.input.isKeyPressed(Input.Keys.W);
         boolean down = Gdx.input.isKeyPressed(Input.Keys.S);
         boolean left = Gdx.input.isKeyPressed(Input.Keys.A);

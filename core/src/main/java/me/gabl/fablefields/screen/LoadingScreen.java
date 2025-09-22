@@ -25,7 +25,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
-        //TODO
+        //TODO loading done manually??
         Asset.registerAll(Asset.manager);
         Asset.manager.loadAssets(LoadSection.BEFORE_LOADING_SCREEN);
         Asset.manager.finishLoading();

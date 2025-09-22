@@ -26,25 +26,16 @@ public class Main extends Game {
         super.setScreen(this.screens.loadingScreen);
     }
 
-    @Override
-    public void render() {
-        ScreenUtils.clear(0, 0, 0, 1);
-        super.render();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-    @Override
-    public void setScreen(Screen screen) {
-        super.setScreen(screen);
-    }
+//    @Override
+//    public void render() {
+//        ScreenUtils.clear(0, 0, 0, 1);
+//        super.render();
+//    }
 
     @Override
     public void dispose() {
         super.dispose();
         this.batch.dispose();
+        this.screens.dispose();
     }
 }
