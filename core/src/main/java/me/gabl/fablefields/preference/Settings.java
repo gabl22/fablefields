@@ -11,7 +11,7 @@ public class Settings {
         keybind = new KeybindPreferenceFile();
     }
 
-    public void load() {
+    public static void load() {
         keybind.load();
     }
 }

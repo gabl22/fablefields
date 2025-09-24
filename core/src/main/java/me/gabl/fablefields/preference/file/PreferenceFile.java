@@ -5,10 +5,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import me.gabl.common.log.Logger;
 import me.gabl.fablefields.util.GdxLogger;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
 
 public class PreferenceFile<T> {
 
@@ -21,10 +23,18 @@ public class PreferenceFile<T> {
     private final Json json;
     protected T data;
 
+    private final Supplier<T> constructor;
+
+
     public PreferenceFile(String name, Class<T> type, int version) {
+        this(name, type, version, null);
+    }
+
+    public PreferenceFile(String name, Class<T> type, int version, Supplier<T> constructor) {
         this.name = name;
         this.version = version;
         this.type = type;
+        this.constructor = constructor;
         this.json = getJson();
     }
 
@@ -61,6 +71,9 @@ public class PreferenceFile<T> {
     }
 
     private T getInstance() {
+        if (constructor != null) {
+            return constructor.get();
+        }
         try {
             return type.getDeclaredConstructor().newInstance();
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
@@ -81,6 +94,7 @@ public class PreferenceFile<T> {
 
     public void setToDefault() {
         this.data = getInstance();
+        log.info("Setting default value for " + name);
         setDefaultValues();
         save();
     }
@@ -98,7 +112,7 @@ public class PreferenceFile<T> {
                 save();
             }
         } catch (Exception e) {
-            log.error("Exception while reading: " + e.getMessage());
+            log.error("Exception while reading: " + e.getMessage(), e);
             setToDefault();
         }
     }
@@ -119,9 +133,10 @@ public class PreferenceFile<T> {
         tempFile.moveTo(file);
     }
 
+    @NoArgsConstructor
     @AllArgsConstructor
     private static class Envelope<T> {
-        private final int version;
-        private final T data;
+        private int version;
+        private T data;
     }
 }

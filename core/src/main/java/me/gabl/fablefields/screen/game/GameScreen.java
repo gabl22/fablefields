@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.map.Map;
 import me.gabl.fablefields.player.Player;
+import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.test.OrthoCamController;
 
 public class GameScreen implements Screen {
@@ -24,6 +25,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     private Player player;
     private Viewport viewport;
+    public KeyInputManager keyManager;
 
     @Override
     public void show() {
@@ -35,9 +37,10 @@ public class GameScreen implements Screen {
         this.stage = new Stage(this.viewport);
         this.camera.position.set(-50, 0, 0);
         this.renderer.setView(this.camera);
-        this.player = new Player();
+        this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.controller));
+        this.keyManager = new KeyInputManager();
+        Gdx.input.setInputProcessor(new InputMultiplexer(this.controller, this.keyManager));
         this.stage.addActor(this.player);
     }
 

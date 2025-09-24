@@ -1,10 +1,10 @@
 package me.gabl.fablefields.player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.Getter;
+import me.gabl.fablefields.preference.KeyAction;
+import me.gabl.fablefields.screen.game.GameScreen;
 
 public class Player extends Actor {
 
@@ -12,6 +12,7 @@ public class Player extends Actor {
 
     @Getter
     public final Attributes attributes;
+    private final GameScreen gameScreen;
     public transient Action action = Action.IDLE;
     public transient Direction direction = Direction.RIGHT;
     public ActionLayer hair = ActionLayer.SPIKEYHAIR;
@@ -21,11 +22,13 @@ public class Player extends Actor {
     private transient float mx;
     private transient float my;
 
-    public Player(Attributes attributes) {
+    public Player(Attributes attributes, GameScreen gameScreen) {
         this.attributes = attributes;
+        this.gameScreen = gameScreen;
     }
 
-    public Player() {
+    public Player(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
         this.attributes = new Attributes();
     }
 
@@ -50,10 +53,13 @@ public class Player extends Actor {
 
     private void calculateMovement() {
         // TODO rebind keys functionality?
-        boolean up = Gdx.input.isKeyPressed(Input.Keys.W);
-        boolean down = Gdx.input.isKeyPressed(Input.Keys.S);
-        boolean left = Gdx.input.isKeyPressed(Input.Keys.A);
-        boolean right = Gdx.input.isKeyPressed(Input.Keys.D);
+        // Gdx.input.iskeypressed
+
+        //Todo simplify
+        boolean up = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_UP);
+        boolean down = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_DOWN);
+        boolean left = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_LEFT);
+        boolean right = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_RIGHT);
         this.mx = 0;
         this.my = 0;
         if (!(up || down || left || right)) {

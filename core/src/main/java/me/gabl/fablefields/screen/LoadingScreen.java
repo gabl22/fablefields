@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.asset.LoadSection;
+import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.screen.menu.MenuScreen;
 import me.gabl.fablefields.util.PlainTiledProgressBar;
 
@@ -26,6 +27,9 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         //TODO loading done manually??
+
+        Settings.load();
+
         Asset.registerAll(Asset.manager);
         Asset.manager.loadAssets(LoadSection.BEFORE_LOADING_SCREEN);
         Asset.manager.finishLoading();
