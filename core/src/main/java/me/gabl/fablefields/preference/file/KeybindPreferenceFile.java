@@ -1,6 +1,9 @@
 package me.gabl.fablefields.preference.file;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import lombok.AllArgsConstructor;
 import me.gabl.fablefields.preference.KeyAction;
 
 import java.util.HashMap;
@@ -11,6 +14,7 @@ public class KeybindPreferenceFile extends PreferenceFile<KeybindPreferenceFile.
 
     public KeybindPreferenceFile() {
         super("keybind", Data.class, 1);
+        super.json.setSerializer(Data.class, new DataDeserializer());
     }
 
     /**
@@ -26,6 +30,7 @@ public class KeybindPreferenceFile extends PreferenceFile<KeybindPreferenceFile.
         return get().map;
     }
 
+    @AllArgsConstructor
     public static class Data {
         private final Map<Integer, KeyAction> map;
 
@@ -43,5 +48,26 @@ public class KeybindPreferenceFile extends PreferenceFile<KeybindPreferenceFile.
             Input.Keys.S, KeyAction.MOVE_DOWN,
             Input.Keys.D, KeyAction.MOVE_RIGHT
         ));
+    }
+
+    public static class DataDeserializer implements Json.Serializer<Data> {
+
+        @Override
+        public void write(Json json, Data object, Class knownType) {
+            json.writeObjectStart();
+            object.map.forEach((key, value) -> json.writeValue(String.valueOf(key), value.id));
+            json.writeObjectEnd();
+        }
+
+        @Override
+        public Data read(Json json, JsonValue data, Class type) {
+            Map<Integer, KeyAction> actions = new HashMap<>();
+            for (JsonValue child = data.child; child != null; child = child.next) {
+                 Integer key = Integer.valueOf(child.name);
+                 KeyAction action = KeyAction.get(child.asString());
+                 actions.put(key, action);
+            }
+            return new Data(actions);
+        }
     }
 }

@@ -1,6 +1,7 @@
-package me.gabl.fablefields.map;
+package me.gabl.fablefields.map.render;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import me.gabl.fablefields.map.Tile;
 import org.apache.commons.lang3.NotImplementedException;
 
 @Deprecated

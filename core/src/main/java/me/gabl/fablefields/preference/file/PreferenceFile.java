@@ -20,7 +20,7 @@ public class PreferenceFile<T> {
     private final String name;
     private final int version;
     private final Class<T> type;
-    private final Json json;
+    protected final Json json;
     protected T data;
 
     private final Supplier<T> constructor;

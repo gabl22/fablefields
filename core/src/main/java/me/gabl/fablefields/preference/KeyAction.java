@@ -19,4 +19,8 @@ public enum KeyAction implements Identifiable<String> {
     public String getId() {
         return id;
     }
+
+    public static KeyAction get(String id) {
+        return ACTIONS.get(id);
+    }
 }

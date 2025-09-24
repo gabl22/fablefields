@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import me.gabl.fablefields.map.Map;
+import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.test.OrthoCamController;
@@ -29,17 +29,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        this.map = Map.getMap();
+        this.keyManager = new KeyInputManager();
+
+        this.map = MapGenerator.getMap();
         this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(800, 600, this.camera);
-        this.viewport.apply();
-        this.stage = new Stage(this.viewport);
         this.camera.position.set(-50, 0, 0);
         this.renderer.setView(this.camera);
         this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);
-        this.keyManager = new KeyInputManager();
+
+        this.viewport = new FitViewport(800, 600, this.camera);
+        this.viewport.apply();
+        this.stage = new Stage(this.viewport);
+
         Gdx.input.setInputProcessor(new InputMultiplexer(this.controller, this.keyManager));
         this.stage.addActor(this.player);
     }

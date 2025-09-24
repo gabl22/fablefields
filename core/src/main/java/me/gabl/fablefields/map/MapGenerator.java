@@ -8,7 +8,7 @@ import de.articdive.jnoise.generators.noise_parameters.simplex_variants.Simplex2
 import de.articdive.jnoise.generators.noisegen.opensimplex.FastSimplexNoiseGenerator;
 import me.gabl.fablefields.asset.Asset;
 
-public class Map {
+public class MapGenerator {
 
     private static final int size = 1500; //TODO
 
