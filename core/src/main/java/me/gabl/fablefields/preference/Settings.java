@@ -1,14 +1,12 @@
 package me.gabl.fablefields.preference;
 
-import me.gabl.fablefields.preference.file.KeybindPreferenceFile;
-
 //Todo static?
 public class Settings {
 
-    public static final KeybindPreferenceFile keybind;
+    public static final Keybind keybind;
 
     static {
-        keybind = new KeybindPreferenceFile();
+        keybind = new Keybind();
     }
 
     public static void load() {

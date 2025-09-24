@@ -52,14 +52,13 @@ public class Player extends Actor {
     }
 
     private void calculateMovement() {
-        // TODO rebind keys functionality?
         // Gdx.input.iskeypressed
 
         //Todo simplify
-        boolean up = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_UP);
-        boolean down = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_DOWN);
-        boolean left = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_LEFT);
-        boolean right = this.gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_RIGHT);
+        boolean up = isKeyTriggered(KeyAction.MOVE_UP);
+        boolean down = isKeyTriggered(KeyAction.MOVE_DOWN);
+        boolean left = isKeyTriggered(KeyAction.MOVE_LEFT);
+        boolean right = isKeyTriggered(KeyAction.MOVE_RIGHT);
         this.mx = 0;
         this.my = 0;
         if (!(up || down || left || right)) {
@@ -126,5 +125,9 @@ public class Player extends Actor {
 
     public static class Attributes {
         public float movementSpeed = 1f;
+    }
+
+    private boolean isKeyTriggered(KeyAction keyAction) {
+        return gameScreen.keyManager.isActionTriggered(keyAction);
     }
 }

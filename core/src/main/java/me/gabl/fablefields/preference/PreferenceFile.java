@@ -1,8 +1,9 @@
-package me.gabl.fablefields.preference.file;
+package me.gabl.fablefields.preference;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -135,7 +136,7 @@ public class PreferenceFile<T> {
 
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class Envelope<T> {
+    public static class Envelope<T> {
         private int version;
         private T data;
     }
