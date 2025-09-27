@@ -1,65 +1,54 @@
 package me.gabl.fablefields.map;
 
-import me.gabl.fablefields.asset.Asset;
-import org.jetbrains.annotations.Nullable;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import me.gabl.fablefields.map.logic.MapLayer;
+import me.gabl.fablefields.map.render.MapTileContext;
+import me.gabl.fablefields.map.render.RenderMaterial;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
-@Deprecated
-public class Material {
+public abstract class Material implements RenderMaterial {
 
-    public static final Material SAND = new Material(_ -> {
-    }, "sand");
-    //primitive code
-    public static final Material WATER = new Material(cell -> {
-        CellNeighborAnalysis analysis = CellNeighborAnalysis.get(cell);
-        if (analysis.dominantNeighbor == null) {
-            cell.setTile(Asset.TILESET.getTile(4)); //shadow water tile
-            return;
+    public static final Material SAND = new Material("sand") {
+        @Override
+        public Cell.GfxPair generateCell(MapTileContext context) {
+            assert context.layer == MapLayer.GROUND;
+            return Cell.pair(Cell.get(69));
         }
-        int baseCellId = 0;
-        //        if (analysis.dominantNeighbor.equals(Material.DIRT)) {
-        //            baseCellId = 2500 - 1;
-        //        } else
-        if (analysis.dominantNeighbor.equals(Material.SAND)) {
-            baseCellId = 2436 - 1;
-        }
-        if (baseCellId == 0) {
-            return;
-        }
-        cell.setTile(Asset.TILESET.getTile(analysis.neighborCase + baseCellId));
-        cell.setRotation(analysis.rotation);
-    }, "water");
+    };
 
-    public final Consumer<MapCell<? extends Tile>> renderCell;
+    public static final Material DIRT = new Material("dirt") {
+        @Override
+        public Cell.GfxPair generateCell(MapTileContext context) {
+            return Cell.pair(Cell.get(70));
+        }
+    };
+
+    public static final Material WATER = new Material("water") {
+        @Override
+        public Cell.GfxPair generateCell(MapTileContext context) {
+            if (context.layer != MapLayer.GROUND) {
+                return null;
+            }
+
+            TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
+
+            CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);
+            if (Material.SAND.equals(analysis.dominantNeighbor)) {
+                return Cell.pair(base, Cell.get(2435, analysis));
+            }
+
+            if (Material.DIRT.equals(analysis.dominantNeighbor)) {
+                return Cell.pair(base, Cell.get(2499, analysis));
+            }
+            return Cell.pair(base);
+        }
+    };
+
     public final String id; //used for equals, logging
-
-    public Material(Consumer<MapCell<? extends Tile>> renderCell, String id) {
-        this.renderCell = renderCell;
-        this.id = id;
-    }
 
     public Material(String id) {
         this.id = id;
-        this.renderCell = _ -> {
-        };
-    }
-
-    @Nullable
-    public static Material getMaterial(MapCell<? extends Tile> cell) {
-        if (cell == null || cell.getTile() == null) {
-            return null;
-        }
-        return cell.getTile().material;
-    }
-
-    public static Material getMaterial(int cellId) {
-        return switch (cellId) {
-            case 4, 68, 74, 2438, 2566, 2501, 2503, 2568 -> WATER;
-            case 67, 69, 73 -> SAND;
-            default -> null;
-        };
     }
 
     @Override
@@ -82,6 +71,6 @@ public class Material {
 
     @Override
     public String toString() {
-        return "Material{" + "renderCell=" + renderCell + ", id='" + id + '\'' + '}';
+        return "Material{" + "id='" + id + '\'' + '}';
     }
 }
