@@ -12,13 +12,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.map.MapGenerator;
+import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.test.OrthoCamController;
 
 public class GameScreen implements Screen {
 
-    private TiledMap map;
+//    private TiledMap map;
+    private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private OrthoCamController controller;
@@ -31,8 +33,12 @@ public class GameScreen implements Screen {
     public void show() {
         this.keyManager = new KeyInputManager();
 
-        this.map = MapGenerator.getMap();
-        this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
+        this.chunk = MapGenerator.getMapx();
+        this.chunk.initRenderComponent();
+        this.chunk.getRenderComponent().initialRender();
+        this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f);
+//      this.map = MapGenerator.getMap();
+//      this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         this.camera = new OrthographicCamera();
         this.camera.position.set(-50, 0, 0);
         this.renderer.setView(this.camera);
@@ -79,12 +85,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        this.map.dispose();
+        this.chunk.getRenderComponent().map.dispose();
     }
 
     @Override
     public void dispose() {
-        this.map.dispose();
+        this.chunk.getRenderComponent().map.dispose();
         this.renderer.dispose();
     }
 }

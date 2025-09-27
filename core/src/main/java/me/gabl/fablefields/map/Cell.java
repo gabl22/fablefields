@@ -1,0 +1,47 @@
+package me.gabl.fablefields.map;
+
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import lombok.AllArgsConstructor;
+import me.gabl.fablefields.asset.Asset;
+
+public class Cell {
+
+    public static TiledMapTileLayer.Cell get(int baseId, CellNeighborAnalysis analysis) {
+        TiledMapTileLayer.Cell cell = get(baseId + analysis.neighborCase);
+        cell.setRotation(analysis.rotation);
+        return cell;
+    }
+
+    public static TiledMapTileLayer.Cell get(int id) {
+        return get(Asset.TILESET.getTile(id));
+    }
+
+    public static TiledMapTileLayer.Cell get(TiledMapTile tile) {
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        cell.setTile(tile);
+        return cell;
+    }
+
+    public static TiledMapTileLayer.Cell get(TiledMapTile tile, int rotation, boolean flipHorizontally, boolean flipVertically) {
+        TiledMapTileLayer.Cell cell = get(tile);
+        cell.setRotation(rotation);
+        cell.setFlipHorizontally(flipHorizontally);
+        cell.setFlipVertically(flipVertically);
+        return cell;
+    }
+
+    public static GfxPair pair(TiledMapTileLayer.Cell cell) {
+        return new GfxPair(cell, null);
+    }
+
+    public static GfxPair pair(TiledMapTileLayer.Cell cell, TiledMapTileLayer.Cell gfxCell) {
+        return new GfxPair(cell, gfxCell);
+    }
+
+    @AllArgsConstructor
+    public static class GfxPair {
+        public final TiledMapTileLayer.Cell cell;
+        public final TiledMapTileLayer.Cell gfxCell;
+    }
+}

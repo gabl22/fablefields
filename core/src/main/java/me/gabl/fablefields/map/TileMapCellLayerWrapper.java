@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 @Getter
 public class TileMapCellLayerWrapper {
 

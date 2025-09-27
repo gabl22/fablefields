@@ -1,8 +1,8 @@
 package me.gabl.fablefields.preference;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 // TODO future implement multiple keys -> multiple binds
@@ -23,8 +23,9 @@ public class KeybindPreferenceFile extends PreferenceFile<KeybindPreferenceFile.
 
     }
 
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Data {
-        private final Map<String, KeyAction> map;
+        private Map<String, KeyAction> map;
     }
 }

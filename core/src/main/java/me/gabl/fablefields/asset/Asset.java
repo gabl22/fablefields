@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import me.gabl.fablefields.map.Material;
 import me.gabl.fablefields.map.StaticTile;
 import me.gabl.fablefields.map.Tile;
