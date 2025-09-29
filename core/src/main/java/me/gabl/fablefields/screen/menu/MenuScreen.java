@@ -23,10 +23,10 @@ public class MenuScreen implements Screen {
     private Viewport viewport;
     private OrthographicCamera camera;
 
-    private transient TextButton startButton;
-    private transient TextButton exitButton;
-    private transient Table table;
-    private transient Image logo;
+    private TextButton startButton;
+    private TextButton exitButton;
+    private Table table;
+    private Image logo;
 
     public MenuScreen(Main game) {
         this.game = game;
@@ -51,7 +51,7 @@ public class MenuScreen implements Screen {
         this.startButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MenuScreen.this.game.setScreen(new GameScreen());
+                MenuScreen.this.game.setScreen(new GameScreen(game));
                 return true;
             }
         });

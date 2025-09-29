@@ -73,6 +73,10 @@ public class OrthoCamController extends InputAdapter {
             this.followCenter = true;
             return true;
         }
+        //debug
+        if (keycode == Input.Keys.PAUSE) {
+            return true;
+        }
         return false;
     }
 }

@@ -19,7 +19,7 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        this.batch = new SpriteBatch();
+//        this.batch = new SpriteBatch();
         this.screens = new Screens(this);
         this.assetManager = new GameAssetManager();
         Asset.manager = this.assetManager;
@@ -35,7 +35,7 @@ public class Main extends Game {
     @Override
     public void dispose() {
         super.dispose();
-        this.batch.dispose();
+//        this.batch.dispose();
         this.screens.dispose();
     }
 }

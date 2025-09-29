@@ -1,0 +1,45 @@
+package me.gabl.fablefields.screen.game;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import me.gabl.fablefields.Main;
+import me.gabl.fablefields.screen.menu.MenuButton;
+import me.gabl.fablefields.screen.menu.MenuScreen;
+import me.gabl.fablefields.screen.ui.Hud;
+
+public class GameHud extends Hud {
+
+    private final Main game;
+    private MenuButton exitButton;
+    private Table table;
+
+
+    public GameHud(SpriteBatch batch, Main game) {
+        super(batch);
+
+        this.game = game;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        this.exitButton = new MenuButton("Exit");
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new MenuScreen(game));
+                return true;
+            }
+        });
+
+        table = new Table();
+        table.top().left();
+        table.setFillParent(true);
+        table.add(exitButton).pad(10);
+
+        stage.addActor(table);
+    }
+}
