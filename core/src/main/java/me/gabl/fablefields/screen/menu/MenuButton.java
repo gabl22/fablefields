@@ -20,7 +20,6 @@ public class MenuButton extends TextButton {
         commonStyle.font = new BitmapFont(); //use default font, to be changed
     }
 
-
     public MenuButton(String text) {
         super(text, commonStyle);
     }

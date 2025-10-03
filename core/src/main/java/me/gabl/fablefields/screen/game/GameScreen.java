@@ -1,18 +1,11 @@
 package me.gabl.fablefields.screen.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
@@ -21,15 +14,14 @@ import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.test.OrthoCamController;
-import me.gabl.fablefields.util.Default;
 
 public class GameScreen extends BaseScreen {
 
+    public KeyInputManager keyManager;
     private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private OrthoCamController controller;
     private Player player;
-    public KeyInputManager keyManager;
     private ScreenMultiplexer multiplexer;
 
     private GameHud gameHud;
@@ -48,17 +40,18 @@ public class GameScreen extends BaseScreen {
         this.chunk.initRenderComponent();
         this.chunk.getRenderComponent().initialRender();
         this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f);
-//      this.map = MapGenerator.getMap();
-//      this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
-//        this.camera = new OrthographicCamera();
+        //      this.map = MapGenerator.getMap();
+        //      this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
+        //        this.camera = new OrthographicCamera();
         this.renderer.setView(this.camera);
         this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);
 
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.controller, this.keyManager));
+        Gdx.input.setInputProcessor(new InputMultiplexer(this.controller, this.keyManager, this.gameHud.getStage()));
         this.stage.addActor(this.player);
+
 
         multiplexer.show();
     }
@@ -83,8 +76,8 @@ public class GameScreen extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-//        this.camera.update();
-//        this.renderer.setView(this.camera);
+        //        this.camera.update();
+        //        this.renderer.setView(this.camera);
 
         multiplexer.resize(width, height);
     }

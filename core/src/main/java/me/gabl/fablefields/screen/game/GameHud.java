@@ -2,6 +2,7 @@ package me.gabl.fablefields.screen.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import me.gabl.fablefields.Main;
@@ -41,5 +42,9 @@ public class GameHud extends Hud {
         table.add(exitButton).pad(10);
 
         stage.addActor(table);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
