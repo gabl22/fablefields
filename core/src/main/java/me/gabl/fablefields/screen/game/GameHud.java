@@ -25,8 +25,6 @@ public class GameHud extends Hud {
 
     @Override
     public void show() {
-        super.show();
-
         this.exitButton = new MenuButton("Exit");
         exitButton.addListener(new ClickListener() {
             @Override

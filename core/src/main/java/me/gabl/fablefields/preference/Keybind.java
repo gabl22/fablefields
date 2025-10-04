@@ -12,7 +12,8 @@ public class Keybind {
         Input.Keys.W, KeyAction.MOVE_UP,
         Input.Keys.A, KeyAction.MOVE_LEFT,
         Input.Keys.S, KeyAction.MOVE_DOWN,
-        Input.Keys.D, KeyAction.MOVE_RIGHT
+        Input.Keys.D, KeyAction.MOVE_RIGHT,
+        Input.Keys.TAB, KeyAction.SWITCH_SLOT_BAR
     );
     // @formatter:on
     static final Map<String, KeyAction> defaultStringKeys = toStringMap(defaultKeys);

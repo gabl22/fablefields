@@ -1,18 +1,22 @@
 package me.gabl.fablefields.screen.ui;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import me.gabl.fablefields.screen.util.DefaultInputProcessor;
 
-public class Hud implements Screen {
+public class Hud implements Screen, DefaultInputProcessor {
 
     protected final Viewport viewport;
     protected final Stage stage;
+    protected final OrthographicCamera camera;
 
     public Hud(SpriteBatch batch) {
-        viewport = new ScreenViewport();
+        camera = new OrthographicCamera();
+        viewport = new ScreenViewport(camera);
         stage = new Stage(viewport, batch);
     }
 

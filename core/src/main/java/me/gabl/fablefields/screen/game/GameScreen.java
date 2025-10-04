@@ -25,6 +25,7 @@ public class GameScreen extends BaseScreen {
     private ScreenMultiplexer multiplexer;
 
     private GameHud gameHud;
+    private InventoryHud inventoryHud;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -36,7 +37,7 @@ public class GameScreen extends BaseScreen {
     public void show() {
         this.keyManager = new KeyInputManager();
 
-        this.chunk = MapGenerator.getMapx();
+        this.chunk = MapGenerator.getMap();
         this.chunk.initRenderComponent();
         this.chunk.getRenderComponent().initialRender();
         this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f);
@@ -47,9 +48,11 @@ public class GameScreen extends BaseScreen {
         this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);
 
+        this.inventoryHud = new InventoryHud(batch);
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.controller, this.keyManager, this.gameHud.getStage()));
+        multiplexer.addProcessor(inventoryHud);
+        Gdx.input.setInputProcessor(new InputMultiplexer(this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager, this.gameHud.getStage()));
         this.stage.addActor(this.player);
 
 
@@ -80,16 +83,6 @@ public class GameScreen extends BaseScreen {
         //        this.renderer.setView(this.camera);
 
         multiplexer.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
     }
 
     @Override

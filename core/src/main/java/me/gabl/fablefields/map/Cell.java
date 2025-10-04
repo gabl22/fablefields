@@ -7,14 +7,14 @@ import me.gabl.fablefields.asset.Asset;
 
 public class Cell {
 
-    public static TiledMapTileLayer.Cell get(int baseId, CellNeighborAnalysis analysis) {
-        TiledMapTileLayer.Cell cell = get(baseId + analysis.neighborCase);
+    public static TiledMapTileLayer.Cell get(int baseTileSetId, CellNeighborAnalysis analysis) {
+        TiledMapTileLayer.Cell cell = get(baseTileSetId + analysis.neighborCase);
         cell.setRotation(analysis.rotation);
         return cell;
     }
 
-    public static TiledMapTileLayer.Cell get(int id) {
-        return get(Asset.TILESET.getTile(id));
+    public static TiledMapTileLayer.Cell get(int tileSetId) {
+        return get(Asset.TILESET.getTile(tileSetId));
     }
 
     public static TiledMapTileLayer.Cell get(TiledMapTile tile) {
