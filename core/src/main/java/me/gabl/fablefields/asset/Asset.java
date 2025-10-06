@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.ActionLayer;
@@ -34,7 +33,7 @@ public class Asset {
     public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE_DEBUG = new AssetLoadDescriptor<>(
         "tiles/tileset_debug.png", Texture.class, LoadSection.BEFORE_GAME_SCREEN);
 
-    public static final TiledMapTileSet TILESET = new TiledMapTileSet();
+    public static final TileSet TILESET = new TileSet();
 
     //TODO
     public static GameAssetManager manager;

@@ -1,4 +1,4 @@
-package me.gabl.fablefields.test;
+package me.gabl.fablefields.screen.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;

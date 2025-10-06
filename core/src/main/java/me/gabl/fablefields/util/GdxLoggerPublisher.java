@@ -11,9 +11,9 @@ public class GdxLoggerPublisher extends Publisher {
     @Override
     public void publish(String sender, String message, SeverityLevel severityLevel, Object... objects) {
         Throwable throwable = null;
-        StringBuilder mb = new StringBuilder();
+        StringBuilder mb = new StringBuilder(message);
         if (objects != null && objects.length > 0) {
-            mb.append(message).append("\n");
+            mb.append("\n");
             for (Object object : objects) {
                 if (object instanceof Throwable && throwable == null) {
                     throwable = (Throwable) object;

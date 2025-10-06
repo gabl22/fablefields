@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntSet;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
+import me.gabl.fablefields.util.GdxLogger;
 
 import java.util.EnumSet;
 
@@ -46,21 +47,25 @@ public class KeyInputManager implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        GdxLogger.get().info("DW Pointer: " + pointer + " Button: " + button);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        GdxLogger.get().info("UP Pointer: " + pointer + " Button: " + button);
         return false;
     }
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        GdxLogger.get().info("CN Pointer: " + pointer + " Button: " + button);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        GdxLogger.get().info("DR Pointer: " + pointer);
         return false;
     }
 

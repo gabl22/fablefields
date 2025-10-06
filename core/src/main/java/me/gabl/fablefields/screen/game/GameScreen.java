@@ -7,18 +7,25 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import me.gabl.fablefields.Main;
+import me.gabl.fablefields.game.inventory.Inventory;
+import me.gabl.fablefields.game.inventory.InventoryHud;
+import me.gabl.fablefields.game.inventory.Item;
+import me.gabl.fablefields.game.inventory.Slot;
+import me.gabl.fablefields.game.inventory.item.Seed;
+import me.gabl.fablefields.game.inventory.item.Tool;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.test.KeyInputManager;
-import me.gabl.fablefields.test.OrthoCamController;
 
 public class GameScreen extends BaseScreen {
 
-    public KeyInputManager keyManager;
     private MapChunk chunk;
+    private Inventory inventory;
+
+    public KeyInputManager keyManager;
     private OrthogonalTiledMapRenderer renderer;
     private OrthoCamController controller;
     private Player player;
@@ -48,7 +55,14 @@ public class GameScreen extends BaseScreen {
         this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);
 
-        this.inventoryHud = new InventoryHud(batch);
+        this.inventory = new Inventory(30);
+        //TODO
+        inventory.setSlot(0, new Slot(new Item(Tool.SHOVEL), 1));
+        inventory.setSlot(1, new Slot(new Item(Tool.AXE), 1));
+        inventory.setSlot(2, new Slot(new Item(Tool.HOE), 1));
+        inventory.setSlot(3, new Slot(new Item(Seed.CARROT), 50));
+
+        this.inventoryHud = new InventoryHud(batch, inventory);
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
         multiplexer.addProcessor(inventoryHud);
