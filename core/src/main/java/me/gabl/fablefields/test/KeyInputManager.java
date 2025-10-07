@@ -47,19 +47,16 @@ public class KeyInputManager implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        GdxLogger.get().info("DW Pointer: " + pointer + " Button: " + button);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        GdxLogger.get().info("UP Pointer: " + pointer + " Button: " + button);
         return false;
     }
 
     @Override
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        GdxLogger.get().info("CN Pointer: " + pointer + " Button: " + button);
         return false;
     }
 

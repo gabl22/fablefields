@@ -4,9 +4,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.preference.KeyAction;
@@ -29,19 +30,21 @@ public class InventoryHud extends Hud {
         BitmapFont font = new BitmapFont();
         font.setColor(Color.WHITE);
         slotCountStyle = new Label.LabelStyle(font, Color.BLACK);
-
     }
 
     private final List<Container<Image>> slotImages;
     private final List<Container<Label>> slotCount;
 
+    private final List<Stack> slots;
+
     private final NinePatchDrawable slotBackground;
     private final NinePatchDrawable slotSelectedBackground;
+    private final NinePatchDrawable slotSwapBackground;
+    private final Inventory inventory;
+    private int swapSlot = -1;
 
-    private Table root;
     private Table visualInventory;
     private HoverListener inventoryHover;
-    private final Inventory inventory;
 
     public InventoryHud(SpriteBatch batch, Inventory inventory) {
         super(batch);
@@ -49,14 +52,16 @@ public class InventoryHud extends Hud {
         assert inventory.size == COLUMNS * ROWS;
         slotImages = new ArrayList<>(COLUMNS * ROWS);
         slotCount = new ArrayList<>(COLUMNS * ROWS);
+        slots = new ArrayList<>(COLUMNS * ROWS);
 
         slotBackground = new NinePatchDrawable(Asset.UI_BOX_LIGHT);
         slotSelectedBackground = new NinePatchDrawable(Asset.UI_BOX_DARK);
+        slotSwapBackground = new NinePatchDrawable(Asset.UI_BOX_WHITE);
     }
 
     @Override
     public void show() {
-        root = new Table();
+        Table root = new Table();
         root.setFillParent(true);
         root.bottom().left();
         stage.addActor(root);
@@ -76,7 +81,7 @@ public class InventoryHud extends Hud {
     private void fillEmptyInventory() {
         for (int i = 0; i < COLUMNS * ROWS; i++) {
             Image image = new Image();
-//            image.setVisible(false); disables hover detection
+            //            image.setVisible(false); disables hover detection
             Label label = new Label(null, slotCountStyle);
             label.setFontScale(1.2f);
             label.setVisible(true);
@@ -92,15 +97,38 @@ public class InventoryHud extends Hud {
             labelContainer.bottom().right().pad(2);
             labelContainer.setFillParent(true);
             slotCount.add(labelContainer);
+
+            Stack stack = new Stack(imageContainer, labelContainer);
+            slots.add(stack);
         }
 
-        for (int r = 0; r < ROWS; r++) {
-            for (int c = 0; c < COLUMNS; c++) {
-                int i = r * COLUMNS + c;
-                Stack slot = new Stack();
-                slot.add(slotImages.get(i));
-                slot.add(slotCount.get(i));
+        slotImages.get(inventory.selectedSlot).background(slotSelectedBackground);
+
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                final int index = row * COLUMNS + column;
+                Stack slot = slots.get(index);
                 visualInventory.add(slot).size(50, 50);
+
+                slot.addListener(new ClickListener(0) {
+                    @Override
+                    public void clicked(InputEvent _event, float _x, float _y) {
+                        selectSlot(index);
+                        setSwapSlot(-1);
+                    }
+                });
+
+                slot.addListener(new ClickListener(1) {
+                    @Override
+                    public void clicked(InputEvent _event, float _x, float _y) {
+                        if (swapSlot == -1) {
+                            setSwapSlot(index);
+                            return;
+                        }
+                        swapSlots(swapSlot, index);
+                        setSwapSlot(-1);
+                    }
+                });
             }
             visualInventory.row();
         }
@@ -112,38 +140,60 @@ public class InventoryHud extends Hud {
         }
     }
 
+    public void selectSlot(int slot) {
+        slot = slot % SLOTS;
+        if (slot < 0)
+            slot += SLOTS;
+        int oldSelected = inventory.selectedSlot;
+        inventory.selectedSlot = slot;
+        setSlotBackground(oldSelected);
+        setSlotBackground(inventory.selectedSlot);
+    }
+
+    //TODO merge function above n below ?
+    public void setSwapSlot(int slot) {
+        int oldSwap = swapSlot;
+        swapSlot = slot;
+        setSlotBackground(oldSwap);
+        setSlotBackground(swapSlot);
+    }
+
+    public void swapSlots(int slotId1, int slotId2) {
+        inventory.swap(slotId1, slotId2);
+        render(slotId1);
+        render(slotId2);
+    }
+
     public void setSlot(int slotId, Slot slot) {
         Image image = slotImages.get(slotId).getActor();
         Label label = slotCount.get(slotId).getActor();
         boolean containsItem = slot != null && slot.item != null && slot.item.type != null && slot.count > 0;
-//        image.setVisible(containsItem);
         label.setVisible(containsItem && slot.count > 1);
 
         if (containsItem) {
             image.setDrawable(slot.item.render());
             label.setText(slot.count);
+        } else {
+            image.setDrawable(null);
+            label.setText(null);
         }
     }
 
-    public void setSlot(int slot, int tileSetId) {
-        Image image = slotImages.get(slot).getActor();
-        Drawable drawable = new Image(Asset.TILESET.getTile(tileSetId).getTextureRegion()).getDrawable();
-        image.setDrawable(drawable);
-    }
-
-    public void selectSlot(int slot) {
-        slot = slot % SLOTS;
+    public void setSlotBackground(int slot) {
         if (slot < 0)
-            slot += SLOTS;
-        slotImages.get(inventory.selectedSlot).background(slotBackground);
-        inventory.selectedSlot = slot;
-        slotImages.get(inventory.selectedSlot).background(slotSelectedBackground);
+            return;
+        Container<Image> image = slotImages.get(slot);
+        if (swapSlot == slot) {
+            image.background(slotSwapBackground);
+        } else if (inventory.selectedSlot == slot) {
+            image.background(slotSelectedBackground);
+        } else {
+            image.background(slotBackground);
+        }
     }
 
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        //        table.setScale(1 / Math.min(width / 640f, height / 480f));
+    public void render(int slotId) {
+        setSlot(slotId, inventory.slots[slotId]);
     }
 
     @Override

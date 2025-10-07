@@ -42,4 +42,10 @@ public class Inventory {
         slots[slotId] = slot;
         return oldSlot;
     }
+
+    public void swap(int slotId1, int slotId2) {
+        Slot oldSlot = slots[slotId1];
+        slots[slotId1] = slots[slotId2];
+        slots[slotId2] = oldSlot;
+    }
 }
