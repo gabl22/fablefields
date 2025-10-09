@@ -2,13 +2,20 @@ package me.gabl.fablefields.player;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import kotlin.Pair;
 import lombok.Getter;
+import me.gabl.common.log.Logger;
+import me.gabl.fablefields.map.logic.Address;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
+import me.gabl.fablefields.util.GdxLogger;
+
+import java.util.function.BiFunction;
 
 public class Player extends Actor {
 
     private static final float SQRT2_2 = (float) (Math.sqrt(2) / 2);
+    private static final Logger logger = GdxLogger.get(Player.class);
 
     @Getter
     public final Attributes attributes;
@@ -22,22 +29,19 @@ public class Player extends Actor {
     private transient float mx;
     private transient float my;
 
-    public Player(Attributes attributes, GameScreen gameScreen) {
-        this.attributes = attributes;
-        this.gameScreen = gameScreen;
-    }
-
     public Player(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         this.attributes = new Attributes();
+        setPosition(-10, -10);
+        setSize(6, 4);
+        setOrigin(3f, 1.5f);
     }
 
     @Override
     public void act(float delta) {
         this.calculateMovement();
-        super.setX(
-            super.getX() + this.mx * this.attributes.movementSpeed * delta * 15f); //constant to match animation to speed
-        super.setY(super.getY() + this.my * this.attributes.movementSpeed * delta * 15f);
+        setXCollide(super.getX() + this.mx * this.attributes.movementSpeed * delta * 15f / 16); //constant to match animation to speed
+        setYCollide(super.getY() + this.my * this.attributes.movementSpeed * delta * 15f / 16);
         if (this.mx == 0 && this.my == 0) {
             this.action = Action.IDLE;
         } else {
@@ -48,12 +52,86 @@ public class Player extends Actor {
         } else if (this.mx < 0) {
             this.direction = Direction.LEFT;
         }
+        checkEnvironment();
         this.checkAnimation(false, delta);
     }
 
-    private void calculateMovement() {
-        // Gdx.input.iskeypressed
+    private void checkEnvironment() {
+        if (isWalkable(super.getX(), super.getY())) {
+            return;
+        }
 
+        Pair<Integer, Integer> safePosition = findSafety((x, y) -> {
+            boolean walkable = Player.this.isWalkable(x, y);
+            GdxLogger.get().info("Test " + x + " " + y + " " + walkable);
+            return walkable;
+        });
+        if (safePosition == null) {
+            logger.warn("No safe position for player found.");
+            return;
+        }
+        setX(safePosition.getFirst() + 0.5f);
+        setY(safePosition.getSecond() + 0.5f);
+    }
+
+    private Pair<Integer, Integer> findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
+        int checkX = (int) getX();
+        int checkY = (int) getY();
+        int cycles = 0;
+        int stepLength = 1;
+        while (cycles < 12) {
+            for (int i = 0; i < stepLength; i++) {
+                checkX++;
+                if (safetyPredicate.apply(checkX, checkY))
+                    return new Pair<>(checkX, checkY);
+            }
+
+            for (int i = 0; i < stepLength; i++) {
+                checkY++;
+                if (safetyPredicate.apply(checkX, checkY))
+                    return new Pair<>(checkX, checkY);
+            }
+
+            stepLength++;
+
+            for (int i = 0; i < stepLength; i++) {
+                checkX--;
+                if (safetyPredicate.apply(checkX, checkY))
+                    return new Pair<>(checkX, checkY);
+            }
+
+            for (int i = 0; i < stepLength; i++) {
+                checkY--;
+                if (safetyPredicate.apply(checkX, checkY))
+                    return new Pair<>(checkX, checkY);
+            }
+
+            stepLength++;
+            cycles++;
+        }
+        return null;
+    }
+
+    private void setXCollide(float x) {
+        if (isWalkable(x, getY())) {
+            setX(x);
+        }
+    }
+
+    private void setYCollide(float y) {
+        if (isWalkable(getX(), y)) {
+            setY(y);
+        }
+    }
+
+    public boolean isWalkable(float x, float y) {
+        int fx = (int) Math.floor(x);
+        int fy = (int) Math.floor(y);
+        if (!gameScreen.getChunk().containsTileAt(fx, fy)) return false;
+        return gameScreen.getChunk().isWalkable(Address.position(fx, fy, gameScreen.getChunk().width));
+    }
+
+    private void calculateMovement() {
         //Todo simplify
         boolean up = isKeyTriggered(KeyAction.MOVE_UP);
         boolean down = isKeyTriggered(KeyAction.MOVE_DOWN);
@@ -120,7 +198,7 @@ public class Player extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.currentAnimation.draw(batch, super.getX(), super.getY());
+        this.currentAnimation.draw(batch, this);
     }
 
     public static class Attributes {

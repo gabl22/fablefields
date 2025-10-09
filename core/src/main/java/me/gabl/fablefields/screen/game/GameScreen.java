@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import lombok.Getter;
 import me.gabl.fablefields.Main;
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.inventory.Item;
@@ -22,6 +24,7 @@ import me.gabl.fablefields.test.KeyInputManager;
 
 public class GameScreen extends BaseScreen {
 
+    @Getter
     private MapChunk chunk;
     private Inventory inventory;
 
@@ -47,10 +50,7 @@ public class GameScreen extends BaseScreen {
         this.chunk = MapGenerator.getMap();
         this.chunk.initRenderComponent();
         this.chunk.getRenderComponent().initialRender();
-        this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f);
-        //      this.map = MapGenerator.getMap();
-        //      this.renderer = new OrthogonalTiledMapRenderer(this.map, 1f);
-        //        this.camera = new OrthographicCamera();
+        this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f / Asset.TILE_SIZE, super.batch);
         this.renderer.setView(this.camera);
         this.player = new Player(this);
         this.controller = new OrthoCamController(this.camera, this.player);

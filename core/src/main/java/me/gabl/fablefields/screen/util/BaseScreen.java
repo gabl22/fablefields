@@ -37,14 +37,9 @@ public class BaseScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.camera.viewportWidth = worldWidth;
         this.camera.viewportHeight = worldHeight;
-//        this.viewport = new ScreenViewport(camera);
         this.viewport = viewport;
         this.viewport.setCamera(camera);
-//        this.camera.position.set(this.viewport.getWorldWidth() / 2, this.viewport.getWorldHeight() / 2, 0);
         this.stage = new Stage(viewport, batch);
-
-        // if default stage viewport = screenviewport is used
-//        stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
         viewport.apply(true);
         camera.update();
     }

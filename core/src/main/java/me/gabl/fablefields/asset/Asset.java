@@ -43,6 +43,8 @@ public class Asset {
 
     public static int sectionCompleted;
 
+    public static final int TILE_SIZE = 16;
+
     public static void completeLoad(int section) {
         if (LoadSection.BEFORE_LOADING_SCREEN > Asset.sectionCompleted && LoadSection.BEFORE_LOADING_SCREEN <= section) {
             UI_BOX_DARK = new NinePatch(Asset.manager.get(UI_BOX).findRegion("dark_knob"), 3, 3, 3, 3);
@@ -54,7 +56,7 @@ public class Asset {
             //            Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE_DEBUG);
             for (int i = 0; i < 4096; i++) {
                 StaticTiledMapTile tile = new StaticTiledMapTile(
-                    new TextureRegion(tilesetImage, (i % 64) * 16, (i / 64) * 16, 16, 16));
+                    new TextureRegion(tilesetImage, (i % 64) * TILE_SIZE, (i / 64) * TILE_SIZE, TILE_SIZE, TILE_SIZE));
                 Asset.TILESET.putTile(i, tile);
 
                 //TODO problems rendering at certain viewport sizes =?=

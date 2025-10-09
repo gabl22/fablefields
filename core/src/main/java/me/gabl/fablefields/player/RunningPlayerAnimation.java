@@ -44,16 +44,17 @@ public class RunningPlayerAnimation {
         this.stateTime += delta * this.speedFactor;
     }
 
-    public void draw(Batch batch, float x, float y) {
+    public void draw(Batch batch, Player player) {
         for (Animation<TextureRegion> animation : this.animations) {
             if (animation == null) {
                 continue;
             }
             TextureRegion region = animation.getKeyFrame(this.stateTime);
-            if (region.isFlipX() != this.flip) {//bad practice? - is a quick operation
-                region.flip(true, false);
-            }
-            batch.draw(region, x - region.getRegionWidth() / 2f, y - region.getRegionHeight() / 2f);
+//            batch.draw(region, x - region.getRegionWidth() / 2f, y - region.getRegionHeight() / 2f);
+            //Anchor ist bei regionX + 24, regionY + 40 bzw. x + 1.5, y + 2.5
+            batch.draw(region.getTexture(), player.getX() - player.getOriginX(), player.getY() - player.getOriginY(), player.getWidth(), player.getHeight(),
+                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), this.flip, false
+            );
         }
     }
 }

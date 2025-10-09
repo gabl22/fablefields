@@ -77,7 +77,7 @@ public class CellNeighborAnalysis {
 
     private static Material getMaterial(MapTileContext context) {
         if (context.tile == null) return null;
-        return context.tile.getMaterial();
+        return context.tile.material;
     }
 
     @Override

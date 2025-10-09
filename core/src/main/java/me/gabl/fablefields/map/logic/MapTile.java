@@ -1,20 +1,15 @@
 package me.gabl.fablefields.map.logic;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import me.gabl.fablefields.map.Material;
+import me.gabl.fablefields.map.Materials;
 
 @AllArgsConstructor
-@NoArgsConstructor
-public class MapTile implements GridNeighbor<MapTile> {
+public class MapTile {
 
-    @Getter
-    protected Material material;
+    public final Material material;
 
-    @Override
-    public GridNeighborProvider<MapTile> provider() {
-        return null;
+    public boolean isWalkable() {
+        return !Materials.WATER.equals(material);
     }
-
 }

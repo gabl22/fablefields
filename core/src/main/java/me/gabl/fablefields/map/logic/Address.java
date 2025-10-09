@@ -20,6 +20,10 @@ public class Address {
         return position / width;
     }
 
+    public static boolean isBound(int x, int y, int width, int height) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass())
@@ -37,6 +41,8 @@ public class Address {
     }
 
     public static int position(int x, int y, int width) {
+        // assertion for testing
+        assert x >= 0 && x < width && y >= 0 && y < width;
         return x + y * width;
     }
 }
