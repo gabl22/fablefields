@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import lombok.Getter;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
@@ -24,16 +25,15 @@ import me.gabl.fablefields.test.KeyInputManager;
 
 public class GameScreen extends BaseScreen {
 
-    @Getter
-    private MapChunk chunk;
-    private Inventory inventory;
+    private final ScreenMultiplexer multiplexer;
+    public Inventory inventory;
 
     public KeyInputManager keyManager;
+    public OrthographicCameraController controller;
+    @Getter
+    private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
-    private OrthoCamController controller;
     private Player player;
-    private ScreenMultiplexer multiplexer;
-
     private GameHud gameHud;
     private InventoryHud inventoryHud;
 
@@ -50,10 +50,12 @@ public class GameScreen extends BaseScreen {
         this.chunk = MapGenerator.getMap();
         this.chunk.initRenderComponent();
         this.chunk.getRenderComponent().initialRender();
-        this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f / Asset.TILE_SIZE, super.batch);
+        this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f / Asset.TILE_SIZE,
+            super.batch
+        );
         this.renderer.setView(this.camera);
-        this.player = new Player(this);
-        this.controller = new OrthoCamController(this.camera, this.player);
+        this.player = new Player(this, this.chunk);
+        this.controller = new OrthographicCameraController(viewport, this.player);
 
         this.inventory = new Inventory(30);
         //TODO
@@ -66,7 +68,10 @@ public class GameScreen extends BaseScreen {
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager, this.gameHud.getStage()));
+        Gdx.input.setInputProcessor(
+            new InputMultiplexer(this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager,
+                this.gameHud.getStage(), this.player.worldController
+            ));
         this.stage.addActor(this.player);
 
 
@@ -93,9 +98,6 @@ public class GameScreen extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        //        this.camera.update();
-        //        this.renderer.setView(this.camera);
-
         multiplexer.resize(width, height);
     }
 
@@ -110,5 +112,9 @@ public class GameScreen extends BaseScreen {
         this.renderer.dispose();
         multiplexer.dispose();
         super.dispose();
+    }
+
+    public Viewport getViewport() {
+        return viewport;
     }
 }

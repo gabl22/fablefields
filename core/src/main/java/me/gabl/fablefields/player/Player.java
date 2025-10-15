@@ -6,6 +6,7 @@ import kotlin.Pair;
 import lombok.Getter;
 import me.gabl.common.log.Logger;
 import me.gabl.fablefields.map.logic.Address;
+import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.GdxLogger;
@@ -21,16 +22,19 @@ public class Player extends Actor {
     public final Attributes attributes;
     private final GameScreen gameScreen;
     public transient Action action = Action.IDLE;
+    public transient float actionDuration = -1f;
     public transient Direction direction = Direction.RIGHT;
     public ActionLayer hair = ActionLayer.SPIKEYHAIR;
     public transient RunningPlayerAnimation currentAnimation = new RunningPlayerAnimation(Action.IDLE,
         new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false
     );
+    public final PlayerWorldController worldController;
     private transient float mx;
     private transient float my;
 
-    public Player(GameScreen gameScreen) {
+    public Player(GameScreen gameScreen, MapChunk chunk) {
         this.gameScreen = gameScreen;
+        this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();
         setPosition(-10, -10);
         setSize(6, 4);
@@ -39,12 +43,23 @@ public class Player extends Actor {
 
     @Override
     public void act(float delta) {
+        if (actionDuration >= 0.0) {
+            actionDuration -= delta;
+        }
+        if (actionDuration < 0.0) {
+            action = Action.IDLE;
+            move(delta);
+        } else {
+            return;
+        }
+        this.checkAnimation(false, delta);
+    }
+
+    public void move(float delta) {
         this.calculateMovement();
         setXCollide(super.getX() + this.mx * this.attributes.movementSpeed * delta * 15f / 16); //constant to match animation to speed
         setYCollide(super.getY() + this.my * this.attributes.movementSpeed * delta * 15f / 16);
-        if (this.mx == 0 && this.my == 0) {
-            this.action = Action.IDLE;
-        } else {
+        if (this.mx != 0 || this.my != 0) {
             this.action = Action.WALKING;
         }
         if (this.mx > 0) {
@@ -52,8 +67,8 @@ public class Player extends Actor {
         } else if (this.mx < 0) {
             this.direction = Direction.LEFT;
         }
+
         checkEnvironment();
-        this.checkAnimation(false, delta);
     }
 
     private void checkEnvironment() {
@@ -71,7 +86,7 @@ public class Player extends Actor {
             return;
         }
         setX(safePosition.getFirst() + 0.5f);
-        setY(safePosition.getSecond() + 0.5f);
+        setY(safePosition.getSecond());
     }
 
     private Pair<Integer, Integer> findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {

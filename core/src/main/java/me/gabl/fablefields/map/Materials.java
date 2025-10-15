@@ -8,7 +8,7 @@ public class Materials {
 
     public static final Material SAND = new PlainMaterial("sand", 69);
 
-    public static final Material DIRT = new PlainMaterial("dirt", 70);
+    public static final Material DIRT = new PlainMaterial("dirt", 267);
 
     public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094, 4095});
 
@@ -32,4 +32,6 @@ public class Materials {
             return Cell.pair(base);
         }
     };
+
+    public static final Material SOIL = new PlainMaterial("soil", 818); //todo add different soil stages based on plant above - how to store??
 }

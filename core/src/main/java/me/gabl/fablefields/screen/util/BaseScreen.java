@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.Main;
 
@@ -50,7 +48,6 @@ public class BaseScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //        ScreenUtils.clear(0, 0, 0, 0);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -60,10 +57,7 @@ public class BaseScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //        viewport.update(width, height, true);
         viewport.update(width, height, false);
-//        camera.viewportWidth = width;
-//        camera.viewportHeight = height;
     }
 
     @Override

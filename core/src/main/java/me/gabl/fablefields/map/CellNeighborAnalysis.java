@@ -66,10 +66,10 @@ public class CellNeighborAnalysis {
         };
 
         int rotation = switch (locations) {
-            case 2, 9, 12, 14, 15 -> TiledMapTileLayer.Cell.ROTATE_0;
-            case 1, 3, 6, 13 -> TiledMapTileLayer.Cell.ROTATE_180;
-            case 4, 10, 11 -> TiledMapTileLayer.Cell.ROTATE_270;
-            case 7, 8, 5 -> TiledMapTileLayer.Cell.ROTATE_90;
+//            case 2, 9, 12, 14, 15 -> TiledMapTileLayer.Cell.ROTATE_0;
+            case 1, 6, 13 -> TiledMapTileLayer.Cell.ROTATE_180;
+            case 4, 10, 7 -> TiledMapTileLayer.Cell.ROTATE_270;
+            case 11, 3, 8, 5 -> TiledMapTileLayer.Cell.ROTATE_90;
             default -> TiledMapTileLayer.Cell.ROTATE_0;
         };
         return new CellNeighborAnalysis(dominantCount, dominantMaterial, locations, neighborCase, rotation);

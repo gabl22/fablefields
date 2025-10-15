@@ -44,26 +44,32 @@ public class MapChunkRenderComponent {
             }
         }
     }
-// chunk.getTile(layer, Address.position(x, y, chunk.width));
-    private void renderCell(Address address, MapTile tile) {
+
+
+    void renderCell(Address address, MapTile tile) {
         renderCell(address.layer, address.x(chunk.width), address.y(chunk.width), tile);
     }
 
-    private void renderCell(MapLayer layer, int x, int y, MapTile tile) {
-        Cell.GfxPair cells = null;
-        //todo refactor below
-        if (tile == null || tile.material == null) {
-        } else {
-            cells = tile.material.generateCell(new MapTileContext(chunk, tile, layer, x, y));
-        }
-        if (cells != null) {
-            set(layer, x, y, cells);
-        }
+    void renderCell(MapLayer layer, int position, MapTile tile) {
+        renderCell(layer, position % chunk.width, position / chunk.width, tile);
     }
 
-    private void set(MapLayer base, int x, int y, Cell.GfxPair cells) {
-        set(base, x, y, cells.cell);
-        set(base.getGfxLayer(), x, y, cells.gfxCell);
+    void renderCell(MapLayer layer, int x, int y, MapTile tile) {
+        TiledMapTileLayer.Cell cell;
+        TiledMapTileLayer.Cell gfxCell;
+
+        if (tile != null && tile.material != null) {
+            Cell.GfxPair cells = tile.material.generateCell(new MapTileContext(chunk, tile, layer, x, y));
+            cell = cells.cell;
+            gfxCell = cells.gfxCell;
+        } else {
+            cell = null;
+            gfxCell = null;
+        }
+        set(layer, x, y, cell);
+        if (layer.hasGfxLayer()) {
+            set(layer.getGfxLayer(), x, y, gfxCell);
+        }
     }
 
     private void set(MapLayer absolute, int x, int y, TiledMapTileLayer.Cell cell) {

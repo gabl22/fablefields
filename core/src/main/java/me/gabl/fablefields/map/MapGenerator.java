@@ -10,7 +10,7 @@ public class MapGenerator {
     private static final int size = 1500; //TODO
 
     public static MapChunk getMap() {
-        Noise noise = Noise.get(5, 1 / 150d);
+        Noise noise = Noise.get(System.currentTimeMillis(), 1 / 100d);
 
         MapTile[] ground = new MapTile[size * size];
         MapTile[] feature = new MapTile[size * size];

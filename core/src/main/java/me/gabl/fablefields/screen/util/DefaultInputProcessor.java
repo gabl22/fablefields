@@ -2,6 +2,7 @@ package me.gabl.fablefields.screen.util;
 
 import com.badlogic.gdx.InputProcessor;
 
+// like InputAdapter, but as an interface
 public interface DefaultInputProcessor extends InputProcessor {
 
     @Override

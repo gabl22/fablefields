@@ -12,7 +12,6 @@ public class RunningPlayerAnimation {
     public final Action action;
     public final boolean flip;
     private final Animation<TextureRegion>[] animations;
-    private final ActionLayer[] layers;
     @Getter
     private float stateTime = 0f;
     @Setter
@@ -25,7 +24,6 @@ public class RunningPlayerAnimation {
     @SuppressWarnings("unchecked")
     public RunningPlayerAnimation(Action action, ActionLayer[] layers, boolean flip) {
         this.action = action;
-        this.layers = layers;
         this.animations = (Animation<TextureRegion>[]) new Animation[layers.length];
         this.flip = flip;
         for (int i = 0; i < layers.length; i++) {
@@ -50,8 +48,6 @@ public class RunningPlayerAnimation {
                 continue;
             }
             TextureRegion region = animation.getKeyFrame(this.stateTime);
-//            batch.draw(region, x - region.getRegionWidth() / 2f, y - region.getRegionHeight() / 2f);
-            //Anchor ist bei regionX + 24, regionY + 40 bzw. x + 1.5, y + 2.5
             batch.draw(region.getTexture(), player.getX() - player.getOriginX(), player.getY() - player.getOriginY(), player.getWidth(), player.getHeight(),
                 region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), this.flip, false
             );

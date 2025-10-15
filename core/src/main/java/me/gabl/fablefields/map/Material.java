@@ -1,5 +1,6 @@
 package me.gabl.fablefields.map;
 
+import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.render.RenderMaterial;
 
 import java.util.Objects;
@@ -21,6 +22,16 @@ public abstract class Material implements RenderMaterial {
         return Objects.equals(this.id, material.id);
     }
 
+    public boolean materialEquals(Material material) {
+        if (material == null)
+            return false;
+        return this.id.equals(material.id);
+    }
+
+    public boolean materialEquals(MapTile mapTile) {
+        return mapTile != null && materialEquals(mapTile.material);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(this.id);
@@ -29,5 +40,9 @@ public abstract class Material implements RenderMaterial {
     @Override
     public String toString() {
         return "Material{" + "id='" + id + '\'' + '}';
+    }
+
+    public static boolean equals(Material m1, Material m2) {
+        return (m1 == null && m2 == null) || (m1 != null && m1.materialEquals(m2));
     }
 }

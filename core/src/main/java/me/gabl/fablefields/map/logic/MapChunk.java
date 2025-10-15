@@ -45,6 +45,8 @@ public class MapChunk {
 
     public void setTile(MapLayer layer, int position, MapTile tile) {
         tileLayers.get(layer).tiles[position] = tile;
+        renderComponent.renderCell(layer, position, tile);
+
     }
 
     public MapTile getTile(Address address) {
@@ -62,5 +64,9 @@ public class MapChunk {
     public boolean isWalkable(int position) {
         MapTile tile = getTile(MapLayer.GROUND, position);
         return tile != null && tile.isWalkable();
+    }
+
+    public int position(int x, int y) {
+        return x + width * y;
     }
 }
