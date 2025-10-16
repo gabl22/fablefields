@@ -4,6 +4,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.render.MapTileContext;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Materials {
 
     public static final Material SAND = new PlainMaterial("sand", 69);
@@ -34,4 +39,23 @@ public class Materials {
     };
 
     public static final Material SOIL = new PlainMaterial("soil", 818); //todo add different soil stages based on plant above - how to store??
+
+    public static final Map<String, Material> FROM_ID;
+
+    static {
+        FROM_ID = new HashMap<>();
+        for (Field field : Materials.class.getDeclaredFields()) {
+            int mod = field.getModifiers();
+            if (!(Modifier.isStatic(mod) && Modifier.isFinal(mod) && Modifier.isPublic(mod) && Material.class.isAssignableFrom(field.getType()))) {
+                continue;
+            }
+
+            try {
+                Material material = (Material) field.get(null);
+                FROM_ID.put(material.id, material);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

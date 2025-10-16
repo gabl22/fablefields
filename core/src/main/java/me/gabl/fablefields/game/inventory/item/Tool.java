@@ -7,6 +7,8 @@ import me.gabl.fablefields.map.Material;
 import me.gabl.fablefields.map.Materials;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
+import me.gabl.fablefields.player.Action;
+import me.gabl.fablefields.player.RunningAction;
 
 import java.util.function.Supplier;
 
@@ -44,6 +46,10 @@ public final class Tool extends ItemType {
                     context.setTile(MapLayer.SURFACE, new MapTile(Materials.SOIL));
                 }
             }
+        }
+
+        if (context.item.typeEquals(AXE)) {
+            context.player.replaceAction(RunningAction.get(Action.AXE));
         }
     }
 }

@@ -1,10 +1,13 @@
 package me.gabl.fablefields.test;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntSet;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.util.GdxLogger;
+import me.gabl.fablefields.util.MathUtil;
+import org.jetbrains.annotations.Contract;
 
 import java.util.EnumSet;
 
@@ -82,5 +85,18 @@ public class KeyInputManager implements InputProcessor {
 
     public boolean isActionTriggered(KeyAction action) {
         return keybindTriggers.contains(action);
+    }
+
+    // returns a vector of length 1 or 0
+    public void calculateMovement(Vector2 movement) {
+        int dx = (isActionTriggered(KeyAction.MOVE_RIGHT) ? 1 : 0) - (isActionTriggered(KeyAction.MOVE_LEFT) ? 1 : 0);
+        int dy = (isActionTriggered(KeyAction.MOVE_UP) ? 1 : 0) - (isActionTriggered(KeyAction.MOVE_DOWN) ? 1 : 0);
+        if (dx == 0 && dy == 0) {
+            movement.x = 0;
+            movement.y = 0;
+            return;
+        }
+
+        movement.set(dx, dy).scl(dx == 0 || dy == 0 ? 1 : MathUtil.INV_SQRT2);
     }
 }
