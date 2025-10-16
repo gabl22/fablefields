@@ -10,7 +10,6 @@ import me.gabl.fablefields.map.logic.Address;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
-import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.util.GdxLogger;
 
 import java.util.function.BiFunction;
@@ -21,18 +20,15 @@ public class Player extends Actor {
 
     @Getter
     public final Attributes attributes;
+    public final PlayerWorldController worldController;
     private final GameScreen gameScreen;
-
     public transient RunningAction action;
-
     public transient Direction direction = Direction.RIGHT;
     public ActionLayer hair = ActionLayer.SPIKEYHAIR;
     public transient RunningPlayerAnimation currentAnimation = new RunningPlayerAnimation(Action.IDLE,
         new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false
     );
-
     public boolean forceRenewAnimation = false;
-    public final PlayerWorldController worldController;
     private Vector2 movement = new Vector2();
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
@@ -58,7 +54,8 @@ public class Player extends Actor {
     public void move(float delta) {
         this.calculateMovement();
         if (movement.x != 0 || movement.y != 0) {
-            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 16); //constant to match animation to speed
+            setXCollide(
+                super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 16); //constant to match animation to speed
             setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * 15f / 16);
             this.action = RunningAction.get(Action.WALKING);
             if (movement.x > 0) {
@@ -71,6 +68,42 @@ public class Player extends Actor {
         }
 
         checkEnvironment();
+    }
+
+    private void checkAnimation(float delta) {
+        if (forceRenewAnimation || this.action.action != this.currentAnimation.action || this.direction.flip != this.currentAnimation.flip) {
+            forceRenewAnimation = false;
+            this.currentAnimation = new RunningPlayerAnimation(this.action.action,
+                new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, this.direction.flip
+            );
+            switch (this.action.action) {
+                case WALKING, RUN:
+                    this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed);
+                    break;
+            }
+        } else {
+            this.currentAnimation.addDelta(delta);
+        }
+    }
+
+    private void calculateMovement() {
+        gameScreen.keyManager.calculateMovement(movement);
+    }
+
+    private void setXCollide(float x) {
+        if (isWalkable(x, getY())) {
+            setX(x);
+        }
+    }
+
+    private void setYCollide(float y) {
+        if (isWalkable(getX(), y)) {
+            setY(y);
+        }
+    }
+
+    public void replaceAction(Action action) {
+        replaceAction(RunningAction.get(action));
     }
 
     private void checkEnvironment() {
@@ -89,6 +122,21 @@ public class Player extends Actor {
         }
         setX(safePosition.getFirst() + 0.5f);
         setY(safePosition.getSecond());
+    }
+
+    public boolean isWalkable(float x, float y) {
+        int fx = (int) Math.floor(x);
+        int fy = (int) Math.floor(y);
+        if (!gameScreen.getChunk().containsTileAt(fx, fy))
+            return false;
+        return gameScreen.getChunk().isWalkable(Address.position(fx, fy, gameScreen.getChunk().width));
+    }
+
+    public void replaceAction(RunningAction action) {
+        this.action.interrupt();
+        this.action = action;
+        forceRenewAnimation = true;
+        this.action.start();
     }
 
     private Pair<Integer, Integer> findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
@@ -129,66 +177,16 @@ public class Player extends Actor {
         return null;
     }
 
-    private void setXCollide(float x) {
-        if (isWalkable(x, getY())) {
-            setX(x);
-        }
-    }
-
-    private void setYCollide(float y) {
-        if (isWalkable(getX(), y)) {
-            setY(y);
-        }
-    }
-
-    public boolean isWalkable(float x, float y) {
-        int fx = (int) Math.floor(x);
-        int fy = (int) Math.floor(y);
-        if (!gameScreen.getChunk().containsTileAt(fx, fy)) return false;
-        return gameScreen.getChunk().isWalkable(Address.position(fx, fy, gameScreen.getChunk().width));
-    }
-
-    private void calculateMovement() {
-        gameScreen.keyManager.calculateMovement(movement);
-    }
-
-    private void checkAnimation(float delta) {
-        if (forceRenewAnimation || this.action.action != this.currentAnimation.action || this.direction.flip != this.currentAnimation.flip) {
-            forceRenewAnimation = false;
-            this.currentAnimation = new RunningPlayerAnimation(this.action.action,
-                new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, this.direction.flip
-            );
-            switch (this.action.action) {
-                case WALKING, RUN:
-                    this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed);
-                    break;
-            }
-        } else {
-            this.currentAnimation.addDelta(delta);
-        }
-    }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.currentAnimation.draw(batch, this);
-    }
-
-    public static class Attributes {
-        public float movementSpeed = 1f;
     }
 
     private boolean isKeyTriggered(KeyAction keyAction) {
         return gameScreen.keyManager.isActionTriggered(keyAction);
     }
 
-    public void replaceAction(RunningAction action) {
-        this.action.interrupt();
-        this.action = action;
-        forceRenewAnimation = true;
-        this.action.start();
-    }
-
-    public void replaceAction(Action action) {
-        replaceAction(RunningAction.get(action));
+    public static class Attributes {
+        public float movementSpeed = 1f;
     }
 }

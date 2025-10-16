@@ -7,7 +7,6 @@ import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.util.GdxLogger;
 import me.gabl.fablefields.util.MathUtil;
-import org.jetbrains.annotations.Contract;
 
 import java.util.EnumSet;
 
@@ -29,6 +28,10 @@ public class KeyInputManager implements InputProcessor {
         }
         keybindTriggers.add(action);
         return true;
+    }
+
+    public KeyAction getBind(int keycode) {
+        return Settings.keybind.get(keycode);
     }
 
     @Override
@@ -79,14 +82,6 @@ public class KeyInputManager implements InputProcessor {
         return false;
     }
 
-    public KeyAction getBind(int keycode) {
-        return Settings.keybind.get(keycode);
-    }
-
-    public boolean isActionTriggered(KeyAction action) {
-        return keybindTriggers.contains(action);
-    }
-
     // returns a vector of length 1 or 0
     public void calculateMovement(Vector2 movement) {
         int dx = (isActionTriggered(KeyAction.MOVE_RIGHT) ? 1 : 0) - (isActionTriggered(KeyAction.MOVE_LEFT) ? 1 : 0);
@@ -98,5 +93,9 @@ public class KeyInputManager implements InputProcessor {
         }
 
         movement.set(dx, dy).scl(dx == 0 || dy == 0 ? 1 : MathUtil.INV_SQRT2);
+    }
+
+    public boolean isActionTriggered(KeyAction action) {
+        return keybindTriggers.contains(action);
     }
 }
