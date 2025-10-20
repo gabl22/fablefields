@@ -69,8 +69,8 @@ public class GameScreen extends BaseScreen {
         multiplexer.addProcessor(gameHud);
         multiplexer.addProcessor(inventoryHud);
         Gdx.input.setInputProcessor(
-            new InputMultiplexer(this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager,
-                this.gameHud.getStage(), this.player.worldController
+            new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager,
+                this.player.worldController
             ));
         this.stage.addActor(this.player);
 

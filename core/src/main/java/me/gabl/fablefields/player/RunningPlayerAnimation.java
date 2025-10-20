@@ -34,7 +34,7 @@ public class RunningPlayerAnimation {
         }
     }
 
-    public void start() {
+    public void reset() {
         this.stateTime = 0f;
     }
 

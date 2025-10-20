@@ -71,7 +71,7 @@ public class Player extends Actor {
     }
 
     private void checkAnimation(float delta) {
-        if (forceRenewAnimation || this.action.action != this.currentAnimation.action || this.direction.flip != this.currentAnimation.flip) {
+        if (this.action.action != this.currentAnimation.action || this.direction.flip != this.currentAnimation.flip) {
             forceRenewAnimation = false;
             this.currentAnimation = new RunningPlayerAnimation(this.action.action,
                 new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, this.direction.flip
@@ -81,6 +81,9 @@ public class Player extends Actor {
                     this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed);
                     break;
             }
+        } else if (forceRenewAnimation) {
+            forceRenewAnimation = false;
+            this.currentAnimation.reset();
         } else {
             this.currentAnimation.addDelta(delta);
         }
