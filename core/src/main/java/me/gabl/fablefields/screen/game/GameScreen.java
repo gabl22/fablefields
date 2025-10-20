@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -14,6 +15,7 @@ import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.game.inventory.Slot;
+import me.gabl.fablefields.game.inventory.entity.Chicken;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.Tool;
 import me.gabl.fablefields.map.MapGenerator;
@@ -22,6 +24,8 @@ import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.test.KeyInputManager;
+
+import java.util.Random;
 
 public class GameScreen extends BaseScreen {
 
@@ -36,6 +40,8 @@ public class GameScreen extends BaseScreen {
     private Player player;
     private GameHud gameHud;
     private InventoryHud inventoryHud;
+
+    public Chicken chicken;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -63,6 +69,12 @@ public class GameScreen extends BaseScreen {
         inventory.setSlot(1, new Slot(new Item(Tool.AXE), 1));
         inventory.setSlot(2, new Slot(new Item(Tool.HOE), 1));
         inventory.setSlot(3, new Slot(new Item(Seed.CARROT), 50));
+        inventory.setSlot(9, new Slot(new Item(Tool.SWORD), 2));
+
+        Random random = new Random();
+        chicken = new Chicken(chunk);
+        chicken.getAnimation().setProgress(random.nextFloat());
+        stage.addActor(chicken);
 
         this.inventoryHud = new InventoryHud(batch, inventory);
         this.gameHud = new GameHud(batch, game);
@@ -116,5 +128,9 @@ public class GameScreen extends BaseScreen {
 
     public Viewport getViewport() {
         return viewport;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

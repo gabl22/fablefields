@@ -91,6 +91,10 @@ public class Asset {
         return "characters/human/" + action.id + "/" + layer.id + "_" + action.id + ".png";
     }
 
+    public static AssetDescriptor<AnimationD> getAnimation(String path, AnimationLoader.Parameters parameters) {
+        return new AssetDescriptor<>(path, AnimationD.class, parameters);
+    }
+
     public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
         return new AssetDescriptor<>(resolveHumanCharacterPath(action, layer), AnimationD.class,
             action.getParameters()

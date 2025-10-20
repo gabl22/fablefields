@@ -8,7 +8,6 @@ import lombok.Getter;
 import me.gabl.common.log.Logger;
 import me.gabl.fablefields.map.logic.Address;
 import me.gabl.fablefields.map.logic.MapChunk;
-import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.GdxLogger;
 
@@ -183,10 +182,6 @@ public class Player extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.currentAnimation.draw(batch, this);
-    }
-
-    private boolean isKeyTriggered(KeyAction keyAction) {
-        return gameScreen.keyManager.isActionTriggered(keyAction);
     }
 
     public static class Attributes {

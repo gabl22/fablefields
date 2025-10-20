@@ -9,6 +9,7 @@ import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.RunningAction;
+import me.gabl.fablefields.util.GdxLogger;
 
 import java.util.function.Supplier;
 
@@ -50,6 +51,13 @@ public final class Tool extends ItemType {
 
         if (context.item.typeEquals(AXE)) {
             context.player.replaceAction(RunningAction.get(Action.AXE));
+        }
+    }
+
+    @Override
+    public void hit(HitContext context) {
+        if (context.item.typeEquals(SWORD)) {
+            context.hitActor.remove(); //todo damage?
         }
     }
 }
