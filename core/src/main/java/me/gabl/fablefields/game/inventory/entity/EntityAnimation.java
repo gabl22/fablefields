@@ -14,7 +14,7 @@ public class EntityAnimation {
     private Animation<TextureRegion>[] layers;
     @Getter
     private float stateTime = 0.0f;
-    @Setter
+    @Setter @Getter
     private float speedFactor = 1.0f;
 
     public void reset() {

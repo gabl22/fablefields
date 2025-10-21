@@ -8,7 +8,7 @@ import me.gabl.fablefields.asset.AnimationLoader;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.map.logic.MapChunk;
 
-public class Chicken extends LivingEntity {
+public class Chicken extends Animal {
 
     @SuppressWarnings("unchecked")
     public Chicken(MapChunk chunk) {
@@ -16,7 +16,8 @@ public class Chicken extends LivingEntity {
         super.setSize(2, 2);
         setOrigin(1, 0.5f);
         setHitbox(Hitbox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
-        setPosition(2, 3);
+        maxHealth = 200;
+        health = maxHealth;
         getAnimation().setAnimationLayers(new Animation[]{getChickenAnimation()});
     }
 
@@ -30,6 +31,10 @@ public class Chicken extends LivingEntity {
     @Override
     public void act(float delta) {
         super.act(delta);
-//        setPosition((getX() - delta/10) % 10 + 10, (getY() - delta/10) % 10 + 10);
+    }
+
+    @Override
+    public void onDamage(float damage) {
+        super.onDamage(damage);
     }
 }

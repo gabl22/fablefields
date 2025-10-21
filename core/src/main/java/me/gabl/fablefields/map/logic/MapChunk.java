@@ -61,6 +61,10 @@ public class MapChunk {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
+    public boolean isWalkable(float x, float y) {
+        return isWalkable(position((int) x, (int) y));
+    }
+
     public boolean isWalkable(int position) {
         MapTile tile = getTile(MapLayer.GROUND, position);
         return tile != null && tile.isWalkable();

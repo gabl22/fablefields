@@ -26,4 +26,12 @@ public class Entity extends Actor {
             return this;
         return null;
     }
+
+    public int tileX() {
+        return (int) getX();
+    }
+
+    public int tileY() {
+        return (int) getY();
+    }
 }
