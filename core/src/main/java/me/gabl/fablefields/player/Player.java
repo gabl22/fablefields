@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import kotlin.Pair;
 import lombok.Getter;
 import me.gabl.common.log.Logger;
-import me.gabl.fablefields.map.logic.Address;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.GdxLogger;
@@ -93,13 +92,13 @@ public class Player extends Actor {
     }
 
     private void setXCollide(float x) {
-        if (isWalkable(x, getY())) {
+        if (gameScreen.getChunk().isWalkable(x, getY())) {
             setX(x);
         }
     }
 
     private void setYCollide(float y) {
-        if (isWalkable(getX(), y)) {
+        if (gameScreen.getChunk().isWalkable(getX(), y)) {
             setY(y);
         }
     }
@@ -109,12 +108,12 @@ public class Player extends Actor {
     }
 
     private void checkEnvironment() {
-        if (isWalkable(super.getX(), super.getY())) {
+        if (gameScreen.getChunk().isWalkable(super.getX(), super.getY())) {
             return;
         }
 
         Pair<Integer, Integer> safePosition = findSafety((x, y) -> {
-            boolean walkable = Player.this.isWalkable(x, y);
+            boolean walkable = Player.this.gameScreen.getChunk().isWalkable(x, y);
             GdxLogger.get().info("Test " + x + " " + y + " " + walkable);
             return walkable;
         });
@@ -124,14 +123,6 @@ public class Player extends Actor {
         }
         setX(safePosition.getFirst() + 0.5f);
         setY(safePosition.getSecond());
-    }
-
-    public boolean isWalkable(float x, float y) {
-        int fx = (int) Math.floor(x);
-        int fy = (int) Math.floor(y);
-        if (!gameScreen.getChunk().containsTileAt(fx, fy))
-            return false;
-        return gameScreen.getChunk().isWalkable(Address.position(fx, fy, gameScreen.getChunk().width));
     }
 
     public void replaceAction(RunningAction action) {

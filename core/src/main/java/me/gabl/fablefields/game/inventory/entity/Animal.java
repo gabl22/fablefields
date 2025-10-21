@@ -28,7 +28,6 @@ public class Animal extends LivingEntity {
         if (actionDuration <= 0) {
             switchAction();
         }
-        GdxLogger.get().info("Action: " + action + " duration: " + actionDuration + " direction: " + direction);
         if (action == Action.IDLE) {
             return;
         }

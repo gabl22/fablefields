@@ -41,8 +41,6 @@ public class GameScreen extends BaseScreen {
     private GameHud gameHud;
     private InventoryHud inventoryHud;
 
-    public Chicken chicken;
-
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
 
@@ -71,11 +69,6 @@ public class GameScreen extends BaseScreen {
         inventory.setSlot(3, new Slot(new Item(Seed.CARROT), 50));
         inventory.setSlot(9, new Slot(new Item(Tool.SWORD), 2));
 
-        Random random = new Random();
-        chicken = new Chicken(chunk);
-        chicken.getAnimation().setProgress(random.nextFloat());
-        stage.addActor(chicken);
-
         this.inventoryHud = new InventoryHud(batch, inventory);
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
@@ -84,8 +77,12 @@ public class GameScreen extends BaseScreen {
             new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager,
                 this.player.worldController
             ));
-        this.stage.addActor(this.player);
 
+        Entities entities = new Entities();
+        stage.addActor(entities);
+
+        entities.addActor(player);
+        entities.addActor(new Chicken(chunk));
 
         multiplexer.show();
     }

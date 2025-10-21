@@ -62,7 +62,11 @@ public class MapChunk {
     }
 
     public boolean isWalkable(float x, float y) {
-        return isWalkable(position((int) x, (int) y));
+        int fx = (int) Math.floor(x);
+        int fy = (int) Math.floor(y);
+        if (!containsTileAt(fx, fy))
+            return false;
+        return isWalkable(position(fx, fy));
     }
 
     public boolean isWalkable(int position) {
