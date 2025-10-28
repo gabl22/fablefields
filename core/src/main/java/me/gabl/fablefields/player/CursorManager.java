@@ -23,6 +23,7 @@ public class CursorManager {
         this.chunk = chunk;
     }
 
+    @SuppressWarnings("unchecked")
     public void update() {
         if (screen.camController.isDragging()) {
             Cursors.grab();
@@ -38,10 +39,8 @@ public class CursorManager {
 
         if (selectedItem.type.isUsable(position2, selectedItem, chunk, player, screen.entityHitCursor())) {
             Cursors.arrow();
-            return;
         } else {
             Cursors.unavailable();
-            return;
         }
     }
 

@@ -1,8 +1,6 @@
 package me.gabl.fablefields.game.inventory.item;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.Item;
@@ -44,7 +42,8 @@ public final class Tool extends ItemType {
 
     @Override
     public void use(UseContext context) {
-        if (!context.chunkContainsTile()) return;
+        if (!context.chunkContainsTile())
+            return;
         if (context.item.typeEquals(HOE)) {
             if (Materials.DIRT.materialEquals(context.getTile(MapLayer.GROUND))) {
                 MapTile tile = context.getTile(MapLayer.SURFACE);
@@ -78,7 +77,8 @@ public final class Tool extends ItemType {
         Range range = null;
         if (item.typeEquals(SWORD)) {
             range = Range.WEAPON_SHORT;
-        } else if (item.typeEquals(HOE) || item.typeEquals(AXE) || item.typeEquals(PICKAXE) || item.typeEquals(WATERING_CAN) || item.typeEquals(SHOVEL)) {
+        } else if (item.typeEquals(HOE) || item.typeEquals(AXE) || item.typeEquals(PICKAXE) || item.typeEquals(
+            WATERING_CAN) || item.typeEquals(SHOVEL)) {
             range = Range.TOOL;
         }
         if (!player.inRange(range, cursor)) {

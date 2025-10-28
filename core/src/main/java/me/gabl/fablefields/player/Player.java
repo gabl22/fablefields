@@ -2,7 +2,6 @@ package me.gabl.fablefields.player;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import kotlin.Pair;
 import lombok.Getter;
 import me.gabl.common.log.Logger;
@@ -30,8 +29,8 @@ public class Player extends Entity {
         new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false
     );
     public boolean forceRenewAnimation = false;
-    private Vector2 movement = new Vector2();
     public Inventory inventory;
+    private final Vector2 movement = new Vector2();
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
         super(chunk);

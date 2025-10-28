@@ -1,8 +1,6 @@
 package me.gabl.fablefields.player;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.AllArgsConstructor;
 import me.gabl.fablefields.game.inventory.Slot;
 import me.gabl.fablefields.game.inventory.entity.Entity;
@@ -34,7 +32,8 @@ public class PlayerWorldController implements DefaultInputProcessor {
         Slot slot = player.inventory.getSelectedSlot();
         // todo eventbus calls
         // todo check if hit instanceof entity
-        if (slot == null) return;
+        if (slot == null)
+            return;
         Entity hitEntity = screen.entityHitCursor();
         Vector2 position = ScreenUtil.getPosition(screenVector.x, screenVector.y, screen);
         if (!slot.item.type.isUsable(position, slot.item, chunk, player, hitEntity)) {
