@@ -16,30 +16,31 @@ import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.game.inventory.Slot;
 import me.gabl.fablefields.game.inventory.entity.Chicken;
+import me.gabl.fablefields.game.inventory.entity.Entity;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.Tool;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
+import me.gabl.fablefields.player.CursorManager;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.test.KeyInputManager;
-
-import java.util.Random;
+import me.gabl.fablefields.util.ScreenUtil;
 
 public class GameScreen extends BaseScreen {
 
     private final ScreenMultiplexer multiplexer;
-    public Inventory inventory;
 
     public KeyInputManager keyManager;
-    public OrthographicCameraController controller;
+    public OrthographicCameraController camController;
     @Getter
     private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private Player player;
     private GameHud gameHud;
     private InventoryHud inventoryHud;
+    private CursorManager cursorManager;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -59,9 +60,9 @@ public class GameScreen extends BaseScreen {
         );
         this.renderer.setView(this.camera);
         this.player = new Player(this, this.chunk);
-        this.controller = new OrthographicCameraController(viewport, this.player);
+        this.camController = new OrthographicCameraController(viewport, this.player);
 
-        this.inventory = new Inventory(30);
+        Inventory inventory = new Inventory(30);
         //TODO
         inventory.setSlot(0, new Slot(new Item(Tool.SHOVEL), 1));
         inventory.setSlot(1, new Slot(new Item(Tool.AXE), 1));
@@ -69,12 +70,14 @@ public class GameScreen extends BaseScreen {
         inventory.setSlot(3, new Slot(new Item(Seed.CARROT), 50));
         inventory.setSlot(9, new Slot(new Item(Tool.SWORD), 2));
 
+        player.inventory = inventory;
+
         this.inventoryHud = new InventoryHud(batch, inventory);
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
         multiplexer.addProcessor(inventoryHud);
         Gdx.input.setInputProcessor(
-            new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud, this.inventoryHud.getStage(), this.controller, this.keyManager,
+            new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud, this.inventoryHud.getStage(), this.camController, this.keyManager,
                 this.player.worldController
             ));
 
@@ -84,6 +87,7 @@ public class GameScreen extends BaseScreen {
         entities.addActor(player);
         entities.addActor(new Chicken(chunk));
 
+        this.cursorManager = new CursorManager(player, this, chunk);
         multiplexer.show();
     }
 
@@ -94,7 +98,8 @@ public class GameScreen extends BaseScreen {
         ScreenUtils.clear(0, 0, 0, 0);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        controller.update();
+        camController.update();
+        cursorManager.update();
         viewport.apply();
         renderer.setView(camera);
         renderer.render();
@@ -129,5 +134,9 @@ public class GameScreen extends BaseScreen {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public Entity entityHitCursor() {
+        return ScreenUtil.hit(Gdx.input.getX(), Gdx.input.getY(), this);
     }
 }

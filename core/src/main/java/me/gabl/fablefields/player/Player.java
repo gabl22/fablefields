@@ -6,13 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import kotlin.Pair;
 import lombok.Getter;
 import me.gabl.common.log.Logger;
+import me.gabl.fablefields.game.inventory.Inventory;
+import me.gabl.fablefields.game.inventory.entity.Entity;
+import me.gabl.fablefields.game.inventory.entity.Hitbox;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.GdxLogger;
 
 import java.util.function.BiFunction;
 
-public class Player extends Actor {
+public class Player extends Entity {
 
     private static final Logger logger = GdxLogger.get(Player.class);
 
@@ -28,12 +31,14 @@ public class Player extends Actor {
     );
     public boolean forceRenewAnimation = false;
     private Vector2 movement = new Vector2();
+    public Inventory inventory;
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
+        super(chunk);
         this.gameScreen = gameScreen;
         this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();
-        setPosition(-10, -10);
+        setHitbox(Hitbox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
         setSize(6, 4);
         setOrigin(3f, 1.5f);
         action = RunningAction.get(Action.IDLE);
@@ -170,12 +175,22 @@ public class Player extends Actor {
         return null;
     }
 
+    public boolean inRange(Range range, Vector2 cursor) {
+        if (range == null)
+            return true;
+        float tolerance = range.rangeTiles * attributes.range;
+        tolerance *= tolerance;
+        return tolerance >= (cursor.x - getX()) * (cursor.x - getX()) + (cursor.y - getY()) * (cursor.y - getY());
+    }
+
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.currentAnimation.draw(batch, this);
     }
 
     public static class Attributes {
+        public float range = 1f;
         public float movementSpeed = 1f;
     }
 }

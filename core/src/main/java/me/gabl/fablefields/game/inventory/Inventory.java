@@ -19,6 +19,12 @@ public class Inventory {
         return slots[selectedSlot];
     }
 
+    public Item getSelectedItem() {
+        if (slots[selectedSlot] == null)
+            return null;
+        return slots[selectedSlot].item;
+    }
+
     public int countOf(ItemType type) {
         return countItems(slot -> slot.item.typeEquals(type));
     }

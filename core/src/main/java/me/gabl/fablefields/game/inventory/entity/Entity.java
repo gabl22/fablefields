@@ -1,10 +1,8 @@
 package me.gabl.fablefields.game.inventory.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.Setter;
 import me.gabl.fablefields.map.logic.MapChunk;
-import me.gabl.fablefields.util.GdxLogger;
 
 public class Entity extends Actor {
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntSet;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
-import me.gabl.fablefields.util.GdxLogger;
 import me.gabl.fablefields.util.MathUtil;
 
 import java.util.EnumSet;
@@ -68,7 +67,6 @@ public class KeyInputManager implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        GdxLogger.get().info("DR Pointer: " + pointer);
         return false;
     }
 

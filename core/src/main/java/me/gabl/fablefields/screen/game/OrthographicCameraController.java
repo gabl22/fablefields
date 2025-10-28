@@ -6,17 +6,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import lombok.Getter;
 
 public class OrthographicCameraController extends InputAdapter {
     final OrthographicCamera camera;
     final Viewport viewport;
 
+    final float dragTolerance2 = 10f * 10f;
     final Vector2 worldTouch = new Vector2();
     final Vector2 mouseWorld = new Vector2();
     final Vector2 mouseScreen = new Vector2();
+    final Vector2 touchDown = new Vector2();
     final Actor center;
     boolean followCenter = true;
+    @Getter
     boolean dragging = false;
+    boolean snapDrag = false;
 
     public OrthographicCameraController(Viewport viewport, Actor center) {
         this.camera = (OrthographicCamera) viewport.getCamera();
@@ -26,8 +31,15 @@ public class OrthographicCameraController extends InputAdapter {
         setStandardView();
     }
 
+    private void setStandardView() {
+        this.camera.zoom = 0.03f;
+        this.camera.position.set(this.center.getX(), this.center.getY(), 0);
+        this.followCenter = true;
+        this.camera.update();
+    }
+
     public void update() {
-        if (this.followCenter) {
+        if (this.followCenter && !this.snapDrag) {
             this.camera.position.set(this.center.getX(), this.center.getY(), 0);
         }
         this.camera.update();
@@ -35,6 +47,7 @@ public class OrthographicCameraController extends InputAdapter {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        snapDrag = false;
         if (dragging) {
             dragging = false;
             return true;
@@ -43,19 +56,37 @@ public class OrthographicCameraController extends InputAdapter {
     }
 
     @Override
-    public boolean touchDragged(int x, int y, int pointer) {
-        dragging = true;
-        followCenter = false;
-        camera.update();
-        alignCamera(worldTouch, new Vector2(x, y));
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        mouseScreen.set(screenX, screenY);
+        if (dragging || dragToleranceReached()) {
+            snapDrag = false;
+            dragging = true;
+            followCenter = false;
+        } else {
+            snapDrag = true;
+        }
+        alignCamera(worldTouch, mouseScreen);
         return true;
+    }
+
+    private boolean dragToleranceReached() {
+        return dragTolerance2 <= (mouseScreen.x - touchDown.x) * (mouseScreen.x - touchDown.x) + (mouseScreen.y - touchDown.y) * (mouseScreen.y - touchDown.y);
+    }
+
+    public void alignCamera(Vector2 worldCoords, Vector2 screenCoords) {
+        float screenX = screenCoords.x;
+        float screenY = screenCoords.y;
+        camera.translate(viewport.unproject(screenCoords).sub(worldCoords).scl(-1));
+        screenCoords.set(screenX, screenY);
+        camera.update();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        touchDown.set(screenX, screenY);
         worldTouch.set(screenX, screenY);
         viewport.unproject(worldTouch);
-        return true;
+        return false;
     }
 
     @Override
@@ -96,20 +127,5 @@ public class OrthographicCameraController extends InputAdapter {
             return true;
         }
         return false;
-    }
-
-    public void alignCamera(Vector2 worldCoords, Vector2 screenCoords) {
-        float screenX = screenCoords.x;
-        float screenY = screenCoords.y;
-        camera.translate(viewport.unproject(screenCoords).sub(worldCoords).scl(-1));
-        screenCoords.set(screenX, screenY);
-        camera.update();
-    }
-
-    private void setStandardView() {
-        this.camera.zoom = 0.03f;
-        this.camera.position.set(this.center.getX(), this.center.getY(), 0);
-        this.followCenter = true;
-        this.camera.update();
     }
 }

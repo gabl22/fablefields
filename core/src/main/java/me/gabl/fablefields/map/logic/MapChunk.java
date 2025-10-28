@@ -69,6 +69,14 @@ public class MapChunk {
         return isWalkable(position(fx, fy));
     }
 
+    public MapTile getTile(MapLayer layer, float x, float y) {
+        int fx = (int) Math.floor(x);
+        int fy = (int) Math.floor(y);
+        if (!containsTileAt(fx, fy))
+            return null;
+        return getTile(layer, position(fx, fy));
+    }
+
     public boolean isWalkable(int position) {
         MapTile tile = getTile(MapLayer.GROUND, position);
         return tile != null && tile.isWalkable();

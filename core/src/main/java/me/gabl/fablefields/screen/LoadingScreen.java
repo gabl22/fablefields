@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.asset.Cursors;
 import me.gabl.fablefields.asset.LoadSection;
 import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.screen.menu.MenuScreen;
@@ -35,6 +36,7 @@ public class LoadingScreen implements Screen {
         Asset.manager.finishLoading();
         Asset.manager.complete();
         Asset.manager.loadAssets(LoadSection.BEFORE_GAME_SCREEN);
+        Cursors.load();
         this.logo = new Image(Asset.manager.get(Asset.LOGO));
         this.stage = new Stage();
 

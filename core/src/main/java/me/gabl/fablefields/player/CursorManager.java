@@ -1,0 +1,54 @@
+package me.gabl.fablefields.player;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import me.gabl.fablefields.asset.Cursors;
+import me.gabl.fablefields.game.inventory.Item;
+import me.gabl.fablefields.map.logic.MapChunk;
+import me.gabl.fablefields.screen.game.GameScreen;
+
+public class CursorManager {
+
+    private final Player player;
+    private final GameScreen screen;
+    private final MapChunk chunk;
+
+    private final Vector3 position3 = new Vector3();
+    private final Vector2 position2 = new Vector2();
+
+    public CursorManager(Player player, GameScreen screen, MapChunk chunk) {
+        this.player = player;
+        this.screen = screen;
+        this.chunk = chunk;
+    }
+
+    public void update() {
+        if (screen.camController.isDragging()) {
+            Cursors.grab();
+            return;
+        }
+
+        getCursorPosition(position2);
+        Item selectedItem = player.inventory.getSelectedItem();
+        if (selectedItem == null) {
+            Cursors.pointer();
+            return;
+        }
+
+        if (selectedItem.type.isUsable(position2, selectedItem, chunk, player, screen.entityHitCursor())) {
+            Cursors.arrow();
+            return;
+        } else {
+            Cursors.unavailable();
+            return;
+        }
+    }
+
+    public Vector2 getCursorPosition(Vector2 position) {
+        position3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        screen.getViewport().unproject(position3);
+        position.set(position3.x, position3.y);
+        return position;
+    }
+}

@@ -1,16 +1,23 @@
 package me.gabl.fablefields.game.inventory.item;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.game.inventory.ItemType;
 import me.gabl.fablefields.game.inventory.entity.Animal;
+import me.gabl.fablefields.game.inventory.entity.Entity;
 import me.gabl.fablefields.map.Material;
 import me.gabl.fablefields.map.Materials;
+import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.player.Action;
+import me.gabl.fablefields.player.Player;
+import me.gabl.fablefields.player.Range;
 import me.gabl.fablefields.player.RunningAction;
-import me.gabl.fablefields.util.GdxLogger;
 
 import java.util.function.Supplier;
 
@@ -58,11 +65,33 @@ public final class Tool extends ItemType {
     @Override
     public void hit(HitContext context) {
         if (context.item.typeEquals(SWORD)) {
-//            context.hitActor.remove(); //todo damage?
+            //            context.hitActor.remove(); //todo damage?
             if (context.hitActor instanceof Animal) {
                 Animal animal = (Animal) context.hitActor;
                 animal.inflictDamage(0.0f);
             }
         }
+    }
+
+    @Override
+    public boolean isUsable(Vector2 cursor, Item item, MapChunk chunk, Player player, Entity entity) {
+        Range range = null;
+        if (item.typeEquals(SWORD)) {
+            range = Range.WEAPON_SHORT;
+        } else if (item.typeEquals(HOE) || item.typeEquals(AXE) || item.typeEquals(PICKAXE) || item.typeEquals(WATERING_CAN) || item.typeEquals(SHOVEL)) {
+            range = Range.TOOL;
+        }
+        if (!player.inRange(range, cursor)) {
+            return false;
+        }
+
+        if (item.typeEquals(SWORD)) {
+            return entity != null && !(entity instanceof Player);
+        }
+        if (item.typeEquals(HOE)) {
+            return Materials.DIRT.materialEquals(chunk.getTile(MapLayer.GROUND, cursor.x, cursor.y));
+        }
+
+        return true;
     }
 }
