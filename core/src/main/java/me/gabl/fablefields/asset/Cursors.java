@@ -16,16 +16,16 @@ public class Cursors {
 
     public static void load() {
         if (initialized) return;
-        ARROW = getCursor("arrow", 3, 7);
-        BUSY = getCursor("busy", 8, 16);
-        GRAB = getCursor("grab", 4, 8);
-        POINTER = getCursor("pointer", 4, 16);
+        ARROW = getCursor("arrow", 0, 8);
+        BUSY = getCursor("busy", 16, 14);
+        GRAB = getCursor("grab", 10, 9);
+        POINTER = getCursor("pointer", 10, 1);
         UNAVAILABLE = getCursor("unavailable", 8, 16);
         initialized = true;
     }
 
     private static Cursor getCursor(String name, int hotspotX, int hotspotY) {
-        Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor_" + name + "_p2.png"));
+        Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor/" + name + ".png"));
         return Gdx.graphics.newCursor(pixmap, hotspotX, hotspotY);
     }
 

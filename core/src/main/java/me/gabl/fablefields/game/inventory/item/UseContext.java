@@ -33,7 +33,7 @@ public class UseContext extends Context {
     }
 
     public boolean chunkContainsTile() {
-        return chunk.containsTileAt(x(), y());
+        return chunk.containsTile(x(), y());
     }
 
     public MapTile getTile(MapLayer layer) {

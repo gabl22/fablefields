@@ -30,18 +30,4 @@ public class Cell {
         cell.setFlipVertically(flipVertically);
         return cell;
     }
-
-    public static GfxPair pair(TiledMapTileLayer.Cell cell) {
-        return new GfxPair(cell, null);
-    }
-
-    public static GfxPair pair(TiledMapTileLayer.Cell cell, TiledMapTileLayer.Cell gfxCell) {
-        return new GfxPair(cell, gfxCell);
-    }
-
-    @AllArgsConstructor
-    public static class GfxPair {
-        public final TiledMapTileLayer.Cell cell;
-        public final TiledMapTileLayer.Cell gfxCell;
-    }
 }

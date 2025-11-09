@@ -25,7 +25,6 @@ import me.gabl.fablefields.player.CursorManager;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
-import me.gabl.fablefields.test.KeyInputManager;
 import me.gabl.fablefields.util.ScreenUtil;
 
 public class GameScreen extends BaseScreen {

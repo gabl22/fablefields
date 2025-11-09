@@ -1,6 +1,7 @@
 package me.gabl.fablefields.map;
 
 import me.gabl.fablefields.map.render.MapTileContext;
+import me.gabl.fablefields.map.render.RenderInstruction;
 
 public class RandomMaterial extends Material {
 
@@ -14,8 +15,8 @@ public class RandomMaterial extends Material {
     }
 
     @Override
-    public Cell.GfxPair generateCell(MapTileContext context) {
+    public RenderInstruction[] render(MapTileContext context) {
         int n = (int) (context.chunk.noise.getValue(context.x, context.y) / interval);
-        return Cell.pair(Cell.get(tileSetIds[n]));
+        return RenderInstruction.of(Cell.get(tileSetIds[n]), context);
     }
 }

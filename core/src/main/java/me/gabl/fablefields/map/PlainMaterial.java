@@ -1,6 +1,7 @@
 package me.gabl.fablefields.map;
 
 import me.gabl.fablefields.map.render.MapTileContext;
+import me.gabl.fablefields.map.render.RenderInstruction;
 
 public class PlainMaterial extends Material {
 
@@ -12,7 +13,7 @@ public class PlainMaterial extends Material {
     }
 
     @Override
-    public Cell.GfxPair generateCell(MapTileContext context) {
-        return Cell.pair(Cell.get(tileSetId));
+    public RenderInstruction[] render(MapTileContext context) {
+        return RenderInstruction.of(Cell.get(tileSetId), context);
     }
 }

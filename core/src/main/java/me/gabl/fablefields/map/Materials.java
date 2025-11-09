@@ -3,6 +3,8 @@ package me.gabl.fablefields.map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.render.MapTileContext;
+import me.gabl.fablefields.map.render.RenderInstruction;
+import me.gabl.fablefields.map.render.ZIndex;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -19,22 +21,25 @@ public class Materials {
 
     public static final Material WATER = new Material("water") {
         @Override
-        public Cell.GfxPair generateCell(MapTileContext context) {
+        public RenderInstruction[] render(MapTileContext context) {
             if (context.layer != MapLayer.GROUND) {
                 return null;
             }
 
             TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
+            TiledMapTileLayer.Cell level = null;
 
             CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);
             if (Materials.SAND.equals(analysis.dominantNeighbor)) {
-                return Cell.pair(base, Cell.get(2435, analysis));
+                level = Cell.get(2435, analysis);
             }
-
             if (Materials.DIRT.equals(analysis.dominantNeighbor)) {
-                return Cell.pair(base, Cell.get(2499, analysis));
+                level = Cell.get(2499, analysis);
             }
-            return Cell.pair(base);
+            if (level != null) {
+                return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level, ZIndex.LEVEL_COUNTRY_OVERLAY);
+            }
+            return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER);
         }
     };
 

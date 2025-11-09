@@ -65,10 +65,6 @@ public class MapTileContext {
         return new MapTileContext(chunk, tile, layer, x, y);
     }
 
-    public MapTileContext gfxLayer() {
-        return inLayer(MapLayer.gfx(layer));
-    }
-
     private boolean checkContains(int x, int y) {
         return x >= 0 && x < width() && y >= 0 && y < height();
     }

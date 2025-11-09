@@ -2,6 +2,7 @@ package me.gabl.fablefields.map.logic;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.gabl.fablefields.map.render.MapChunkRenderComponent;
 
 public class MapChunk {
 
@@ -10,14 +11,12 @@ public class MapChunk {
     public final long seed;
     public final Noise2D noise;
 
-    private final MapChunkLayers<MapChunkLayer> tileLayers;
+    private final MapChunkLayers<Layer<MapTile>> tileLayers;
     @Setter
     @Getter
     private MapChunkRenderComponent renderComponent;
 
     public MapChunk(MapChunkLayers<MapTile[]> tileLayers, int width, int height, long seed) {
-        assert !tileLayers.containsRenderLayers;
-
         this.seed = seed;
         this.noise = new Noise2D(seed);
 
@@ -26,7 +25,7 @@ public class MapChunk {
         });
 
 
-        this.tileLayers = tileLayers.map(array -> new MapChunkLayer(array, width, height));
+        this.tileLayers = tileLayers.map(array -> new Layer<>(array, width, height));
         this.width = width;
         this.height = height;
     }
@@ -35,7 +34,7 @@ public class MapChunk {
         renderComponent = new MapChunkRenderComponent(this);
     }
 
-    MapChunkLayer getLayer(MapLayer layer) {
+    public Layer<MapTile> getLayer(MapLayer layer) {
         return tileLayers.get(layer);
     }
 
@@ -46,7 +45,6 @@ public class MapChunk {
     public void setTile(MapLayer layer, int position, MapTile tile) {
         tileLayers.get(layer).tiles[position] = tile;
         renderComponent.renderCell(layer, position, tile);
-
     }
 
     public MapTile getTile(Address address) {
@@ -57,14 +55,14 @@ public class MapChunk {
         return tileLayers.get(layer).tiles[position];
     }
 
-    public boolean containsTileAt(int x, int y) {
+    public boolean containsTile(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public boolean isWalkable(float x, float y) {
         int fx = (int) Math.floor(x);
         int fy = (int) Math.floor(y);
-        if (!containsTileAt(fx, fy))
+        if (!containsTile(fx, fy))
             return false;
         return isWalkable(position(fx, fy));
     }
@@ -72,7 +70,7 @@ public class MapChunk {
     public MapTile getTile(MapLayer layer, float x, float y) {
         int fx = (int) Math.floor(x);
         int fy = (int) Math.floor(y);
-        if (!containsTileAt(fx, fy))
+        if (!containsTile(fx, fy))
             return null;
         return getTile(layer, position(fx, fy));
     }

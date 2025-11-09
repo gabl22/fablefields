@@ -1,4 +1,4 @@
-package me.gabl.fablefields.test;
+package me.gabl.fablefields.screen.game;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
