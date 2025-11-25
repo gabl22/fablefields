@@ -6,9 +6,10 @@ import me.gabl.fablefields.game.inventory.entity.Entity;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
 
-public interface ItemUseCondition<I extends Item> {
+public interface ItemUseCondition {
 
-    default boolean isUsable(Vector2 cursor, I item, MapChunk chunk, Player player, Entity hitEntity) {
+    //todo useable context? -> to itemtype?
+    default boolean isUsable(Vector2 cursor, Item item, MapChunk chunk, Player player, Entity hitEntity) {
         return true;
     }
 }

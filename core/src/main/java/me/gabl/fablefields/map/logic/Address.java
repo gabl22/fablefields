@@ -1,6 +1,5 @@
 package me.gabl.fablefields.map.logic;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class Address {
 
     public final int position;
@@ -18,10 +17,6 @@ public class Address {
 
     public int y(int width) {
         return position / width;
-    }
-
-    public static boolean isBound(int x, int y, int width, int height) {
-        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     @Override

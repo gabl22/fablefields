@@ -1,9 +1,5 @@
 package me.gabl.fablefields.map.logic;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
-
 public class Layer<T> {
 
     public final T[] tiles;

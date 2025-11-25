@@ -6,5 +6,5 @@ import lombok.AllArgsConstructor;
 public class Slot {
 
     public final Item item;
-    public final int count;
+    public int count;
 }

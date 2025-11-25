@@ -1,5 +1,6 @@
-package me.gabl.fablefields.map;
+package me.gabl.fablefields.map.material;
 
+import me.gabl.fablefields.map.Cell;
 import me.gabl.fablefields.map.render.MapTileContext;
 import me.gabl.fablefields.map.render.RenderInstruction;
 

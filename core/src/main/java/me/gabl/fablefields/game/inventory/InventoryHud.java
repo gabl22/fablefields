@@ -49,6 +49,7 @@ public class InventoryHud extends Hud {
     public InventoryHud(SpriteBatch batch, Inventory inventory) {
         super(batch);
         this.inventory = inventory;
+        inventory.onUpdate = this::update;
         assert inventory.size == COLUMNS * ROWS;
         slotImages = new ArrayList<>(COLUMNS * ROWS);
         slotCount = new ArrayList<>(COLUMNS * ROWS);
@@ -57,6 +58,16 @@ public class InventoryHud extends Hud {
         slotBackground = new NinePatchDrawable(Asset.UI_BOX_LIGHT);
         slotSelectedBackground = new NinePatchDrawable(Asset.UI_BOX_DARK);
         slotSwapBackground = new NinePatchDrawable(Asset.UI_BOX_WHITE);
+    }
+
+    public void update() {
+        render();
+    }
+
+    //removes 1 of the items selected
+    public void removeSelectedItem() {
+        inventory.removeSelectedItem();
+        render(inventory.selectedSlot);
     }
 
     @Override
@@ -125,7 +136,7 @@ public class InventoryHud extends Hud {
                             setSwapSlot(index);
                             return;
                         }
-                        swapSlots(swapSlot, index);
+                        inventory.swap(swapSlot, index);
                         setSwapSlot(-1);
                     }
                 });
@@ -150,7 +161,6 @@ public class InventoryHud extends Hud {
         setSlotBackground(inventory.selectedSlot);
     }
 
-    //TODO merge function above n below ?
     public void setSwapSlot(int slot) {
         int oldSwap = swapSlot;
         swapSlot = slot;
@@ -158,11 +168,6 @@ public class InventoryHud extends Hud {
         setSlotBackground(swapSlot);
     }
 
-    public void swapSlots(int slotId1, int slotId2) {
-        inventory.swap(slotId1, slotId2);
-        render(slotId1);
-        render(slotId2);
-    }
 
     public void setSlot(int slotId, Slot slot) {
         Image image = slotImages.get(slotId).getActor();

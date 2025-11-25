@@ -1,6 +1,8 @@
-package me.gabl.fablefields.map;
+package me.gabl.fablefields.map.material;
 
+import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapTile;
+import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.RenderMaterial;
 
 import java.util.Objects;
@@ -44,5 +46,18 @@ public abstract class Material implements RenderMaterial {
 
     public static boolean equals(Material m1, Material m2) {
         return (m1 == null && m2 == null) || (m1 != null && m1.materialEquals(m2));
+    }
+
+    public MapTile createMapTile(ContextAddress address) {
+        return new MapTile(this, address);
+    }
+
+    @Deprecated
+    public MapTile createMapTile() {
+        return createMapTile(null);
+    }
+
+    public MapTile createMapTile(ContextAddress address, MapChunk chunk) {
+        return createMapTile(address);
     }
 }

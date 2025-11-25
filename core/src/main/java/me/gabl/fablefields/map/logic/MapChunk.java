@@ -3,6 +3,7 @@ package me.gabl.fablefields.map.logic;
 import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
+import org.jetbrains.annotations.Nullable;
 
 public class MapChunk {
 
@@ -67,6 +68,7 @@ public class MapChunk {
         return isWalkable(position(fx, fy));
     }
 
+    @Nullable
     public MapTile getTile(MapLayer layer, float x, float y) {
         int fx = (int) Math.floor(x);
         int fy = (int) Math.floor(y);

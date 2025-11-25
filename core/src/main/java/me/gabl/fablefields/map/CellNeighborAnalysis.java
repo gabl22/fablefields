@@ -1,6 +1,7 @@
 package me.gabl.fablefields.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import me.gabl.fablefields.map.material.Material;
 import me.gabl.fablefields.map.render.MapTileContext;
 
 import java.util.Objects;

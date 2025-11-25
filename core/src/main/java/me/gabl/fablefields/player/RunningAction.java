@@ -1,10 +1,12 @@
 package me.gabl.fablefields.player;
 
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,16 @@ public class RunningAction {
         )));
     }
 
+    protected RunningAction(RunningAction copy) {
+        this.animationDuration = copy.animationDuration;
+        this.action = copy.action;
+        this.infinite = copy.infinite;
+    }
+
+    public RunningAction copyAnimation() {
+        return new RunningAction(this);
+    }
+
     public static RunningAction get(Action action) {
         return DEFAULT.get(action).get();
     }
@@ -29,6 +41,20 @@ public class RunningAction {
     public final float animationDuration;
     public final boolean infinite;
     public float durationLeft;
+
+
+    // start -> act -> ... -> act -> (interrupt xor finished) -> stop
+
+    @Setter
+    private Consumer<Float> onActConsumer;
+    @Setter
+    private Runnable onStart;
+    @Setter
+    private Runnable onInterrupt;
+    @Setter
+    private Runnable onFinished;
+    @Setter
+    private Runnable onStop;
 
     protected RunningAction(Action action, float animationDuration) {
         this.action = action;
@@ -44,45 +70,47 @@ public class RunningAction {
         if (!running) {
             running = true;
             durationLeft = animationDuration;
-            onStart();
+            run(onStart);
         }
     }
 
-    protected void onStart() {
-
-    }
-
     RunningAction act(float delta) {
-        onAct(delta);
+        if (onActConsumer != null) onActConsumer.accept(delta);
         if (!infinite) {
             durationLeft -= delta;
             if (durationLeft <= 0) {
                 durationLeft = 0;
-                stop();
+                finished();
                 return next();
             }
         }
         return this;
     }
 
-    protected void onAct(float delta) {
+    void finished() {
+        if (running) {
+            run(onFinished);
+            stop();
+        }
+    }
 
+    void interrupt() {
+        if (running) {
+            run(onInterrupt);
+            stop();
+        }
     }
 
     void stop() {
         if (running) {
             running = false;
-            onStop();
+            run(onStop);
         }
     }
 
     @NotNull
     protected RunningAction next() {
         return idle();
-    }
-
-    protected void onStop() {
-
     }
 
     public static RunningAction idle() {
@@ -93,17 +121,6 @@ public class RunningAction {
                 return this;
             }
         };
-    }
-
-    void interrupt() {
-        if (running) {
-            onInterrupt();
-        }
-        stop();
-    }
-
-    protected void onInterrupt() {
-
     }
 
     protected boolean permitsMovement() {
@@ -123,5 +140,9 @@ public class RunningAction {
             case ATTACK, AXE, CASTING, CAUGHT, DIG, HAMMERING, MINING, REELING, WALKING, WATERING -> true;
             default -> false;
         };
+    }
+
+    private void run(Runnable runnable) {
+        if (runnable != null) runnable.run();
     }
 }

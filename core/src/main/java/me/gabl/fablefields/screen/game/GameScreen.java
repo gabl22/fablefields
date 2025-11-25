@@ -25,6 +25,7 @@ import me.gabl.fablefields.player.CursorManager;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
+import me.gabl.fablefields.task.ActSynchronousScheduler;
 import me.gabl.fablefields.util.ScreenUtil;
 
 public class GameScreen extends BaseScreen {
@@ -38,8 +39,9 @@ public class GameScreen extends BaseScreen {
     private OrthogonalTiledMapRenderer renderer;
     private Player player;
     private GameHud gameHud;
-    private InventoryHud inventoryHud;
+    public InventoryHud inventoryHud;
     private CursorManager cursorManager;
+    public ActSynchronousScheduler syncScheduler;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -66,8 +68,18 @@ public class GameScreen extends BaseScreen {
         inventory.setSlot(0, new Slot(new Item(Tool.SHOVEL), 1));
         inventory.setSlot(1, new Slot(new Item(Tool.AXE), 1));
         inventory.setSlot(2, new Slot(new Item(Tool.HOE), 1));
-        inventory.setSlot(3, new Slot(new Item(Seed.CARROT), 50));
-        inventory.setSlot(9, new Slot(new Item(Tool.SWORD), 2));
+        inventory.setSlot(3, new Slot(new Item(Tool.SWORD), 1));
+        inventory.setSlot(4, new Slot(new Item(Tool.WATERING_CAN), 1));
+        inventory.addItem(new Item(Seed.CARROT), 10);
+        inventory.addItem(new Item(Seed.CAULIFLOWER), 10);
+        inventory.addItem(new Item(Seed.PUMPKIN), 10);
+        inventory.addItem(new Item(Seed.SUNFLOWER), 10);
+        inventory.addItem(new Item(Seed.RADISH), 10);
+        inventory.addItem(new Item(Seed.PARSNIP), 10);
+        inventory.addItem(new Item(Seed.CABBAGE), 10);
+        inventory.addItem(new Item(Seed.BEETROOT), 10);
+        inventory.addItem(new Item(Seed.LETTUCE), 10);
+
 
         player.inventory = inventory;
 
@@ -88,6 +100,8 @@ public class GameScreen extends BaseScreen {
 
         this.cursorManager = new CursorManager(player, this, chunk);
         multiplexer.show();
+
+        this.syncScheduler = new ActSynchronousScheduler();
     }
 
     @Override
@@ -106,6 +120,7 @@ public class GameScreen extends BaseScreen {
         stage.draw();
 
         multiplexer.render(delta);
+        syncScheduler.commitExecute(delta);
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 public class Inventory {
 
     public final int size;
+    Runnable onUpdate;
     // slot[i] nullable
     final Slot[] slots;
     int selectedSlot;
@@ -50,6 +51,7 @@ public class Inventory {
     public Slot setSlot(int slotId, Slot slot) {
         Slot oldSlot = slots[slotId];
         slots[slotId] = slot;
+        reportUpdate();
         return oldSlot;
     }
 
@@ -57,5 +59,53 @@ public class Inventory {
         Slot oldSlot = slots[slotId1];
         slots[slotId1] = slots[slotId2];
         slots[slotId2] = oldSlot;
+        reportUpdate();
+    }
+
+    void removeSelectedItem() {
+        if (slots[selectedSlot] != null) {
+            slots[selectedSlot].count--;
+            if (slots[selectedSlot].count <= 0) slots[selectedSlot] = null;
+        }
+        reportUpdate();
+    }
+
+    /**
+     * @param slot count & item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(Slot slot) {
+        return addItem(slot.item, slot.count);
+    }
+
+    /**
+     * @param count amount of item to be added
+     * @param item item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(Item item, int count) {
+        if (item == null) return true;
+        for (int i = 0; i < size; i++) {
+            if (slots[i] == null) continue;
+            if (item.mergeableWith(slots[i].item)) {
+                slots[i] = new Slot(item, count + slots[i].count);
+                reportUpdate();
+                return true;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (slots[i] == null || slots[i].item == null) {
+                slots[i] = new Slot(item, count);
+                reportUpdate();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void reportUpdate() {
+        if (onUpdate != null) onUpdate.run();
     }
 }

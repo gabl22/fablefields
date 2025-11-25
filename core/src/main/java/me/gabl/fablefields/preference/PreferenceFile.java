@@ -3,7 +3,6 @@ package me.gabl.fablefields.preference;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

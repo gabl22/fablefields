@@ -1,7 +1,7 @@
 package me.gabl.fablefields.game.inventory.entity;
 
 public interface Hitbox {
-    public static RectangularHitbox rect(float xMin, float xMax, float yMin, float yMax) {
+    static RectangularHitbox rect(float xMin, float xMax, float yMin, float yMax) {
         return new RectangularHitbox(xMin, xMax, yMin, yMax);
     }
 

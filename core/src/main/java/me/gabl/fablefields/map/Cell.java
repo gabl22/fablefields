@@ -2,7 +2,6 @@ package me.gabl.fablefields.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import lombok.AllArgsConstructor;
 import me.gabl.fablefields.asset.Asset;
 
 public class Cell {

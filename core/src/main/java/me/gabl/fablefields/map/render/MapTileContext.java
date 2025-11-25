@@ -1,6 +1,5 @@
 package me.gabl.fablefields.map.render;
 
-import me.gabl.fablefields.map.logic.Address;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
@@ -21,8 +20,8 @@ public class MapTileContext {
         this.y = y;
     }
 
-    public Address getAddress() {
-        return new Address(y * chunk.width + x, layer);
+    public ContextAddress getAddress() {
+        return new ContextAddress(y * chunk.width + x, layer, chunk.width);
     }
 
     public int position() {
@@ -61,8 +60,12 @@ public class MapTileContext {
         return new MapTileContext(chunk, null, layer, x, y + 1);
     }
 
+    public void rerender() {
+        chunk.getRenderComponent().renderCell(layer, x, y, tile);
+    }
+
     public MapTileContext inLayer(MapLayer layer) {
-        return new MapTileContext(chunk, tile, layer, x, y);
+        return new MapTileContext(chunk, chunk.getTile(layer, x, y), layer, x, y);
     }
 
     private boolean checkContains(int x, int y) {

@@ -5,7 +5,7 @@ import me.gabl.fablefields.game.inventory.item.HitContext;
 import me.gabl.fablefields.game.inventory.item.ItemUseCondition;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 
-public class ItemType<I extends Item> implements ItemUseCondition<I> {
+public class ItemType implements ItemUseCondition {
 
     public final String id;
 
@@ -21,5 +21,9 @@ public class ItemType<I extends Item> implements ItemUseCondition<I> {
     }
 
     public void hit(HitContext context) {
+    }
+
+    public Item createItem() {
+        return new Item(this);
     }
 }

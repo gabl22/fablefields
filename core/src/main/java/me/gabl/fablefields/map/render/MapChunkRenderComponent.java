@@ -55,6 +55,19 @@ public class MapChunkRenderComponent {
         if (dirty()) rebuildLayers();
     }
 
+    public void updateCells(int x, int y) {
+        updateCell(MapLayer.GROUND, x, y);
+        updateCell(MapLayer.SURFACE, x, y);
+        updateCell(MapLayer.FEATURE, x, y);
+    }
+
+    public void updateCell(MapLayer layer, int x, int y) {
+        renderCell(layer, x, y, chunk.getTile(layer, x, y));
+    }
+
+    public void updateCell(Address address) {
+        updateCell(address.layer, address.x(chunk.width), address.y(chunk.width));
+    }
 
     void renderCell(Address address, MapTile tile) {
         renderCell(address.layer, address.x(chunk.width), address.y(chunk.width), tile);
@@ -78,10 +91,10 @@ public class MapChunkRenderComponent {
         referencedInstructions.get(layer).set(x, y, null);
     }
 
-    void renderCell(MapLayer layer, int x, int y, MapTile tile) {
+    public void renderCell(MapLayer layer, int x, int y, MapTile tile) {
         removeReferences(layer, x, y);
         if (tile == null) return;
-        for (RenderInstruction instruction : tile.material.render(new MapTileContext(chunk, tile, layer, x, y))) {
+        for (RenderInstruction instruction : tile.render(new MapTileContext(chunk, tile, layer, x, y))) {
             if (instruction == null || instruction.cell() == null || instruction.cell().getTile() == null) {
                 continue;
             }

@@ -27,10 +27,8 @@ public class PlayerWorldController implements DefaultInputProcessor {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     public void checkUse() {
         Slot slot = player.inventory.getSelectedSlot();
-        // todo eventbus calls
         // todo check if hit instanceof entity
         if (slot == null)
             return;

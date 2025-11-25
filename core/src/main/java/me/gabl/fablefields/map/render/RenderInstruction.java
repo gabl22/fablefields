@@ -1,7 +1,6 @@
 package me.gabl.fablefields.map.render;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.utils.Array;
 import me.gabl.fablefields.map.logic.Address;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,13 +8,19 @@ import java.util.Objects;
 
 public final class RenderInstruction implements Comparable<RenderInstruction> {
     private final Cell cell;
-    private Address address;
+    private final Address address;
     public final double z;
 
     public RenderInstruction(Cell cell, Address address, double z) {
         this.cell = cell;
         this.address = address;
         this.z = z;
+    }
+
+    public RenderInstruction(Cell cell, Address address) {
+        this.cell = cell;
+        this.address = address;
+        this.z = 0;
     }
 
     @Override
@@ -38,6 +43,10 @@ public final class RenderInstruction implements Comparable<RenderInstruction> {
 
     public static RenderInstruction[] of(Cell cell, MapTileContext context) {
         return of(context.getAddress(), cell, 0);
+    }
+
+    public static RenderInstruction[] of(Cell cell, Address address) {
+        return of(address, cell, 0);
     }
 
     public Cell cell() {

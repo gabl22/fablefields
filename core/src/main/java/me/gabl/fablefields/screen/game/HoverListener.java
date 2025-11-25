@@ -3,7 +3,6 @@ package me.gabl.fablefields.screen.game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import me.gabl.fablefields.util.GdxLogger;
 
 public class HoverListener extends InputListener {
 
