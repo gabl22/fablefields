@@ -6,6 +6,7 @@ import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.game.GameScreen;
 
+@Deprecated
 public class HitContext extends Context {
 
     public final Actor hitActor;

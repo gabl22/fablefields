@@ -13,12 +13,10 @@ import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
-import me.gabl.fablefields.game.inventory.Item;
-import me.gabl.fablefields.game.inventory.Slot;
 import me.gabl.fablefields.game.inventory.entity.Chicken;
 import me.gabl.fablefields.game.inventory.entity.Entity;
 import me.gabl.fablefields.game.inventory.item.Seed;
-import me.gabl.fablefields.game.inventory.item.Tool;
+import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
@@ -34,14 +32,14 @@ public class GameScreen extends BaseScreen {
 
     public KeyInputManager keyManager;
     public OrthographicCameraController camController;
+    public InventoryHud inventoryHud;
+    public ActSynchronousScheduler syncScheduler;
     @Getter
     private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private Player player;
     private GameHud gameHud;
-    public InventoryHud inventoryHud;
     private CursorManager cursorManager;
-    public ActSynchronousScheduler syncScheduler;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -57,28 +55,28 @@ public class GameScreen extends BaseScreen {
         this.chunk.initRenderComponent();
         this.chunk.getRenderComponent().initialRender();
         this.renderer = new OrthogonalTiledMapRenderer(this.chunk.getRenderComponent().map, 1f / Asset.TILE_SIZE,
-            super.batch
-        );
+                super.batch);
         this.renderer.setView(this.camera);
         this.player = new Player(this, this.chunk);
         this.camController = new OrthographicCameraController(viewport, this.player);
 
-        Inventory inventory = new Inventory(30);
+        Inventory inventory = new Inventory(InventoryHud.SLOTS);
         //TODO
-        inventory.setSlot(0, new Slot(new Item(Tool.SHOVEL), 1));
-        inventory.setSlot(1, new Slot(new Item(Tool.AXE), 1));
-        inventory.setSlot(2, new Slot(new Item(Tool.HOE), 1));
-        inventory.setSlot(3, new Slot(new Item(Tool.SWORD), 1));
-        inventory.setSlot(4, new Slot(new Item(Tool.WATERING_CAN), 1));
-        inventory.addItem(new Item(Seed.CARROT), 10);
-        inventory.addItem(new Item(Seed.CAULIFLOWER), 10);
-        inventory.addItem(new Item(Seed.PUMPKIN), 10);
-        inventory.addItem(new Item(Seed.SUNFLOWER), 10);
-        inventory.addItem(new Item(Seed.RADISH), 10);
-        inventory.addItem(new Item(Seed.PARSNIP), 10);
-        inventory.addItem(new Item(Seed.CABBAGE), 10);
-        inventory.addItem(new Item(Seed.BEETROOT), 10);
-        inventory.addItem(new Item(Seed.LETTUCE), 10);
+        inventory.addItem(Tools.SWORD, 1);
+        inventory.addItem(Tools.SHOVEL, 1);
+        inventory.addItem(Tools.HOE, 1);
+        inventory.addItem(Tools.WATERING_CAN, 1);
+        inventory.addItem(Seed.CARROT, 10);
+        inventory.addItem(Seed.CAULIFLOWER, 10);
+        inventory.addItem(Seed.PUMPKIN, 10);
+        inventory.addItem(Seed.SUNFLOWER, 10);
+        inventory.addItem(Seed.RADISH, 10);
+        inventory.addItem(Seed.PARSNIP, 10);
+        inventory.addItem(Seed.POTATO, 10);
+        inventory.addItem(Seed.CABBAGE, 10);
+        inventory.addItem(Seed.BEETROOT, 10);
+        inventory.addItem(Seed.WHEAT, 10);
+        inventory.addItem(Seed.LETTUCE, 10);
 
 
         player.inventory = inventory;
@@ -87,10 +85,8 @@ public class GameScreen extends BaseScreen {
         this.gameHud = new GameHud(batch, game);
         multiplexer.addProcessor(gameHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(
-            new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud, this.inventoryHud.getStage(), this.camController, this.keyManager,
-                this.player.worldController
-            ));
+        Gdx.input.setInputProcessor(new InputMultiplexer(this.gameHud.getStage(), this.inventoryHud,
+                this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
 
         Entities entities = new Entities();
         stage.addActor(entities);

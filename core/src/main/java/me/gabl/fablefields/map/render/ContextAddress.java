@@ -36,6 +36,22 @@ public class ContextAddress extends Address {
         return getRelative(1, 0);
     }
 
+    @Override
+    public int x(int width) {
+        if (this.width != width) {
+            throw new AssertionError("Address requested with width different to contextual width! (%s != %s)".formatted(width, width));
+        }
+        return super.x(width);
+    }
+
+    @Override
+    public int y(int width) {
+        if (this.width != width) {
+            throw new AssertionError("Address requested with width different to contextual width! (%s != %s)".formatted(width, width));
+        }
+        return super.y(width);
+    }
+
     public ContextAddress getRelative(int dx, int dy) {
         return new ContextAddress(Address.position(x() + dx, y() + dy, width), layer, width);
     }

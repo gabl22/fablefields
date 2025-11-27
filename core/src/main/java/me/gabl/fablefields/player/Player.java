@@ -174,12 +174,12 @@ public class Player extends Entity {
         return null;
     }
 
-    public boolean inRange(Range range, Vector2 cursor) {
+    public boolean inRange(Range range, float x, float y) {
         if (range == null)
             return true;
         float tolerance = range.rangeTiles * attributes.range;
         tolerance *= tolerance;
-        return tolerance >= (cursor.x - getX()) * (cursor.x - getX()) + (cursor.y - getY()) * (cursor.y - getY());
+        return tolerance >= (x - getX()) * (x - getX()) + (y - getY()) * (y - getY());
     }
 
 

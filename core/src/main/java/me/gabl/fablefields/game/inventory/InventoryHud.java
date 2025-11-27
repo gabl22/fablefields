@@ -20,9 +20,9 @@ import java.util.List;
 
 public class InventoryHud extends Hud {
 
-    private static final int COLUMNS = 10;
-    private static final int ROWS = 3;
-    private static final int SLOTS = COLUMNS * ROWS;
+    public static final int COLUMNS = 10;
+    public static final int ROWS = 3;
+    public static final int SLOTS = COLUMNS * ROWS;
 
     private static final Label.LabelStyle slotCountStyle;
 

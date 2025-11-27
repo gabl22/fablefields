@@ -3,8 +3,6 @@ package me.gabl.fablefields.player;
 import com.badlogic.gdx.math.Vector2;
 import lombok.AllArgsConstructor;
 import me.gabl.fablefields.game.inventory.Slot;
-import me.gabl.fablefields.game.inventory.entity.Entity;
-import me.gabl.fablefields.game.inventory.item.HitContext;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
@@ -32,16 +30,11 @@ public class PlayerWorldController implements DefaultInputProcessor {
         // todo check if hit instanceof entity
         if (slot == null)
             return;
-        Entity hitEntity = screen.entityHitCursor();
         Vector2 position = ScreenUtil.getPosition(screenVector.x, screenVector.y, screen);
-        if (!slot.item.type.isUsable(position, slot.item, chunk, player, hitEntity)) {
+        UseContext context = new UseContext(slot.item, player, screen, chunk, position.x, position.y, screen.entityHitCursor());
+        if (!slot.item.type.isUsable(context)) {
             return;
         }
-
-        if (hitEntity == null) {
-            slot.item.type.use(new UseContext(slot.item, player, screen, chunk, position.x, position.y));
-        } else {
-            slot.item.type.hit(new HitContext(slot.item, player, screen, chunk, hitEntity));
-        }
+        slot.item.type.use(context);
     }
 }

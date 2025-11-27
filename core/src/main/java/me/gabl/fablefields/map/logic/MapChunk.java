@@ -52,8 +52,17 @@ public class MapChunk {
         return getTile(address.layer, address.position);
     }
 
+    /**
+     * @return null if tile is out of map, else the tile stored at position
+     */
     public MapTile getTile(MapLayer layer, int position) {
-        return tileLayers.get(layer).tiles[position];
+        if (containsTile(position))
+            return tileLayers.get(layer).tiles[position];
+        return null;
+    }
+
+    public boolean containsTile(int position) {
+        return position >= 0 && position < width * height;
     }
 
     public boolean containsTile(int x, int y) {

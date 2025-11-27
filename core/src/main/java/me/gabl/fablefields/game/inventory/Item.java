@@ -9,7 +9,7 @@ public class Item {
 
     public final ItemType type;
 
-    public Item(ItemType type) {
+    Item(ItemType type) {
         this.type = type;
     }
 

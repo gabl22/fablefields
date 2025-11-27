@@ -14,9 +14,11 @@ public class Crop extends ItemType {
     public static final Crop SUNFLOWER = new Crop("sunflower", 691 + 3);
     public static final Crop RADISH = new Crop("radish", 691 + 4);
     public static final Crop PARSNIP = new Crop("parsnip", 691 + 5);
-    public static final Crop CABBAGE = new Crop("cabbage", 691 + 6);
-    public static final Crop BEETROOT = new Crop("beetroot", 691 + 7);
-    public static final Crop LETTUCE = new Crop("lettuce", 691 + 8);
+    public static final Crop POTATO = new Crop("parsnip", 691 + 6);
+    public static final Crop CABBAGE = new Crop("cabbage", 691 + 7);
+    public static final Crop BEETROOT = new Crop("beetroot", 691 + 8);
+    public static final Crop WHEAT = new Crop("wheat", 691 + 9);
+    public static final Crop LETTUCE = new Crop("lettuce", 691 + 10);
     private final int tileSetId;
 
     public Crop(String id, int tileSetId) {
@@ -32,8 +34,10 @@ public class Crop extends ItemType {
             case "sunflower" -> SUNFLOWER;
             case "radish" -> RADISH;
             case "parsnip" -> PARSNIP;
+            case "potato" -> POTATO;
             case "cabbage" -> CABBAGE;
             case "beetroot" -> BEETROOT;
+            case "wheat" -> WHEAT;
             case "lettuce" -> LETTUCE;
             default -> null;
         };

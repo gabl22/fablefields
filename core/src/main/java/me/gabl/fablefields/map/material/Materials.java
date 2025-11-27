@@ -17,7 +17,7 @@ public class Materials {
 
     public static final Material SAND = new PlainMaterial("sand", 69);
 
-    public static final Material DIRT = new PlainMaterial("dirt", 267);
+    public static final Material DIRT = new RandomMaterial("dirt", new int[]{4026, 4027, 4028, 4029, 4030, 4031});
 
     public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094, 4095});
 
@@ -35,9 +35,6 @@ public class Materials {
             CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);
             if (Materials.SAND.equals(analysis.dominantNeighbor)) {
                 level = Cell.get(2435, analysis);
-            }
-            if (Materials.DIRT.equals(analysis.dominantNeighbor)) {
-                level = Cell.get(2499, analysis);
             }
             if (level != null) {
                 return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level, ZIndex.LEVEL_COUNTRY_OVERLAY);
@@ -68,9 +65,11 @@ public class Materials {
     public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f}, 3);
     public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f}, 4);
     public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f}, 5);
-    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f}, 6);
-    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f}, 7);
-    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f}, 8);
+    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f}, 6);
+    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f}, 7);
+    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f}, 8);
+    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f}, 9);
+    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f}, 10);
 
     public static final Map<String, Material> FROM_ID;
 

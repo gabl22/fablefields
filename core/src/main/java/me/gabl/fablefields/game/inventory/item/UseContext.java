@@ -1,5 +1,6 @@
 package me.gabl.fablefields.game.inventory.item;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapLayer;
@@ -7,31 +8,36 @@ import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.material.Material;
 import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.player.Player;
+import me.gabl.fablefields.player.Range;
 import me.gabl.fablefields.screen.game.GameScreen;
+import org.jetbrains.annotations.Nullable;
 
 public class UseContext extends Context {
 
-    public final float fx;
-    public final float fy;
+    public final float mouseX;
+    public final float mouseY;
+    public final @Nullable Actor hitActor;
 
-    public UseContext(Item item, Player player, GameScreen screen, MapChunk chunk, float fx, float fy) {
+    public UseContext(Item item, Player player, GameScreen screen, MapChunk chunk, float mouseX, float mouseY, @Nullable Actor hitActor) {
         super(item, player, screen, chunk);
-        this.fx = fx;
-        this.fy = fy;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.hitActor = hitActor;
     }
 
-    public UseContext(Context context, float fx, float fy) {
+    public UseContext(Context context, float mouseX, float mouseY, @Nullable Actor hitActor) {
         super(context);
-        this.fx = fx;
-        this.fy = fy;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.hitActor = hitActor;
     }
 
     public int x() {
-        return (int) fx;
+        return (int) mouseX;
     }
 
     public int y() {
-        return (int) fy;
+        return (int) mouseY;
     }
 
     public boolean chunkContainsTile() {
@@ -39,6 +45,9 @@ public class UseContext extends Context {
     }
 
     public MapTile getTile(MapLayer layer) {
+        if (!chunk.containsTile(x(), y())) {
+            return null;
+        }
         return chunk.getTile(layer, chunk.position(x(), y()));
     }
 
@@ -60,5 +69,17 @@ public class UseContext extends Context {
         ContextAddress address = getAddress(layer);
         chunk.setTile(material == null ? null : material.createMapTile(address, chunk), address);
         return chunk.getTile(address);
+    }
+
+    public boolean playerInCursorRange(Range range) {
+        return player.inRange(range, mouseX, mouseY);
+    }
+
+    public void updateCells() {
+        chunk.getRenderComponent().updateCells(x(), y());
+    }
+
+    public void updateCell(MapLayer layer) {
+        chunk.getRenderComponent().updateCell(layer, x(), y());
     }
 }

@@ -1,0 +1,36 @@
+package me.gabl.fablefields.game.inventory.item.tool;
+
+import me.gabl.fablefields.game.inventory.item.UseContext;
+import me.gabl.fablefields.map.logic.MapLayer;
+import me.gabl.fablefields.map.material.PlantTile;
+import me.gabl.fablefields.player.Action;
+import me.gabl.fablefields.player.Range;
+import me.gabl.fablefields.player.RunningAction;
+
+public final class WateringCan extends Tool {
+
+    WateringCan() {
+        super("watering_can", 2858);
+    }
+
+    @Override
+    public void use(UseContext context) {
+        if (!context.chunkContainsTile()) return;
+        PlantTile tile = (PlantTile) context.getTile(MapLayer.FEATURE); //due to check in  useable
+        RunningAction waterPlant = RunningAction.get(Action.WATERING).copyAnimation();
+        waterPlant.setOnFinished(() -> {
+            tile.water();
+            context.updateCells();
+        });
+        context.player.replaceAction(waterPlant);
+    }
+
+    @Override
+    public boolean isUsable(UseContext context) {
+        if (!context.playerInCursorRange(Range.TOOL)) return false;
+        if (context.getTile(MapLayer.FEATURE) instanceof PlantTile tile) {
+            return tile.needsWater();
+        }
+        return false;
+    }
+}

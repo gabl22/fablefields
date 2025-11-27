@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import me.gabl.fablefields.asset.Cursors;
 import me.gabl.fablefields.game.inventory.Item;
+import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
 
@@ -23,7 +24,6 @@ public class CursorManager {
         this.chunk = chunk;
     }
 
-    @SuppressWarnings("unchecked")
     public void update() {
         if (screen.camController.isDragging()) {
             Cursors.grab();
@@ -37,17 +37,17 @@ public class CursorManager {
             return;
         }
 
-        if (selectedItem.type.isUsable(position2, selectedItem, chunk, player, screen.entityHitCursor())) {
+        UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y, screen.entityHitCursor());
+        if (selectedItem.type.isUsable(context)) {
             Cursors.arrow();
         } else {
             Cursors.unavailable();
         }
     }
 
-    public Vector2 getCursorPosition(Vector2 position) {
+    public void getCursorPosition(Vector2 position) {
         position3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         screen.getViewport().unproject(position3);
         position.set(position3.x, position3.y);
-        return position;
     }
 }

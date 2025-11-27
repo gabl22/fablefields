@@ -78,6 +78,16 @@ public class Inventory {
         return addItem(slot.item, slot.count);
     }
 
+
+    /**
+     * @param type Type of the item to be added. The Item is generated using {@link ItemType#createItem()}
+     * @param count the amount of item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(ItemType type, int count) {
+        return addItem(type.createItem(), count);
+    }
+
     /**
      * @param count amount of item to be added
      * @param item item to be added
