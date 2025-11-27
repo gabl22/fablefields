@@ -37,7 +37,8 @@ public class CursorManager {
             return;
         }
 
-        UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y, screen.entityHitCursor());
+        UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y,
+                screen.entityHitCursor());
         if (selectedItem.type.isUsable(context)) {
             Cursors.arrow();
         } else {

@@ -7,7 +7,7 @@ import lombok.Getter;
 import me.gabl.common.log.Logger;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.entity.Entity;
-import me.gabl.fablefields.game.inventory.entity.Hitbox;
+import me.gabl.fablefields.game.inventory.entity.HitBox;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.GdxLogger;
@@ -22,22 +22,22 @@ public class Player extends Entity {
     public final Attributes attributes;
     public final PlayerWorldController worldController;
     private final GameScreen gameScreen;
+    private final Vector2 movement = new Vector2();
     public transient RunningAction action;
     public transient Direction direction = Direction.RIGHT;
     public ActionLayer hair = ActionLayer.SPIKEYHAIR;
     public transient RunningPlayerAnimation currentAnimation = new RunningPlayerAnimation(Action.IDLE,
-        new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false
-    );
+            new ActionLayer[]{
+            ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false);
     public boolean forceRenewAnimation = false;
     public Inventory inventory;
-    private final Vector2 movement = new Vector2();
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
         super(chunk);
         this.gameScreen = gameScreen;
         this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();
-        setHitbox(Hitbox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
+        setHitbox(HitBox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
         setSize(6, 4);
         setOrigin(3f, 1.5f);
         action = RunningAction.get(Action.IDLE);
@@ -56,8 +56,8 @@ public class Player extends Entity {
     public void move(float delta) {
         this.calculateMovement();
         if (movement.x != 0 || movement.y != 0) {
-            setXCollide(
-                super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 16); //constant to match animation to speed
+            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 16);
+            //constant to match animation to speed
             setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * 15f / 16);
             this.action = RunningAction.get(Action.WALKING);
             if (movement.x > 0) {
@@ -75,9 +75,8 @@ public class Player extends Entity {
     private void checkAnimation(float delta) {
         if (this.action.action != this.currentAnimation.action || this.direction.flip != this.currentAnimation.flip) {
             forceRenewAnimation = false;
-            this.currentAnimation = new RunningPlayerAnimation(this.action.action,
-                new ActionLayer[]{ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, this.direction.flip
-            );
+            this.currentAnimation = new RunningPlayerAnimation(this.action.action, new ActionLayer[]{ActionLayer.BASE,
+                    this.hair, ActionLayer.TOOLS}, this.direction.flip);
             switch (this.action.action) {
                 case WALKING, RUN:
                     this.currentAnimation.setSpeedFactor(this.attributes.movementSpeed);
@@ -144,28 +143,24 @@ public class Player extends Entity {
         while (cycles < 12) {
             for (int i = 0; i < stepLength; i++) {
                 checkX++;
-                if (safetyPredicate.apply(checkX, checkY))
-                    return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
             }
 
             for (int i = 0; i < stepLength; i++) {
                 checkY++;
-                if (safetyPredicate.apply(checkX, checkY))
-                    return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
             }
 
             stepLength++;
 
             for (int i = 0; i < stepLength; i++) {
                 checkX--;
-                if (safetyPredicate.apply(checkX, checkY))
-                    return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
             }
 
             for (int i = 0; i < stepLength; i++) {
                 checkY--;
-                if (safetyPredicate.apply(checkX, checkY))
-                    return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
             }
 
             stepLength++;
@@ -175,8 +170,7 @@ public class Player extends Entity {
     }
 
     public boolean inRange(Range range, float x, float y) {
-        if (range == null)
-            return true;
+        if (range == null) return true;
         float tolerance = range.rangeTiles * attributes.range;
         tolerance *= tolerance;
         return tolerance >= (x - getX()) * (x - getX()) + (y - getY()) * (y - getY());
@@ -189,6 +183,7 @@ public class Player extends Entity {
     }
 
     public static class Attributes {
+
         public float range = 1f;
         public float movementSpeed = 1f;
     }

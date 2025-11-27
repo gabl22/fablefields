@@ -26,11 +26,9 @@ public class ActSynchronousScheduler implements Scheduler {
     private void executeTasks() {
         while (!tasks.isEmpty()) {
             Task task = tasks.peek();
-            if (task.nextExecution > relativeTime)
-                return;
+            if (task.nextExecution > relativeTime) return;
             Consumer<SyncContext> action = tasks.remove().action;
-            if (action == null)
-                continue;
+            if (action == null) continue;
             context.overTime = (float) (relativeTime - task.nextExecution);
             context.task = task;
             action.accept(context);
@@ -42,6 +40,13 @@ public class ActSynchronousScheduler implements Scheduler {
     public void schedule(Task task, float delay) {
         task.nextExecution = relativeTime + delay;
         addTask(task);
+    }
+
+    private void addTask(Task task) {
+        tasks.add(task);
+        if (task instanceof SchedulerTask schedulerTask) {
+            schedulerTask.setScheduler(this);
+        }
     }
 
     @Override
@@ -61,12 +66,5 @@ public class ActSynchronousScheduler implements Scheduler {
     @Override
     public boolean isScheduled(Task task) {
         return tasks.contains(task);
-    }
-
-    private void addTask(Task task) {
-        tasks.add(task);
-        if (task instanceof SchedulerTask schedulerTask) {
-            schedulerTask.setScheduler(this);
-        }
     }
 }

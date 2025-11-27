@@ -13,57 +13,51 @@ import java.util.stream.Collectors;
 public class RunningAction {
 
     public static final Map<Action, Supplier<RunningAction>> DEFAULT;
-    private boolean running = false;
 
     static {
-        DEFAULT = Collections.unmodifiableMap(Arrays.stream(Action.values()).collect(
-            Collectors.toMap(
-            value -> value,
-            value -> () -> new RunningAction(value, value.looping ? Float.NaN : value.animationDuration())
-        )));
-    }
-
-    protected RunningAction(RunningAction copy) {
-        this.animationDuration = copy.animationDuration;
-        this.action = copy.action;
-        this.infinite = copy.infinite;
-    }
-
-    public RunningAction copyAnimation() {
-        return new RunningAction(this);
-    }
-
-    public static RunningAction get(Action action) {
-        return DEFAULT.get(action).get();
+        DEFAULT = Collections.unmodifiableMap(Arrays.stream(Action.values())
+                .collect(Collectors.toMap(value -> value, value -> () -> new RunningAction(value, value.looping ?
+                        Float.NaN : value.animationDuration()))));
     }
 
     public final Action action;
     public final float animationDuration;
     public final boolean infinite;
     public float durationLeft;
-
-
-    // start -> act -> ... -> act -> (interrupt xor finished) -> stop
-
+    private boolean running = false;
     @Setter
     private Consumer<Float> onActConsumer;
     @Setter
     private Runnable onStart;
     @Setter
     private Runnable onInterrupt;
+
+
+    // start -> act -> ... -> act -> (interrupt xor finished) -> stop
     @Setter
     private Runnable onFinished;
     @Setter
     private Runnable onStop;
-
+    protected RunningAction(RunningAction copy) {
+        this.animationDuration = copy.animationDuration;
+        this.action = copy.action;
+        this.infinite = copy.infinite;
+    }
+    protected RunningAction(Action action) {
+        this(action, Float.NaN);
+    }
     protected RunningAction(Action action, float animationDuration) {
         this.action = action;
         this.animationDuration = animationDuration;
         infinite = Float.isNaN(animationDuration);
     }
 
-    protected RunningAction(Action action) {
-        this(action, Float.NaN);
+    public static RunningAction get(Action action) {
+        return DEFAULT.get(action).get();
+    }
+
+    public RunningAction copyAnimation() {
+        return new RunningAction(this);
     }
 
     void start() {
@@ -72,6 +66,10 @@ public class RunningAction {
             durationLeft = animationDuration;
             run(onStart);
         }
+    }
+
+    private void run(Runnable runnable) {
+        if (runnable != null) runnable.run();
     }
 
     RunningAction act(float delta) {
@@ -94,11 +92,9 @@ public class RunningAction {
         }
     }
 
-    void interrupt() {
-        if (running) {
-            run(onInterrupt);
-            stop();
-        }
+    @NotNull
+    protected RunningAction next() {
+        return idle();
     }
 
     void stop() {
@@ -106,11 +102,6 @@ public class RunningAction {
             running = false;
             run(onStop);
         }
-    }
-
-    @NotNull
-    protected RunningAction next() {
-        return idle();
     }
 
     public static RunningAction idle() {
@@ -121,6 +112,13 @@ public class RunningAction {
                 return this;
             }
         };
+    }
+
+    void interrupt() {
+        if (running) {
+            run(onInterrupt);
+            stop();
+        }
     }
 
     protected boolean permitsMovement() {
@@ -140,9 +138,5 @@ public class RunningAction {
             case ATTACK, AXE, CASTING, CAUGHT, DIG, HAMMERING, MINING, REELING, WALKING, WATERING -> true;
             default -> false;
         };
-    }
-
-    private void run(Runnable runnable) {
-        if (runnable != null) runnable.run();
     }
 }

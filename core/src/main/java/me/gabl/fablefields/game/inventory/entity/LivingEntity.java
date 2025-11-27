@@ -23,12 +23,12 @@ public class LivingEntity extends AnimatedEntity {
         this.health = Math.min(Math.max(0, health), maxHealth);
     }
 
-    public boolean isDead() {
-        return health <= 0;
-    }
-
     public void onDamage(float damage) {
         //todo event bus call & damage inflictor
+    }
+
+    public boolean isDead() {
+        return health <= 0;
     }
 
     public void onDeath() {

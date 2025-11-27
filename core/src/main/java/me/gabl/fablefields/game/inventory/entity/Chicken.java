@@ -15,7 +15,7 @@ public class Chicken extends Animal {
         super(chunk);
         super.setSize(2, 2);
         setOrigin(1, 0.5f);
-        setHitbox(Hitbox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
+        setHitbox(HitBox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
         maxHealth = 200;
         health = maxHealth;
         getAnimation().setAnimationLayers(new Animation[]{getChickenAnimation()});
@@ -23,8 +23,7 @@ public class Chicken extends Animal {
 
     private static Animation<TextureRegion> getChickenAnimation() {
         AssetDescriptor<AnimationD> descriptor = Asset.getAnimation("elements/animals/chicken.png",
-            AnimationLoader.params(32, 32, 4, 0.8f, Animation.PlayMode.LOOP)
-        );
+                AnimationLoader.params(32, 32, 4, 0.8f, Animation.PlayMode.LOOP));
         return Asset.manager.get(descriptor);
     }
 

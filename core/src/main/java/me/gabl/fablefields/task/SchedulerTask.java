@@ -8,7 +8,8 @@ import java.util.function.Consumer;
 
 public abstract class SchedulerTask extends Task implements Consumer<SyncContext> {
 
-    @Setter(AccessLevel.PACKAGE) @Getter
+    @Setter(AccessLevel.PACKAGE)
+    @Getter
     private Scheduler scheduler;
 
     protected SchedulerTask() {

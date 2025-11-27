@@ -12,16 +12,20 @@ public class ContextAddress extends Address {
         this.width = width;
     }
 
+    public ContextAddress up() {
+        return getRelative(0, 1);
+    }
+
+    public ContextAddress getRelative(int dx, int dy) {
+        return new ContextAddress(Address.position(x() + dx, y() + dy, width), layer, width);
+    }
+
     public int x() {
         return super.x(width);
     }
 
     public int y() {
         return super.y(width);
-    }
-
-    public ContextAddress up() {
-        return getRelative(0, 1);
     }
 
     public ContextAddress down() {
@@ -50,9 +54,5 @@ public class ContextAddress extends Address {
             throw new AssertionError("Address requested with width different to contextual width! (%s != %s)".formatted(width, width));
         }
         return super.y(width);
-    }
-
-    public ContextAddress getRelative(int dx, int dy) {
-        return new ContextAddress(Address.position(x() + dx, y() + dy, width), layer, width);
     }
 }

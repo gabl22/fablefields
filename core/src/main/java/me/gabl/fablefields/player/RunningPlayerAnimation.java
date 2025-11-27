@@ -48,9 +48,9 @@ public class RunningPlayerAnimation {
                 continue;
             }
             TextureRegion region = animation.getKeyFrame(this.stateTime);
-            batch.draw(region.getTexture(), player.getX() - player.getOriginX(), player.getY() - player.getOriginY(), player.getWidth(), player.getHeight(),
-                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), this.flip, false
-            );
+            batch.draw(region.getTexture(), player.getX() - player.getOriginX(), player.getY() - player.getOriginY(),
+                    player.getWidth(), player.getHeight(), region.getRegionX(), region.getRegionY(),
+                    region.getRegionWidth(), region.getRegionHeight(), this.flip, false);
         }
     }
 }

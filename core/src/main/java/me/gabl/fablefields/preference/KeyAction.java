@@ -6,7 +6,8 @@ import java.util.Map;
 
 public enum KeyAction implements Identifiable<String> {
 
-    MOVE_UP("move_up"), MOVE_DOWN("move_down"), MOVE_LEFT("move_left"), MOVE_RIGHT("move_right"), SWITCH_SLOT_BAR("switch_slot_bar");
+    MOVE_UP("move_up"), MOVE_DOWN("move_down"), MOVE_LEFT("move_left"), MOVE_RIGHT("move_right"), SWITCH_SLOT_BAR(
+            "switch_slot_bar");
 
     public static final Map<String, KeyAction> ACTIONS = Identifiable.getMap(KeyAction.values());
     public final String id;

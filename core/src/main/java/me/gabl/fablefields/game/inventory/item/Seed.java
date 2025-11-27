@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public final class Seed extends ItemType {
 
-    public static final Seed CARROT = new Seed("carrot_seed", () -> Asset.TILESET.getDrawable(755 + 0));
+    public static final Seed CARROT = new Seed("carrot_seed", () -> Asset.TILESET.getDrawable(755));
     public static final Seed CAULIFLOWER = new Seed("cauliflower_seed", () -> Asset.TILESET.getDrawable(755 + 1));
     public static final Seed PUMPKIN = new Seed("pumpkin_seed", () -> Asset.TILESET.getDrawable(755 + 2));
     public static final Seed SUNFLOWER = new Seed("sunflower_seed", () -> Asset.TILESET.getDrawable(755 + 3));
@@ -76,7 +76,6 @@ public final class Seed extends ItemType {
         if (!context.playerInCursorRange(Range.PLACE)) {
             return false;
         }
-        return Materials.SOIL.materialEquals(context.getTile(MapLayer.SURFACE)) &&
-                context.getTile(MapLayer.FEATURE) == null;
+        return Materials.SOIL.materialEquals(context.getTile(MapLayer.SURFACE)) && context.getTile(MapLayer.FEATURE) == null;
     }
 }

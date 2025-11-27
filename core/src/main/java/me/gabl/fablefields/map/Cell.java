@@ -22,7 +22,8 @@ public class Cell {
         return cell;
     }
 
-    public static TiledMapTileLayer.Cell get(TiledMapTile tile, int rotation, boolean flipHorizontally, boolean flipVertically) {
+    public static TiledMapTileLayer.Cell get(TiledMapTile tile, int rotation, boolean flipHorizontally,
+            boolean flipVertically) {
         TiledMapTileLayer.Cell cell = get(tile);
         cell.setRotation(rotation);
         cell.setFlipHorizontally(flipHorizontally);

@@ -5,9 +5,9 @@ import java.util.function.Predicate;
 public class Inventory {
 
     public final int size;
-    Runnable onUpdate;
     // slot[i] nullable
     final Slot[] slots;
+    Runnable onUpdate;
     int selectedSlot;
 
     public Inventory(int size) {
@@ -21,8 +21,7 @@ public class Inventory {
     }
 
     public Item getSelectedItem() {
-        if (slots[selectedSlot] == null)
-            return null;
+        if (slots[selectedSlot] == null) return null;
         return slots[selectedSlot].item;
     }
 
@@ -55,6 +54,10 @@ public class Inventory {
         return oldSlot;
     }
 
+    private void reportUpdate() {
+        if (onUpdate != null) onUpdate.run();
+    }
+
     public void swap(int slotId1, int slotId2) {
         Slot oldSlot = slots[slotId1];
         slots[slotId1] = slots[slotId2];
@@ -78,19 +81,9 @@ public class Inventory {
         return addItem(slot.item, slot.count);
     }
 
-
-    /**
-     * @param type Type of the item to be added. The Item is generated using {@link ItemType#createItem()}
-     * @param count the amount of item to be added
-     * @return true iff item has been added to inventory
-     */
-    public boolean addItem(ItemType type, int count) {
-        return addItem(type.createItem(), count);
-    }
-
     /**
      * @param count amount of item to be added
-     * @param item item to be added
+     * @param item  item to be added
      * @return true iff item has been added to inventory
      */
     public boolean addItem(Item item, int count) {
@@ -115,7 +108,12 @@ public class Inventory {
         return false;
     }
 
-    private void reportUpdate() {
-        if (onUpdate != null) onUpdate.run();
+    /**
+     * @param type  Type of the item to be added. The Item is generated using {@link ItemType#createItem()}
+     * @param count the amount of item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(ItemType type, int count) {
+        return addItem(type.createItem(), count);
     }
 }

@@ -56,8 +56,7 @@ public class MapChunk {
      * @return null if tile is out of map, else the tile stored at position
      */
     public MapTile getTile(MapLayer layer, int position) {
-        if (containsTile(position))
-            return tileLayers.get(layer).tiles[position];
+        if (containsTile(position)) return tileLayers.get(layer).tiles[position];
         return null;
     }
 
@@ -65,25 +64,15 @@ public class MapChunk {
         return position >= 0 && position < width * height;
     }
 
-    public boolean containsTile(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
     public boolean isWalkable(float x, float y) {
         int fx = (int) Math.floor(x);
         int fy = (int) Math.floor(y);
-        if (!containsTile(fx, fy))
-            return false;
+        if (!containsTile(fx, fy)) return false;
         return isWalkable(position(fx, fy));
     }
 
-    @Nullable
-    public MapTile getTile(MapLayer layer, float x, float y) {
-        int fx = (int) Math.floor(x);
-        int fy = (int) Math.floor(y);
-        if (!containsTile(fx, fy))
-            return null;
-        return getTile(layer, position(fx, fy));
+    public boolean containsTile(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public boolean isWalkable(int position) {
@@ -93,5 +82,13 @@ public class MapChunk {
 
     public int position(int x, int y) {
         return x + width * y;
+    }
+
+    @Nullable
+    public MapTile getTile(MapLayer layer, float x, float y) {
+        int fx = (int) Math.floor(x);
+        int fy = (int) Math.floor(y);
+        if (!containsTile(fx, fy)) return null;
+        return getTile(layer, position(fx, fy));
     }
 }

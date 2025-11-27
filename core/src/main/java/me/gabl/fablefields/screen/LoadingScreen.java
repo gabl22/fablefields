@@ -41,8 +41,7 @@ public class LoadingScreen implements Screen {
         this.stage = new Stage();
 
         this.tb = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT),
-            new NinePatchDrawable(Asset.UI_BOX_DARK)
-        );
+                new NinePatchDrawable(Asset.UI_BOX_DARK));
         this.tb.setWidth(400);
         this.tb.setHeight(50);
         this.stage.addActor(this.tb);
@@ -64,8 +63,8 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        int pixelsPerUnit = (int) (Math.round(
-            Math.sqrt(width * height / 300000f)) + 0.6); //arbitrary number, + 0.6 replaceable e (0.5;1.0) ?
+        int pixelsPerUnit = (int) (Math.round(Math.sqrt(width * height / 300000f)) + 0.6); //arbitrary number, + 0.6
+        // replaceable e (0.5;1.0) ?
         this.viewport.setUnitsPerPixel(1f / pixelsPerUnit);
         this.viewport.update(width, height, true);
         float worldWidth = this.viewport.getWorldWidth();

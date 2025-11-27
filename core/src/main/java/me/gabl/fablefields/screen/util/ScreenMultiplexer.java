@@ -39,8 +39,7 @@ public class ScreenMultiplexer implements Screen {
     }
 
     public void addProcessor(int index, Screen processor) {
-        if (processor == null)
-            throw new NullPointerException("processor cannot be null");
+        if (processor == null) throw new NullPointerException("processor cannot be null");
         processors.insert(index, processor);
     }
 
@@ -49,8 +48,7 @@ public class ScreenMultiplexer implements Screen {
     }
 
     public void addProcessor(Screen processor) {
-        if (processor == null)
-            throw new NullPointerException("processor cannot be null");
+        if (processor == null) throw new NullPointerException("processor cannot be null");
         processors.add(processor);
     }
 

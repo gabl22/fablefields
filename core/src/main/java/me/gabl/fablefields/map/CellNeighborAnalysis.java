@@ -9,13 +9,13 @@ import java.util.Objects;
 public class CellNeighborAnalysis {
 
     public final int neighbors;
-    public Material dominantNeighbor;
     public final int locations;
-
     public final int neighborCase;
     public final int rotation;
+    public Material dominantNeighbor;
 
-    private CellNeighborAnalysis(int neighbors, Material dominantNeighbor, int locations, int neighborCase, int rotation) {
+    private CellNeighborAnalysis(int neighbors, Material dominantNeighbor, int locations, int neighborCase,
+            int rotation) {
         this.neighbors = neighbors;
         this.dominantNeighbor = dominantNeighbor;
         this.locations = locations;
@@ -40,8 +40,8 @@ public class CellNeighborAnalysis {
             }
             Material checkMaterial = neighbors[i];
             int checkCount = 0;
-            for (int j = 0; j < neighbors.length; j++) {
-                if (checkMaterial.equals(neighbors[j])) {
+            for (Material neighbor : neighbors) {
+                if (checkMaterial.equals(neighbor)) {
                     checkCount++;
                 }
             }
@@ -67,7 +67,7 @@ public class CellNeighborAnalysis {
         };
 
         int rotation = switch (locations) {
-//            case 2, 9, 12, 14, 15 -> TiledMapTileLayer.Cell.ROTATE_0;
+            //            case 2, 9, 12, 14, 15 -> TiledMapTileLayer.Cell.ROTATE_0;
             case 1, 6, 13 -> TiledMapTileLayer.Cell.ROTATE_180;
             case 4, 10, 7 -> TiledMapTileLayer.Cell.ROTATE_270;
             case 11, 3, 8, 5 -> TiledMapTileLayer.Cell.ROTATE_90;
@@ -83,6 +83,7 @@ public class CellNeighborAnalysis {
 
     @Override
     public String toString() {
-        return "CellNeighborAnalysis{" + "neighbors=" + neighbors + ", dominantNeighbor=" + dominantNeighbor + ", locations=" + locations + ", neighborCase=" + neighborCase + ", rotation=" + rotation + '}';
+        return "CellNeighborAnalysis{" + "neighbors=" + neighbors + ", dominantNeighbor=" + dominantNeighbor + ", " +
+                "locations=" + locations + ", neighborCase=" + neighborCase + ", rotation=" + rotation + '}';
     }
 }

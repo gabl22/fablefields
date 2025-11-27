@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import lombok.Getter;
 
 public class OrthographicCameraController extends InputAdapter {
+
     final OrthographicCamera camera;
     final Viewport viewport;
 

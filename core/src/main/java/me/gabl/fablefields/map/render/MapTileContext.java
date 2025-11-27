@@ -28,16 +28,28 @@ public class MapTileContext {
         return y * chunk.width + x;
     }
 
+    public MapTileContext up() {
+        return getContext(x, y + 1);
+    }
+
+    public MapTileContext getContext(int x, int y) {
+        if (checkContains(x, y)) {
+            return new MapTileContext(chunk, chunk.getTile(layer, y * width() + x), layer, x, y);
+        }
+
+        return new MapTileContext(chunk, null, layer, x, y + 1);
+    }
+
+    private boolean checkContains(int x, int y) {
+        return x >= 0 && x < width() && y >= 0 && y < height();
+    }
+
     public int width() {
         return chunk.width;
     }
 
     public int height() {
         return chunk.height;
-    }
-
-    public MapTileContext up() {
-        return getContext(x, y + 1);
     }
 
     public MapTileContext down() {
@@ -52,23 +64,11 @@ public class MapTileContext {
         return getContext(x + 1, y);
     }
 
-    public MapTileContext getContext(int x, int y) {
-        if (checkContains(x, y)) {
-            return new MapTileContext(chunk, chunk.getTile(layer, y * width() + x), layer, x, y);
-        }
-
-        return new MapTileContext(chunk, null, layer, x, y + 1);
-    }
-
     public void rerender() {
         chunk.getRenderComponent().renderCell(layer, x, y, tile);
     }
 
     public MapTileContext inLayer(MapLayer layer) {
         return new MapTileContext(chunk, chunk.getTile(layer, x, y), layer, x, y);
-    }
-
-    private boolean checkContains(int x, int y) {
-        return x >= 0 && x < width() && y >= 0 && y < height();
     }
 }

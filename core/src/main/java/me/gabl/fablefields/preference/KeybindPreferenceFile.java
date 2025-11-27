@@ -32,6 +32,7 @@ public class KeybindPreferenceFile extends PreferenceFile<KeybindPreferenceFile.
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Data {
+
         private Map<String, KeyAction> map;
     }
 }

@@ -8,7 +8,7 @@ import me.gabl.fablefields.map.material.PlantMaterial;
 //todo use concept (?)
 public class Crop extends ItemType {
 
-    public static final Crop CARROT = new Crop("carrot", 691 + 0);
+    public static final Crop CARROT = new Crop("carrot", 691);
     public static final Crop CAULIFLOWER = new Crop("cauliflower", 691 + 1);
     public static final Crop PUMPKIN = new Crop("pumpkin", 691 + 2);
     public static final Crop SUNFLOWER = new Crop("sunflower", 691 + 3);

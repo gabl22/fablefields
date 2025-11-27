@@ -27,8 +27,7 @@ public class Item {
 
     @Override
     public final boolean equals(Object o) {
-        if (!(o instanceof Item item))
-            return false;
+        if (!(o instanceof Item item)) return false;
 
         return Objects.equals(type, item.type);
     }

@@ -32,9 +32,7 @@ public class MapChunkLayers<T> {
     }
 
     public <S> MapChunkLayers<S> map(Function<? super T, ? extends S> function) {
-        return new MapChunkLayers<>(function.apply(ground), function.apply(surface),
-             function.apply(feature)
-        );
+        return new MapChunkLayers<>(function.apply(ground), function.apply(surface), function.apply(feature));
     }
 
     @NotNull

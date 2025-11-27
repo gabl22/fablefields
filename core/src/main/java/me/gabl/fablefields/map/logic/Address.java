@@ -11,6 +11,12 @@ public class Address {
         assert layer == MapLayer.GROUND || layer == MapLayer.SURFACE || layer == MapLayer.FEATURE;
     }
 
+    public static int position(int x, int y, int width) {
+        // assertion for testing
+        assert x >= 0 && x < width && y >= 0 && y < width;
+        return x + y * width;
+    }
+
     public int x(int width) {
         return position % width;
     }
@@ -21,8 +27,7 @@ public class Address {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Address address = (Address) o;
         return position == address.position && layer == address.layer;
@@ -33,11 +38,5 @@ public class Address {
         int result = position;
         result = 1593131 * result + layer.hashCode();
         return result;
-    }
-
-    public static int position(int x, int y, int width) {
-        // assertion for testing
-        assert x >= 0 && x < width && y >= 0 && y < width;
-        return x + y * width;
     }
 }

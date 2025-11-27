@@ -8,6 +8,7 @@ import me.gabl.fablefields.screen.game.GameScreen;
 
 @AllArgsConstructor
 public class Context {
+
     public final Item item;
     public final Player player;
     public final GameScreen screen;

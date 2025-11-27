@@ -26,8 +26,8 @@ public class Keybind {
     }
 
     private static <C> Map<String, C> toStringMap(Map<?, C> map) {
-        return map.entrySet().stream().collect(
-            Collectors.toMap(entry -> String.valueOf(entry.getKey()), Map.Entry::getValue));
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(entry -> String.valueOf(entry.getKey()), Map.Entry::getValue));
     }
 
     public void load() {
@@ -36,8 +36,8 @@ public class Keybind {
     }
 
     private static <C> Map<Integer, C> toIntMap(Map<String, C> map) {
-        return map.entrySet().stream().collect(
-            Collectors.toMap(entry -> Integer.valueOf(entry.getKey()), Map.Entry::getValue));
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(entry -> Integer.valueOf(entry.getKey()), Map.Entry::getValue));
     }
 
     public KeyAction get(int keycode) {

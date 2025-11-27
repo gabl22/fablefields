@@ -14,7 +14,8 @@ public class EntityAnimation {
     private Animation<TextureRegion>[] layers;
     @Getter
     private float stateTime = 0.0f;
-    @Setter @Getter
+    @Setter
+    @Getter
     private float speedFactor = 1.0f;
 
     public void reset() {
@@ -42,9 +43,9 @@ public class EntityAnimation {
                 continue;
             }
             TextureRegion region = animation.getKeyFrame(this.stateTime);
-            batch.draw(region.getTexture(), entity.getX() - entity.getOriginX(), entity.getY() - entity.getOriginY(), entity.getWidth(), entity.getHeight(),
-                region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight(), this.flip, false
-            );
+            batch.draw(region.getTexture(), entity.getX() - entity.getOriginX(), entity.getY() - entity.getOriginY(),
+                    entity.getWidth(), entity.getHeight(), region.getRegionX(), region.getRegionY(),
+                    region.getRegionWidth(), region.getRegionHeight(), this.flip, false);
         }
     }
 }

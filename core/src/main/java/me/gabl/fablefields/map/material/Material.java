@@ -15,23 +15,25 @@ public abstract class Material implements RenderMaterial {
         this.id = id;
     }
 
+    public static boolean equals(Material m1, Material m2) {
+        return (m1 == null && m2 == null) || (m1 != null && m1.materialEquals(m2));
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || this.getClass() != o.getClass())
-            return false;
+        if (o == null || this.getClass() != o.getClass()) return false;
 
         Material material = (Material) o;
         return Objects.equals(this.id, material.id);
     }
 
-    public boolean materialEquals(Material material) {
-        if (material == null)
-            return false;
-        return this.id.equals(material.id);
-    }
-
     public boolean materialEquals(MapTile mapTile) {
         return mapTile != null && materialEquals(mapTile.material);
+    }
+
+    public boolean materialEquals(Material material) {
+        if (material == null) return false;
+        return this.id.equals(material.id);
     }
 
     @Override
@@ -44,17 +46,13 @@ public abstract class Material implements RenderMaterial {
         return "Material{" + "id='" + id + '\'' + '}';
     }
 
-    public static boolean equals(Material m1, Material m2) {
-        return (m1 == null && m2 == null) || (m1 != null && m1.materialEquals(m2));
+    @Deprecated
+    public MapTile createMapTile() {
+        return createMapTile(null);
     }
 
     public MapTile createMapTile(ContextAddress address) {
         return new MapTile(this, address);
-    }
-
-    @Deprecated
-    public MapTile createMapTile() {
-        return createMapTile(null);
     }
 
     public MapTile createMapTile(ContextAddress address, MapChunk chunk) {

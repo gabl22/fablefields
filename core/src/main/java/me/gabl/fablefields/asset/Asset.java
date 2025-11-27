@@ -16,34 +16,26 @@ import java.util.Set;
 public class Asset {
 
     public static final AssetLoadDescriptor<Texture> LOGO_LIBGDX = new AssetLoadDescriptor<>("libgdx.png",
-        Texture.class, LoadSection.NEVER
-    );
-    public static final AssetLoadDescriptor<Texture> LOGO = new AssetLoadDescriptor<>("fablefields.png", Texture.class,
-        LoadSection.BEFORE_LOADING_SCREEN
-    );
+            Texture.class, LoadSection.NEVER);
+    public static final AssetLoadDescriptor<Texture> LOGO = new AssetLoadDescriptor<>("fablefields.png",
+            Texture.class, LoadSection.BEFORE_LOADING_SCREEN);
     public static final AssetLoadDescriptor<TextureAtlas> UI_BOX = new AssetLoadDescriptor<>("ui/box.atlas",
-        TextureAtlas.class, LoadSection.BEFORE_LOADING_SCREEN
-    );
+            TextureAtlas.class, LoadSection.BEFORE_LOADING_SCREEN);
     public static final AssetLoadDescriptor<TextureAtlas> UI_SKIN = new AssetLoadDescriptor<>("ui/uiskin.atlas",
-        TextureAtlas.class, LoadSection.NEVER
-    );
+            TextureAtlas.class, LoadSection.NEVER);
     public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE = new AssetLoadDescriptor<>("tiles/tileset.png",
-        Texture.class, LoadSection.BEFORE_GAME_SCREEN
-    );
-    public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE_DEBUG = new AssetLoadDescriptor<>(
-        "tiles/tileset_debug.png", Texture.class, LoadSection.BEFORE_GAME_SCREEN);
+            Texture.class, LoadSection.BEFORE_GAME_SCREEN);
+    public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE_DEBUG = new AssetLoadDescriptor<>("tiles" +
+            "/tileset_debug.png", Texture.class, LoadSection.BEFORE_GAME_SCREEN);
 
     public static final TileSet TILESET = new TileSet();
-
+    public static final int TILE_SIZE = 16;
     //TODO
     public static GameAssetManager manager;
     public static NinePatch UI_BOX_DARK;
     public static NinePatch UI_BOX_LIGHT;
     public static NinePatch UI_BOX_WHITE;
-
     public static int sectionCompleted;
-
-    public static final int TILE_SIZE = 16;
 
     public static void completeLoad(int section) {
         if (LoadSection.BEFORE_LOADING_SCREEN > Asset.sectionCompleted && LoadSection.BEFORE_LOADING_SCREEN <= section) {
@@ -55,8 +47,8 @@ public class Asset {
             Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE);
             //            Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE_DEBUG);
             for (int i = 0; i < 4096; i++) {
-                StaticTiledMapTile tile = new StaticTiledMapTile(
-                    new TextureRegion(tilesetImage, (i % 64) * TILE_SIZE, (i / 64) * TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                StaticTiledMapTile tile = new StaticTiledMapTile(new TextureRegion(tilesetImage, (i % 64) * TILE_SIZE
+                        , (i / 64) * TILE_SIZE, TILE_SIZE, TILE_SIZE));
                 Asset.TILESET.putTile(i, tile);
 
                 //TODO problems rendering at certain viewport sizes =?=
@@ -83,8 +75,7 @@ public class Asset {
 
     static AssetLoadDescriptor<AnimationD> getHumanAnimationDescriptor(Action action, ActionLayer layer) {
         return new AssetLoadDescriptor<>(resolveHumanCharacterPath(action, layer), AnimationD.class,
-            action.getParameters(), LoadSection.BEFORE_GAME_SCREEN
-        );
+                action.getParameters(), LoadSection.BEFORE_GAME_SCREEN);
     }
 
     static String resolveHumanCharacterPath(Action action, ActionLayer layer) {
@@ -97,7 +88,6 @@ public class Asset {
 
     public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
         return new AssetDescriptor<>(resolveHumanCharacterPath(action, layer), AnimationD.class,
-            action.getParameters()
-        );
+                action.getParameters());
     }
 }

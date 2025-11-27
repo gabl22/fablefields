@@ -13,14 +13,14 @@ public class MapTile {
     public final Material material;
     public final ContextAddress address;
 
-    public MapTile(Material material, ContextAddress address) {
-        this.material = material;
-        this.address = address;
-    }
-
     @Deprecated
     public MapTile(Material material) {
         this(material, null);
+    }
+
+    public MapTile(Material material, ContextAddress address) {
+        this.material = material;
+        this.address = address;
     }
 
     public boolean isWalkable() {

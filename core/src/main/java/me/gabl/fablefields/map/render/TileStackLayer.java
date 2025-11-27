@@ -45,12 +45,23 @@ public class TileStackLayer {
             }
 
             if (found) {
-                RenderInstruction nextLevelInstruction = (i + 1 < layers.size()) ? layers.get(i + 1).getB().get(x, y) : null;
+                RenderInstruction nextLevelInstruction = (i + 1 < layers.size()) ? layers.get(i + 1).getB()
+                        .get(x, y) : null;
                 layer.getB().set(x, y, nextLevelInstruction);
             }
         }
 
         match(x, y);
+    }
+
+    public void match(int x, int y) {
+        forEachPair(pair -> {
+            TiledMapTileLayer.Cell cell = null;
+            if (pair.getB().get(x, y) != null) {
+                cell = pair.getB().get(x, y).cell();
+            }
+            pair.getA().setCell(x, y, cell);
+        });
     }
 
     public void push(RenderInstruction instruction) {
@@ -95,9 +106,17 @@ public class TileStackLayer {
         return x;
     }
 
+    private TiledMapTileLayer emptyTiledLayer() {
+        return new TiledMapTileLayer(width, height, 16, 16);
+    }
+
+    private Layer<RenderInstruction> emptyRenderLayer() {
+        return new Layer<>(new RenderInstruction[width * height], width, height);
+    }
+
     public void cleanUp() {
         // try & clear the top layer, if cleared, try clearing the next one aso
-//        while (clearEmptyLayer());
+        //        while (clearEmptyLayer());
         // todo suspended, microstutters?
     }
 
@@ -112,23 +131,5 @@ public class TileStackLayer {
         layers.removeLast();
         dirty = true;
         return true;
-    }
-
-    private TiledMapTileLayer emptyTiledLayer() {
-        return new TiledMapTileLayer(width, height, 16, 16);
-    }
-
-    private Layer<RenderInstruction> emptyRenderLayer() {
-        return new Layer<>(new RenderInstruction[width * height], width, height);
-    }
-
-    public void match(int x, int y) {
-        forEachPair(pair -> {
-            TiledMapTileLayer.Cell cell = null;
-            if (pair.getB().get(x, y) != null) {
-                cell = pair.getB().get(x, y).cell();
-            }
-            pair.getA().setCell(x, y, cell);
-        });
     }
 }

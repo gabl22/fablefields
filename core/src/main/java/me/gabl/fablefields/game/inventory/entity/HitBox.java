@@ -1,8 +1,9 @@
 package me.gabl.fablefields.game.inventory.entity;
 
-public interface Hitbox {
-    static RectangularHitbox rect(float xMin, float xMax, float yMin, float yMax) {
-        return new RectangularHitbox(xMin, xMax, yMin, yMax);
+public interface HitBox {
+
+    static RectangularHitBox rect(float xMin, float xMax, float yMin, float yMax) {
+        return new RectangularHitBox(xMin, xMax, yMin, yMax);
     }
 
     /*
@@ -10,11 +11,11 @@ public interface Hitbox {
      */
     boolean hit(float x, float y);
 
-    class RectangularHitbox implements Hitbox {
+    class RectangularHitBox implements HitBox {
 
         public float xMin, xMax, yMin, yMax;
 
-        public RectangularHitbox(float xMin, float xMax, float yMin, float yMax) {
+        public RectangularHitBox(float xMin, float xMax, float yMin, float yMax) {
             this.xMin = xMin;
             this.xMax = xMax;
             this.yMin = yMin;

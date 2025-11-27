@@ -19,7 +19,8 @@ public class Materials {
 
     public static final Material DIRT = new RandomMaterial("dirt", new int[]{4026, 4027, 4028, 4029, 4030, 4031});
 
-    public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094, 4095});
+    public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094,
+            4095});
 
     // todo outsource code
     public static final Material WATER = new Material("water") {
@@ -37,7 +38,8 @@ public class Materials {
                 level = Cell.get(2435, analysis);
             }
             if (level != null) {
-                return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level, ZIndex.LEVEL_COUNTRY_OVERLAY);
+                return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level,
+                        ZIndex.LEVEL_COUNTRY_OVERLAY);
             }
             return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER);
         }

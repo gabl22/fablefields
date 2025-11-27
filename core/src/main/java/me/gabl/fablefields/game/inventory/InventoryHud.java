@@ -64,10 +64,35 @@ public class InventoryHud extends Hud {
         render();
     }
 
+    public void render() {
+        for (int i = 0; i < inventory.size; i++) {
+            setSlot(i, inventory.slots[i]);
+        }
+    }
+
+    public void setSlot(int slotId, Slot slot) {
+        Image image = slotImages.get(slotId).getActor();
+        Label label = slotCount.get(slotId).getActor();
+        boolean containsItem = slot != null && slot.item != null && slot.item.type != null && slot.count > 0;
+        label.setVisible(containsItem && slot.count > 1);
+
+        if (containsItem) {
+            image.setDrawable(slot.item.render());
+            label.setText(slot.count);
+        } else {
+            image.setDrawable(null);
+            label.setText(null);
+        }
+    }
+
     //removes 1 of the items selected
     public void removeSelectedItem() {
         inventory.removeSelectedItem();
         render(inventory.selectedSlot);
+    }
+
+    public void render(int slotId) {
+        setSlot(slotId, inventory.slots[slotId]);
     }
 
     @Override
@@ -145,16 +170,9 @@ public class InventoryHud extends Hud {
         }
     }
 
-    public void render() {
-        for (int i = 0; i < inventory.size; i++) {
-            setSlot(i, inventory.slots[i]);
-        }
-    }
-
     public void selectSlot(int slot) {
         slot = slot % SLOTS;
-        if (slot < 0)
-            slot += SLOTS;
+        if (slot < 0) slot += SLOTS;
         int oldSelected = inventory.selectedSlot;
         inventory.selectedSlot = slot;
         setSlotBackground(oldSelected);
@@ -168,25 +186,8 @@ public class InventoryHud extends Hud {
         setSlotBackground(swapSlot);
     }
 
-
-    public void setSlot(int slotId, Slot slot) {
-        Image image = slotImages.get(slotId).getActor();
-        Label label = slotCount.get(slotId).getActor();
-        boolean containsItem = slot != null && slot.item != null && slot.item.type != null && slot.count > 0;
-        label.setVisible(containsItem && slot.count > 1);
-
-        if (containsItem) {
-            image.setDrawable(slot.item.render());
-            label.setText(slot.count);
-        } else {
-            image.setDrawable(null);
-            label.setText(null);
-        }
-    }
-
     public void setSlotBackground(int slot) {
-        if (slot < 0)
-            return;
+        if (slot < 0) return;
         Container<Image> image = slotImages.get(slot);
         if (swapSlot == slot) {
             image.background(slotSwapBackground);
@@ -197,14 +198,9 @@ public class InventoryHud extends Hud {
         }
     }
 
-    public void render(int slotId) {
-        setSlot(slotId, inventory.slots[slotId]);
-    }
-
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        if (!inventoryHover.isHovering())
-            return false;
+        if (!inventoryHover.isHovering()) return false;
         scrollSlots((int) amountY);
         return true;
     }
@@ -220,8 +216,7 @@ public class InventoryHud extends Hud {
             return true;
         }
         if (keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9) {
-            if (keycode == Input.Keys.NUM_0)
-                keycode += 10;
+            if (keycode == Input.Keys.NUM_0) keycode += 10;
             selectSlot((inventory.selectedSlot / 10) * 10 + keycode - Input.Keys.NUM_0 - 1);
             return true;
         }

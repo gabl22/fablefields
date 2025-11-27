@@ -2,8 +2,8 @@ package me.gabl.fablefields.map.material;
 
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.task.ActSynchronousScheduler;
-import me.gabl.fablefields.task.SyncContext;
 import me.gabl.fablefields.task.SchedulerTask;
+import me.gabl.fablefields.task.SyncContext;
 
 public class PlantGrowTask extends SchedulerTask {
 

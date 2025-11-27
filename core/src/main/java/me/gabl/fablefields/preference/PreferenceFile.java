@@ -16,14 +16,12 @@ public class PreferenceFile<T> {
 
     private static final String FOLDER = "xmlgdxpref";
     private static final Logger log = GdxLogger.get(PreferenceFile.class);
-
+    protected final Json json;
     private final String name;
     private final int version;
     private final Class<T> type;
-    protected final Json json;
-    protected T data;
-
     private final Supplier<T> constructor;
+    protected T data;
 
 
     public PreferenceFile(String name, Class<T> type, int version) {
@@ -76,8 +74,7 @@ public class PreferenceFile<T> {
         }
         try {
             return type.getDeclaredConstructor().newInstance();
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
-                 NoSuchMethodException e) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new IllegalArgumentException("Unable to create instance of " + type.getName(), e);
         }
     }
@@ -136,6 +133,7 @@ public class PreferenceFile<T> {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Envelope<T> {
+
         private int version;
         private T data;
     }

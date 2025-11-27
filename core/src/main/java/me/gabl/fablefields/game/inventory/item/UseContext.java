@@ -18,7 +18,8 @@ public class UseContext extends Context {
     public final float mouseY;
     public final @Nullable Actor hitActor;
 
-    public UseContext(Item item, Player player, GameScreen screen, MapChunk chunk, float mouseX, float mouseY, @Nullable Actor hitActor) {
+    public UseContext(Item item, Player player, GameScreen screen, MapChunk chunk, float mouseX, float mouseY,
+            @Nullable Actor hitActor) {
         super(item, player, screen, chunk);
         this.mouseX = mouseX;
         this.mouseY = mouseY;
@@ -32,6 +33,10 @@ public class UseContext extends Context {
         this.hitActor = hitActor;
     }
 
+    public boolean chunkContainsTile() {
+        return chunk.containsTile(x(), y());
+    }
+
     public int x() {
         return (int) mouseX;
     }
@@ -40,19 +45,11 @@ public class UseContext extends Context {
         return (int) mouseY;
     }
 
-    public boolean chunkContainsTile() {
-        return chunk.containsTile(x(), y());
-    }
-
     public MapTile getTile(MapLayer layer) {
         if (!chunk.containsTile(x(), y())) {
             return null;
         }
         return chunk.getTile(layer, chunk.position(x(), y()));
-    }
-
-    public ContextAddress getAddress(MapLayer layer) {
-        return new ContextAddress(chunk.position(x(), y()), layer, chunk.width);
     }
 
     public void setTile(MapLayer layer, MapTile tile) {
@@ -69,6 +66,10 @@ public class UseContext extends Context {
         ContextAddress address = getAddress(layer);
         chunk.setTile(material == null ? null : material.createMapTile(address, chunk), address);
         return chunk.getTile(address);
+    }
+
+    public ContextAddress getAddress(MapLayer layer) {
+        return new ContextAddress(chunk.position(x(), y()), layer, chunk.width);
     }
 
     public boolean playerInCursorRange(Range range) {

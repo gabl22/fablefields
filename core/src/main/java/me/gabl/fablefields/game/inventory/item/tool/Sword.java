@@ -13,14 +13,12 @@ public final class Sword extends Tool {
     @Override
     public void use(UseContext context) {
         Animal animal = (Animal) context.hitActor;
-        if (animal != null)
-            animal.inflictDamage(0.0f);
+        if (animal != null) animal.inflictDamage(0.0f);
     }
 
     @Override
     public boolean isUsable(UseContext context) {
-        if (!context.playerInCursorRange(Range.WEAPON_SHORT))
-            return false;
+        if (!context.playerInCursorRange(Range.WEAPON_SHORT)) return false;
         return context.hitActor instanceof Animal;
     }
 }

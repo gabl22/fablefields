@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.map.logic.*;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @AllArgsConstructor
 public class MapChunkRenderComponent {
@@ -21,9 +24,16 @@ public class MapChunkRenderComponent {
     public MapChunkRenderComponent(MapChunk chunk) {
         this.map = new TiledMap();
         this.chunk = chunk;
-        this.referencedInstructions = new MapChunkLayers<>(() -> new Layer<>(new RenderInstruction[chunk.height * chunk.width][], chunk.width, chunk.height));
+        this.referencedInstructions =
+                new MapChunkLayers<>(() -> new Layer<>(new RenderInstruction[chunk.height * chunk.width][],
+                        chunk.width, chunk.height));
         this.layerStack = new MapChunkLayers<>(() -> new TileStackLayer(chunk.width, chunk.height));
         initMap();
+    }
+
+    private void initMap() {
+        map.getTileSets().addTileSet(Asset.TILESET);
+        addLayers();
     }
 
     private void addLayers() {
@@ -34,9 +44,8 @@ public class MapChunkRenderComponent {
         });
     }
 
-    private void initMap() {
-        map.getTileSets().addTileSet(Asset.TILESET);
-        addLayers();
+    private static TiledMapTileLayer getEmptyLayer(int width, int height) {
+        return new TiledMapTileLayer(width, height, 16, 16);
     }
 
     public void initialRender() {
@@ -65,16 +74,17 @@ public class MapChunkRenderComponent {
         renderCell(layer, x, y, chunk.getTile(layer, x, y));
     }
 
-    public void updateCell(Address address) {
-        updateCell(address.layer, address.x(chunk.width), address.y(chunk.width));
-    }
-
-    void renderCell(Address address, MapTile tile) {
-        renderCell(address.layer, address.x(chunk.width), address.y(chunk.width), tile);
-    }
-
-    public void renderCell(MapLayer layer, int position, MapTile tile) {
-        renderCell(layer, position % chunk.width, position / chunk.width, tile);
+    public void renderCell(MapLayer layer, int x, int y, MapTile tile) {
+        removeReferences(layer, x, y);
+        if (tile == null) return;
+        for (RenderInstruction instruction : tile.render(new MapTileContext(chunk, tile, layer, x, y))) {
+            if (instruction == null || instruction.cell() == null || instruction.cell().getTile() == null) {
+                continue;
+            }
+            layerStack.get(instruction.address().layer).push(instruction);
+            pushInstructionReference(layer, x, y, instruction);
+        }
+        if (dirty()) rebuildLayers();
     }
 
     private void removeReferences(MapLayer layer, int x, int y) {
@@ -89,19 +99,6 @@ public class MapChunkRenderComponent {
 
         changedLayers.forEach(cleanupLayer -> layerStack.get(cleanupLayer).cleanUp());
         referencedInstructions.get(layer).set(x, y, null);
-    }
-
-    public void renderCell(MapLayer layer, int x, int y, MapTile tile) {
-        removeReferences(layer, x, y);
-        if (tile == null) return;
-        for (RenderInstruction instruction : tile.render(new MapTileContext(chunk, tile, layer, x, y))) {
-            if (instruction == null || instruction.cell() == null || instruction.cell().getTile() == null) {
-                continue;
-            }
-            layerStack.get(instruction.address().layer).push(instruction);
-            pushInstructionReference(layer, x, y, instruction);
-        }
-        if (dirty()) rebuildLayers();
     }
 
     void pushInstructionReference(MapLayer layer, int x, int y, RenderInstruction instruction) {
@@ -123,10 +120,6 @@ public class MapChunkRenderComponent {
         referenceLayer.set(x, y, instructions);
     }
 
-    private static TiledMapTileLayer getEmptyLayer(int width, int height) {
-        return new TiledMapTileLayer(width, height, 16, 16);
-    }
-
     private boolean dirty() {
         return layerStack.stream().anyMatch(layer -> layer.dirty);
     }
@@ -142,5 +135,17 @@ public class MapChunkRenderComponent {
         }
 
         addLayers();
+    }
+
+    public void updateCell(Address address) {
+        updateCell(address.layer, address.x(chunk.width), address.y(chunk.width));
+    }
+
+    void renderCell(Address address, MapTile tile) {
+        renderCell(address.layer, address.x(chunk.width), address.y(chunk.width), tile);
+    }
+
+    public void renderCell(MapLayer layer, int position, MapTile tile) {
+        renderCell(layer, position % chunk.width, position / chunk.width, tile);
     }
 }

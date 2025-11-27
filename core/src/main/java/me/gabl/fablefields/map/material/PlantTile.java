@@ -4,7 +4,10 @@ import lombok.Getter;
 import me.gabl.fablefields.map.Cell;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapTile;
-import me.gabl.fablefields.map.render.*;
+import me.gabl.fablefields.map.render.ContextAddress;
+import me.gabl.fablefields.map.render.MapTileContext;
+import me.gabl.fablefields.map.render.RenderInstruction;
+import me.gabl.fablefields.map.render.ZIndex;
 
 // Prozess:
 // Pflanze angepflanzt
@@ -13,12 +16,12 @@ import me.gabl.fablefields.map.render.*;
 // wenn bei 1 bewässert: -> 2 t -> 3 t...
 public class PlantTile extends MapTile {
 
-    @Getter
-    private int growthStage = 0;
     final float[] growthStages;
-    private boolean watered = false;
     @Getter
     private final PlantGrowTask growTask;
+    @Getter
+    private int growthStage = 0;
+    private boolean watered = false;
 
     public PlantTile(PlantMaterial material, float[] growthStages, ContextAddress address, MapChunk chunk) {
         super(material, address);
@@ -28,11 +31,6 @@ public class PlantTile extends MapTile {
 
     public boolean isFullyGrown() {
         return growthStage == growthStages.length;
-    }
-
-    @Override
-    public PlantMaterial getMaterial() {
-        return (PlantMaterial) super.getMaterial();
     }
 
     public void water() {
@@ -59,19 +57,20 @@ public class PlantTile extends MapTile {
             return RenderInstruction.of(Cell.get(offset + (growthStage == 0 ? 819 : 883)), address);
         }
         if (growthStage == 2) {
-            return new RenderInstruction[] {
-                new RenderInstruction(Cell.get(offset + 1011), address),
-                new RenderInstruction(Cell.get(offset + 947), address.up(), ZIndex.TALL_OVERLAY)
-            };
+            return new RenderInstruction[]{new RenderInstruction(Cell.get(offset + 1011), address),
+                    new RenderInstruction(Cell.get(offset + 947), address.up(), ZIndex.TALL_OVERLAY)};
         }
 
         if (growthStage == 3) {
-            return new RenderInstruction[] {
-                new RenderInstruction(Cell.get(offset + 1139), address),
-                new RenderInstruction(Cell.get(offset + 1075), address.up(), ZIndex.TALL_OVERLAY)
-            };
+            return new RenderInstruction[]{new RenderInstruction(Cell.get(offset + 1139), address),
+                    new RenderInstruction(Cell.get(offset + 1075), address.up(), ZIndex.TALL_OVERLAY)};
         }
 
         throw new IllegalStateException("Unsupported growth stage: " + growthStage);
+    }
+
+    @Override
+    public PlantMaterial getMaterial() {
+        return (PlantMaterial) super.getMaterial();
     }
 }

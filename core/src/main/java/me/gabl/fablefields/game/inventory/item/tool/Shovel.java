@@ -21,8 +21,8 @@ public final class Shovel extends Tool {
         MapTile surfaceTile = context.getTile(MapLayer.SURFACE);
         Material old = surfaceTile == null ? null : surfaceTile.material;
         RunningAction soilGround = RunningAction.get(Action.DIG).copyAnimation();
-        MapTile newMapTile = Material.equals(old, Materials.SOIL) ? null : Materials.SOIL.createMapTile(
-            context.getAddress(MapLayer.SURFACE));
+        MapTile newMapTile = Material.equals(old, Materials.SOIL) ? null :
+                Materials.SOIL.createMapTile(context.getAddress(MapLayer.SURFACE));
         soilGround.setOnFinished(() -> {
             context.setTile(MapLayer.SURFACE, newMapTile);
             context.setTile(MapLayer.FEATURE, (MapTile) null); //destroy crops no matter what

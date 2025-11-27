@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class AnimationD extends Animation<TextureRegion> {
+
     public AnimationD(float frameDuration, Array<? extends TextureRegion> keyFrames) {
         super(frameDuration, keyFrames);
     }
@@ -19,7 +20,6 @@ public class AnimationD extends Animation<TextureRegion> {
 
     public static AnimationD of(Animation<TextureRegion> animation) {
         return new AnimationD(animation.getFrameDuration(), new Array<>(animation.getKeyFrames()),
-            animation.getPlayMode()
-        );
+                animation.getPlayMode());
     }
 }

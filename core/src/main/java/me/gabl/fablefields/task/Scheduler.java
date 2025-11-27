@@ -1,6 +1,7 @@
 package me.gabl.fablefields.task;
 
 public interface Scheduler {
+
     //in seconds
     void schedule(Task task, float delay);
 

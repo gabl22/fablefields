@@ -15,8 +15,7 @@ public class Noise {
 
     public static Noise get(long seed, double factor) {
         return new Noise(FastSimplexNoiseGenerator.newBuilder().setSeed(seed).setVariant2D(Simplex2DVariant.CLASSIC)
-            .build(), factor
-        );
+                .build(), factor);
     }
 
     public double getNoise(int x, int y) {

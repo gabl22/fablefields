@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class Task implements Comparable<Task> {
+
     public Consumer<SyncContext> action;
     double nextExecution;
 
@@ -12,7 +13,8 @@ public class Task implements Comparable<Task> {
         this.action = action;
     }
 
-    public Task() {}
+    public Task() {
+    }
 
     @Override
     public int compareTo(@NotNull Task that) {

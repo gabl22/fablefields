@@ -12,8 +12,7 @@ import java.util.List;
 public class GameAssetManager extends AssetManager {
 
     private static final Logger logger = new Logger(GameAssetManager.class.getCanonicalName(),
-        GdxLoggerPublisher.centralPublisher
-    );
+            GdxLoggerPublisher.centralPublisher);
 
     private final List<AssetLoadDescriptor<?>> assets;
     int loadedSection;

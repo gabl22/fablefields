@@ -17,7 +17,8 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         super(resolver);
     }
 
-    public static Parameters params(int frameHeight, int frameWidth, int frames, float frameDuration, Animation.PlayMode playMode) {
+    public static Parameters params(int frameHeight, int frameWidth, int frames, float frameDuration,
+            Animation.PlayMode playMode) {
         return new Parameters(frameHeight, frameWidth, frames, frameDuration, playMode);
     }
 
@@ -26,12 +27,10 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
         Texture texture = new Texture(file);
 
         if (texture.getHeight() % params.frameHeight != 0) {
-            throw new IllegalTextureException(
-                file + ": Texture height must be a positive multiple of " + params.frameHeight);
+            throw new IllegalTextureException(file + ": Texture height must be a positive multiple of " + params.frameHeight);
         }
         if (texture.getWidth() % params.frameWidth != 0) {
-            throw new IllegalTextureException(
-                file + ": Texture width must be a positive multiple of " + params.frameWidth);
+            throw new IllegalTextureException(file + ": Texture width must be a positive multiple of " + params.frameWidth);
         }
 
         int xFrames = texture.getWidth() / params.frameWidth;
@@ -42,8 +41,7 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
             x = i % xFrames;
             y = i / xFrames;
             textureRegions[i] = new TextureRegion(texture, x * params.frameWidth, y * params.frameHeight,
-                params.frameWidth, params.frameHeight
-            );
+                    params.frameWidth, params.frameHeight);
         }
         Animation<TextureRegion> animation = new Animation<>(params.frameDuration, textureRegions);
         animation.setPlayMode(params.playMode);
@@ -57,13 +55,15 @@ public class AnimationLoader extends SynchronousAssetLoader<AnimationD, Animatio
     }
 
     public static class Parameters extends AssetLoaderParameters<AnimationD> {
+
         public final int frameHeight;
         public final int frameWidth;
         public final int frames;
         public final float frameDuration;
         public final Animation.PlayMode playMode;
 
-        private Parameters(int frameHeight, int frameWidth, int frames, float frameDuration, Animation.PlayMode playMode) {
+        private Parameters(int frameHeight, int frameWidth, int frames, float frameDuration,
+                Animation.PlayMode playMode) {
             this.frameHeight = frameHeight;
             this.frameWidth = frameWidth;
             this.frames = frames;
