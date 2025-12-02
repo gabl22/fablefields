@@ -19,7 +19,7 @@ public class Tree extends StaticTextureEntity {
         float height = texture.getHeight() / 16f;
         setSize(width, height);
         setOrigin(width/2, 0);
-        setHitbox(HitBox.rect(-width/2, width/2, -height/2, height/2));
+        setHitbox(HitBox.rect(-width/2, width/2, 0, height));
     }
 
     @AllArgsConstructor
