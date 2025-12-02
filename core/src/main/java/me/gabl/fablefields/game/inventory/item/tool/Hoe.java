@@ -29,7 +29,7 @@ public final class Hoe extends Tool {
 
     @Override
     public boolean isUsable(UseContext context) {
-        if (!context.playerInCursorRange(Range.TOOL)) return false;
+        if (!context.cursorInRange(Range.TOOL)) return false;
         if (context.getTile(MapLayer.FEATURE) instanceof PlantTile tile) {
             return tile.isFullyGrown();
         }

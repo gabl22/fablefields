@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.inventory.item;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapLayer;
@@ -72,8 +73,16 @@ public class UseContext extends Context {
         return new ContextAddress(chunk.position(x(), y()), layer, chunk.width);
     }
 
-    public boolean playerInCursorRange(Range range) {
+    public boolean cursorInRange(Range range) {
         return player.inRange(range, mouseX, mouseY);
+    }
+
+    public boolean tileInRange(Range range, int x, int y) {
+        return player.inRange(range, x + 0.5f, y + 0.5f);
+    }
+
+    public boolean entityInRange(Range range, Entity entity) {
+        return player.inRange(range, entity.getX(), entity.getY());
     }
 
     public void updateCells() {

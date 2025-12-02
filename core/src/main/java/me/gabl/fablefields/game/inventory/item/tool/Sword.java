@@ -18,7 +18,7 @@ public final class Sword extends Tool {
 
     @Override
     public boolean isUsable(UseContext context) {
-        if (!context.playerInCursorRange(Range.WEAPON_SHORT)) return false;
+        if (!context.cursorInRange(Range.WEAPON_SHORT)) return false;
         return context.hitActor instanceof Animal;
     }
 }

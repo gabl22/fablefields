@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import lombok.Getter;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.game.entity.Tree;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.entity.Chicken;
@@ -24,6 +25,7 @@ import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.task.ActSynchronousScheduler;
+import me.gabl.fablefields.util.MathUtil;
 import me.gabl.fablefields.util.ScreenUtil;
 
 public class GameScreen extends BaseScreen {
@@ -66,6 +68,7 @@ public class GameScreen extends BaseScreen {
         inventory.addItem(Tools.SHOVEL, 1);
         inventory.addItem(Tools.HOE, 1);
         inventory.addItem(Tools.WATERING_CAN, 1);
+        inventory.addItem(Tools.AXE, 1);
         inventory.addItem(Seed.CARROT, 10);
         inventory.addItem(Seed.CAULIFLOWER, 10);
         inventory.addItem(Seed.PUMPKIN, 10);
@@ -93,6 +96,16 @@ public class GameScreen extends BaseScreen {
 
         entities.addActor(player);
         entities.addActor(new Chicken(chunk));
+
+        for (int i = 0; i < 500; i++) {
+            float x = MathUtil.RANDOM.nextFloat() * chunk.width;
+            float y = MathUtil.RANDOM.nextFloat() * chunk.height;
+            if (chunk.isWalkable(x, y)) {
+                Tree tree = new Tree(chunk, Tree.TYPES[i % Tree.TYPES.length]);
+                entities.addActor(tree);
+                tree.setPosition(x, y);
+            }
+        }
 
         this.cursorManager = new CursorManager(player, this, chunk);
         multiplexer.show();

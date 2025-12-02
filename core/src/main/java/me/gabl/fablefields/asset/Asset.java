@@ -86,6 +86,10 @@ public class Asset {
         return new AssetDescriptor<>(path, AnimationD.class, parameters);
     }
 
+    public static AssetDescriptor<Texture> getTexture(String path) {
+        return new AssetDescriptor<>(path, Texture.class);
+    }
+
     public static AssetDescriptor<AnimationD> descriptorHuman(Action action, ActionLayer layer) {
         return new AssetDescriptor<>(resolveHumanCharacterPath(action, layer), AnimationD.class,
                 action.getParameters());

@@ -6,5 +6,6 @@ public class Tools {
     public static final Shovel SHOVEL = new Shovel();
     public static final Sword SWORD = new Sword();
     public static final WateringCan WATERING_CAN = new WateringCan();
+    public static final Axe AXE = new Axe();
 
 }

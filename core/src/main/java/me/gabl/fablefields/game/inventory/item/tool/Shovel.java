@@ -32,7 +32,7 @@ public final class Shovel extends Tool {
 
     @Override
     public boolean isUsable(UseContext context) {
-        if (!context.playerInCursorRange(Range.TOOL)) return false;
+        if (!context.cursorInRange(Range.TOOL)) return false;
         return Materials.DIRT.materialEquals(context.chunk.getTile(MapLayer.GROUND, context.mouseX, context.mouseY));
     }
 }

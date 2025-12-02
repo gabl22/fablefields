@@ -73,7 +73,7 @@ public final class Seed extends ItemType {
 
     @Override
     public boolean isUsable(UseContext context) {
-        if (!context.playerInCursorRange(Range.PLACE)) {
+        if (!context.cursorInRange(Range.PLACE)) {
             return false;
         }
         return Materials.SOIL.materialEquals(context.getTile(MapLayer.SURFACE)) && context.getTile(MapLayer.FEATURE) == null;
