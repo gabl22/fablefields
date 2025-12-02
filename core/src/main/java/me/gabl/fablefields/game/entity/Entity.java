@@ -1,4 +1,4 @@
-package me.gabl.fablefields.game.inventory.entity;
+package me.gabl.fablefields.game.entity;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.Setter;

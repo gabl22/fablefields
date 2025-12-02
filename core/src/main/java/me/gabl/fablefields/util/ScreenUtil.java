@@ -3,7 +3,7 @@ package me.gabl.fablefields.util;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import me.gabl.fablefields.game.inventory.entity.Entity;
+import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.screen.game.GameScreen;
 
 public class ScreenUtil {

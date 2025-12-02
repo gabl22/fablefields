@@ -1,4 +1,4 @@
-package me.gabl.fablefields.game.inventory.entity;
+package me.gabl.fablefields.game.entity;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.g2d.Animation;

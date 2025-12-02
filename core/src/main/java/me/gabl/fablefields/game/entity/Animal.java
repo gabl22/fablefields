@@ -1,4 +1,4 @@
-package me.gabl.fablefields.game.inventory.entity;
+package me.gabl.fablefields.game.entity;
 
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.util.MathUtil;

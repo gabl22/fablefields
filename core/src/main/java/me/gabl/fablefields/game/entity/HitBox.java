@@ -1,4 +1,4 @@
-package me.gabl.fablefields.game.inventory.entity;
+package me.gabl.fablefields.game.entity;
 
 public interface HitBox {
 
