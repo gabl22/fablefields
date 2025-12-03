@@ -12,6 +12,18 @@
     "item/cabbage": 698,
     "item/beetroot": 699,
     "item/wheat": 700,
-    "item/lettuce": 701
+    "item/lettuce": 701,
+    "item/carrot_seed": 755,
+    "item/cauliflower_seed": 756,
+    "item/pumpkin_seed": 757,
+    "item/sunflower_seed": 758,
+    "item/radish_seed": 759,
+    "item/parsnip_seed": 760,
+    "item/potato_seed": 761,
+    "item/cabbage_seed": 762,
+    "item/beetroot_seed": 763,
+    "item/wheat_seed": 764,
+    "item/lettuce_seed": 765
+
   }
 }
