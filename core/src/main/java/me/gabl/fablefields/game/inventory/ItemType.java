@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.inventory;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 
 public class ItemType {
@@ -12,7 +13,7 @@ public class ItemType {
     }
 
     public Drawable render() {
-        return null;
+        return Asset.REGISTRY.getDrawable("item/" + this.id);
     }
 
     public void use(UseContext context) {
