@@ -1,0 +1,44 @@
+==============================
+CREDITS/LICENCES FOR ASSETS
+==============================
+Version: 3rd of December, 2025
+---------------------
+GENERAL LICENCE
+---------------------
+The assets in this folder have been acquired by the authors under licenses that allow modification and inclusion in it.
+However, they remain the property of their respective creators and may NOT be used separately from this project unless explicitly permitted by the original authors.
+
+The assets contained in this folder have been modified in some way.
+The modified version of these assets as distributed here may NOT be used in any commercial or non-commercial projects
+and may NOT be modified and/or redistributed.
+
+Additionally to the third-party assets, there are some assets created by the authors of this project itself.
+These assets are subject to the same restrictions as the modified third-party assets as listed above.
+
+The third-party asset sources are listed under the CREDITS section.
+If you wish to use any of these assets, please refer to the original creators and their license terms.
+
+---------------------
+THIRD-PARTY CREDITS
+---------------------
+No.     Assets distributed as   Creator/Publisher       Website
+[1]     Sunnyside World         DanielDiggle            https://danieldiggle.itch.io/sunnyside
+
+---------------------
+THIRD-PARTY LICENCES
+---------------------
+[1]
+V1:
+This asset pack can be used in free and commercial projects. You can modify the assets as you need.
+Credit is not necessary, but always appreciated.
+You can redistribute the assets as part of tutorials or educational courses as long as a link to the Sunnyside World itch.io page is included: https://danieldiggle.itch.io/sunnyside.
+You may not repackage and resell the assets, no matter how much they are modified - this includes as NFT’s.
+You may not use these assets to train AI.
+
+---------------------
+NOTICE
+---------------------
+For any inquiries regarding these assets, please refer to the respective creators.
+This project does NOT grant permission to use these assets outside the project itself.
+Thank you for respecting the work of the original creators.
+==============================
