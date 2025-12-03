@@ -15,12 +15,11 @@ import java.util.Map;
 
 public class Materials {
 
-    public static final Material SAND = new PlainMaterial("sand", 69);
+    public static final Material SAND = new PlainMaterial("sand");
 
-    public static final Material DIRT = new RandomMaterial("dirt", new int[]{4026, 4027, 4028, 4029, 4030, 4031});
+    public static final Material DIRT = new RandomMaterial("dirt", 6);
 
-    public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094,
-            4095});
+    public static final Material GRASS = new RandomMaterial("grass", 7);
 
     // todo outsource code
     public static final Material WATER = new Material("water") {
@@ -30,7 +29,8 @@ public class Materials {
                 return null;
             }
 
-            TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
+            TiledMapTileLayer.Cell base = Cell.get("water/pattern/" + (context.x % 4) + "." + (context.y % 4));
+//            TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
             TiledMapTileLayer.Cell level = null;
 
             CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);

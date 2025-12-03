@@ -69,6 +69,7 @@ public class TileSetRegistry {
     }
 
     public Integer getRegistryReference(String name) {
+        if (!registry.containsKey(name)) throw new IllegalTextureException("TileSet Texture " + name + " not registered.");
         return (registry.getOrDefault(name, -1f).intValue());
     }
 
