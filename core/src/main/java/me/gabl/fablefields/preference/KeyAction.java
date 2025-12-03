@@ -1,15 +1,20 @@
 package me.gabl.fablefields.preference;
 
-import me.gabl.common.util.enumutil.Identifiable;
+import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public enum KeyAction implements Identifiable<String> {
+@Getter
+public enum KeyAction {
 
     MOVE_UP("move_up"), MOVE_DOWN("move_down"), MOVE_LEFT("move_left"), MOVE_RIGHT("move_right"), SWITCH_SLOT_BAR(
             "switch_slot_bar");
 
-    public static final Map<String, KeyAction> ACTIONS = Identifiable.getMap(KeyAction.values());
+    public static final Map<String, KeyAction> ACTIONS = Arrays.stream(KeyAction.values())
+            .collect(Collectors.toMap(KeyAction::getId, Function.identity()));
     public final String id;
 
     KeyAction(String id) {
@@ -20,8 +25,4 @@ public enum KeyAction implements Identifiable<String> {
         return ACTIONS.get(id);
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
 }
