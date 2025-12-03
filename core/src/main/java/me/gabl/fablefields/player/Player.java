@@ -55,16 +55,18 @@ public class Player extends Entity {
     public void move(float delta) {
         this.calculateMovement();
         if (movement.x != 0 || movement.y != 0) {
-            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 16);
+            // constant to match walking (framerate 0.1f): 15f/16 (framerate 0.025f: 15f/4)
+            // constant to match run (framerate 0.1): 15f / 12
+            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 9);
             //constant to match animation to speed
-            setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * 15f / 16);
-            this.action = RunningAction.get(Action.WALKING);
+            setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * 15f / 9);
+            this.action = RunningAction.get(Action.RUN);
             if (movement.x > 0) {
                 this.direction = Direction.RIGHT;
             } else if (movement.x < 0) {
                 this.direction = Direction.LEFT;
             }
-        } else if (this.action.action == Action.WALKING) {
+        } else if (this.action.action == Action.RUN) {
             replaceAction(Action.IDLE);
         }
 
