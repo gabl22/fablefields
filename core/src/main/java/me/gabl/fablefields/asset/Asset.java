@@ -1,11 +1,13 @@
 package me.gabl.fablefields.asset;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import me.gabl.fablefields.asset.tileset.TileSetRegistry;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.ActionLayer;
 
@@ -29,6 +31,7 @@ public class Asset {
             "/tileset_debug.png", Texture.class, LoadSection.BEFORE_GAME_SCREEN);
 
     public static final TileSet TILESET = new TileSet();
+    public static final TileSetRegistry REGISTRY = new TileSetRegistry(Gdx.files.local("asset/tiles/tileset.json"), TILESET);
     public static final int TILE_SIZE = 16;
     //TODO
     public static GameAssetManager manager;
