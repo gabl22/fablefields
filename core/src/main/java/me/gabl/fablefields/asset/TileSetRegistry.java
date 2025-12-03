@@ -2,6 +2,7 @@ package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Json;
@@ -57,6 +58,10 @@ public class TileSetRegistry {
 
     public Image getImage(String name) {
         return tileSet.getImage(getRegistryReference(name));
+    }
+
+    public TiledMapTile getTile(String name) {
+        return tileSet.getTile(getRegistryReference(name));
     }
 
     public TextureRegion getTextureRegion(String name) {

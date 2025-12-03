@@ -11,7 +11,7 @@ import me.gabl.fablefields.player.Range;
 public final class Hoe extends Tool {
 
     Hoe() {
-        super("hoe", 2986);
+        super("hoe");
     }
 
     @Override
