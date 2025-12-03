@@ -10,11 +10,13 @@ public class HoverListener extends InputListener {
 
     @Override
     public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+        if (pointer != -1) return; // if clicking, enter & exit fires with pointer != -1. On hover enter/exit, pointer = -1
         hovering = false;
     }
 
     @Override
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+        if (pointer != -1) return;
         hovering = true;
     }
 

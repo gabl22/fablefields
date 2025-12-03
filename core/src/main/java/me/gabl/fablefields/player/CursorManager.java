@@ -31,6 +31,10 @@ public class CursorManager {
         }
 
         getCursorPosition(position2);
+        if (screen.inventoryHud.isCursorHovering()) {
+            Cursors.arrow();
+            return;
+        }
         Item selectedItem = player.inventory.getSelectedItem();
         if (selectedItem == null) {
             Cursors.pointer();
