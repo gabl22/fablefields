@@ -1,6 +1,17 @@
 {
   "data": {
     "class": "java.util.HashMap",
-    "item/wood": 753
+    "item/wood": 753,
+    "item/carrot": 691,
+    "item/cauliflower": 692,
+    "item/pumpkin": 693,
+    "item/sunflower": 694,
+    "item/radish": 695,
+    "item/parsnip": 696,
+    "item/potato": 697,
+    "item/cabbage": 698,
+    "item/beetroot": 699,
+    "item/wheat": 700,
+    "item/lettuce": 701
   }
 }

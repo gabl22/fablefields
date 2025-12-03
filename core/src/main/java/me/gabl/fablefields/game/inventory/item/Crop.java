@@ -8,22 +8,20 @@ import me.gabl.fablefields.map.material.PlantMaterial;
 //todo use concept (?)
 public class Crop extends ItemType {
 
-    public static final Crop CARROT = new Crop("carrot", 691);
-    public static final Crop CAULIFLOWER = new Crop("cauliflower", 691 + 1);
-    public static final Crop PUMPKIN = new Crop("pumpkin", 691 + 2);
-    public static final Crop SUNFLOWER = new Crop("sunflower", 691 + 3);
-    public static final Crop RADISH = new Crop("radish", 691 + 4);
-    public static final Crop PARSNIP = new Crop("parsnip", 691 + 5);
-    public static final Crop POTATO = new Crop("parsnip", 691 + 6);
-    public static final Crop CABBAGE = new Crop("cabbage", 691 + 7);
-    public static final Crop BEETROOT = new Crop("beetroot", 691 + 8);
-    public static final Crop WHEAT = new Crop("wheat", 691 + 9);
-    public static final Crop LETTUCE = new Crop("lettuce", 691 + 10);
-    private final int tileSetId;
+    public static final Crop CARROT = new Crop("carrot");
+    public static final Crop CAULIFLOWER = new Crop("cauliflower");
+    public static final Crop PUMPKIN = new Crop("pumpkin");
+    public static final Crop SUNFLOWER = new Crop("sunflower");
+    public static final Crop RADISH = new Crop("radish");
+    public static final Crop PARSNIP = new Crop("parsnip");
+    public static final Crop POTATO = new Crop("parsnip");
+    public static final Crop CABBAGE = new Crop("cabbage");
+    public static final Crop BEETROOT = new Crop("beetroot");
+    public static final Crop WHEAT = new Crop("wheat");
+    public static final Crop LETTUCE = new Crop("lettuce");
 
-    public Crop(String id, int tileSetId) {
+    public Crop(String id) {
         super(id);
-        this.tileSetId = tileSetId;
     }
 
     public static Crop getCrop(PlantMaterial plantMaterial) {
@@ -41,10 +39,5 @@ public class Crop extends ItemType {
             case "lettuce" -> LETTUCE;
             default -> null;
         };
-    }
-
-    @Override
-    public Drawable render() {
-        return Asset.TILESET.getDrawable(tileSetId);
     }
 }
