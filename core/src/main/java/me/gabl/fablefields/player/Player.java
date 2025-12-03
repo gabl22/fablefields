@@ -4,19 +4,18 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import kotlin.Pair;
 import lombok.Getter;
-import me.gabl.common.log.Logger;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.HitBox;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
-import me.gabl.fablefields.util.GdxLogger;
+import me.gabl.fablefields.util.Logger;
 
 import java.util.function.BiFunction;
 
 public class Player extends Entity {
 
-    private static final Logger logger = GdxLogger.get(Player.class);
+    private static final Logger logger = Logger.get(Player.class);
 
     @Getter
     public final Attributes attributes;
@@ -117,11 +116,11 @@ public class Player extends Entity {
 
         Pair<Integer, Integer> safePosition = findSafety((x, y) -> {
             boolean walkable = Player.this.gameScreen.getChunk().isWalkable(x, y);
-            GdxLogger.get().info("Test " + x + " " + y + " " + walkable);
+            Logger.get().info("Test " + x + " " + y + " " + walkable);
             return walkable;
         });
         if (safePosition == null) {
-            logger.warn("No safe position for player found.");
+            logger.error("No safe position for player found.");
             return;
         }
         setX(safePosition.getFirst() + 0.5f);

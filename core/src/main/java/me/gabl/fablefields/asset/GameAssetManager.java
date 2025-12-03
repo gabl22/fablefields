@@ -2,8 +2,8 @@ package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
-import me.gabl.common.log.Logger;
-import me.gabl.fablefields.util.GdxLoggerPublisher;
+import me.gabl.fablefields.util.GdxLogPublisherPublisher;
+import me.gabl.fablefields.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,8 +11,7 @@ import java.util.List;
 
 public class GameAssetManager extends AssetManager {
 
-    private static final Logger logger = new Logger(GameAssetManager.class.getCanonicalName(),
-            GdxLoggerPublisher.centralPublisher);
+    private static final Logger logger = Logger.get(GameAssetManager.class);
 
     private final List<AssetLoadDescriptor<?>> assets;
     int loadedSection;
@@ -54,7 +53,7 @@ public class GameAssetManager extends AssetManager {
         if (this.isLoaded(descriptor)) {
             return super.get(descriptor);
         }
-        logger.warn("Asset loaded on fly.", descriptor);
+        logger.info("Asset loaded on fly.", descriptor);
         this.load(descriptor);
         return this.finishLoadingAsset(descriptor);
     }

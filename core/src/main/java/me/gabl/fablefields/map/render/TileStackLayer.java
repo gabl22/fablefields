@@ -1,7 +1,7 @@
 package me.gabl.fablefields.map.render;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import me.gabl.common.util.tuple.Pair;
+import kotlin.Pair;
 import me.gabl.fablefields.map.logic.Layer;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class TileStackLayer {
     }
 
     public void forEachTiledLayer(Consumer<? super TiledMapTileLayer> consumer) {
-        forEachPair(pair -> consumer.accept(pair.getA()));
+        forEachPair(pair -> consumer.accept(pair.getFirst()));
     }
 
     public void forEachPair(Consumer<? super Pair<TiledMapTileLayer, Layer<RenderInstruction>>> consumer) {
@@ -39,15 +39,15 @@ public class TileStackLayer {
         boolean found = false;
         for (int i = 0; i < layers.size(); i++) {
             Pair<TiledMapTileLayer, Layer<RenderInstruction>> layer = layers.get(i);
-            if (!found && layer.getB().get(x, y) == instruction) {
-                layer.getB().set(x, y, null);
+            if (!found && layer.getSecond().get(x, y) == instruction) {
+                layer.getSecond().set(x, y, null);
                 found = true;
             }
 
             if (found) {
-                RenderInstruction nextLevelInstruction = (i + 1 < layers.size()) ? layers.get(i + 1).getB()
+                RenderInstruction nextLevelInstruction = (i + 1 < layers.size()) ? layers.get(i + 1).getSecond()
                         .get(x, y) : null;
-                layer.getB().set(x, y, nextLevelInstruction);
+                layer.getSecond().set(x, y, nextLevelInstruction);
             }
         }
 
@@ -57,10 +57,10 @@ public class TileStackLayer {
     public void match(int x, int y) {
         forEachPair(pair -> {
             TiledMapTileLayer.Cell cell = null;
-            if (pair.getB().get(x, y) != null) {
-                cell = pair.getB().get(x, y).cell();
+            if (pair.getSecond().get(x, y) != null) {
+                cell = pair.getSecond().get(x, y).cell();
             }
-            pair.getA().setCell(x, y, cell);
+            pair.getFirst().setCell(x, y, cell);
         });
     }
 
@@ -79,9 +79,9 @@ public class TileStackLayer {
         List<RenderInstruction> sorted = localInstructions.stream().sorted().toList();
         for (int i = 0; i < Math.max(sorted.size(), layers.size()); i++) {
             if (i < sorted.size()) {
-                getCreate(i).getB().set(x, y, sorted.get(i));
+                getCreate(i).getSecond().set(x, y, sorted.get(i));
             } else {
-                getCreate(i).getB().set(x, y, null);
+                getCreate(i).getSecond().set(x, y, null);
             }
         }
 
@@ -89,7 +89,7 @@ public class TileStackLayer {
     }
 
     public void forEachRenderLayer(Consumer<? super Layer<RenderInstruction>> consumer) {
-        forEachPair(pair -> consumer.accept(pair.getB()));
+        forEachPair(pair -> consumer.accept(pair.getSecond()));
     }
 
     public Pair<TiledMapTileLayer, Layer<RenderInstruction>> getCreate(int pairIndex) {
@@ -100,7 +100,7 @@ public class TileStackLayer {
         if (x != null) {
             return x;
         }
-        x = Pair.of(emptyTiledLayer(), emptyRenderLayer());
+        x = new Pair<>(emptyTiledLayer(), emptyRenderLayer());
         layers.add(x);
         dirty = true;
         return x;
@@ -122,7 +122,7 @@ public class TileStackLayer {
 
     private boolean clearEmptyLayer() {
         if (layers.isEmpty()) return false;
-        for (RenderInstruction instruction : layers.getLast().getB().tiles) {
+        for (RenderInstruction instruction : layers.getLast().getSecond().tiles) {
             if (instruction != null) {
                 return false;
             }

@@ -8,7 +8,7 @@ import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
-import me.gabl.fablefields.util.GdxLogger;
+import me.gabl.fablefields.util.Logger;
 
 import java.util.function.Supplier;
 
@@ -49,7 +49,7 @@ public final class Seed extends ItemType {
             context.removeSelectedItem();
             tile.getGrowTask().schedule(context.screen.syncScheduler);
         } else {
-            GdxLogger.get().error("No tile found for seed: " + id + " #okdtva");
+            Logger.get().error("No tile found for seed: " + id + " #okdtva");
         }
 
     }

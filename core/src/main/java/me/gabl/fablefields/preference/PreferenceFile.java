@@ -6,8 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.gabl.common.log.Logger;
-import me.gabl.fablefields.util.GdxLogger;
+import me.gabl.fablefields.util.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
@@ -15,7 +14,7 @@ import java.util.function.Supplier;
 public class PreferenceFile<T> {
 
     private static final String FOLDER = "xmlgdxpref";
-    private static final Logger log = GdxLogger.get(PreferenceFile.class);
+    private static final Logger log = Logger.get(PreferenceFile.class);
     protected final Json json;
     private final String name;
     private final int version;
