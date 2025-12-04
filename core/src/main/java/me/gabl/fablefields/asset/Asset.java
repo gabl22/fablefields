@@ -49,7 +49,7 @@ public class Asset {
             REGISTRY.read();
             Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE); // use Asset.TILESET_TEXTURE_DEBUG to debug
 
-            for (int i = 0; i < 4096; i++) {
+            for (int i : REGISTRY.getTileSetIds()) {
                 StaticTiledMapTile tile = new StaticTiledMapTile(new TextureRegion(tilesetImage, (i % 64) * TILE_SIZE
                         , (i / 64) * TILE_SIZE, TILE_SIZE, TILE_SIZE));
                 Asset.TILESET.putTile(i, tile);
