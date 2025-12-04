@@ -59,9 +59,8 @@
     "tile/grass/random/4": 4092,
     "tile/grass/random/5": 4093,
     "tile/grass/random/6": 4094,
-    "tile/soil/stage/0": 754,
-    "tile/soil/stage/1": 818,
-    "tile/soil/stage/1_watered": 882,
+    "tile/soil/stage/0": 818,
+    "tile/soil/stage/1": 882,
     "tile/soil/stage/2": 1010,
     "tile/soil/stage/3": 1138
   }

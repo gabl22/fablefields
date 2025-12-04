@@ -49,12 +49,10 @@ public class Materials {
         @Override
         public String name(MapTileContext context) {
             int stage = 0;
-            boolean watered = false;
             if (context.inLayer(MapLayer.FEATURE).tile instanceof PlantTile tile) {
-                stage = tile.getGrowthStage();
-                watered = stage == 1 && !tile.needsWater();
+                stage = tile.needsWater() ? tile.getGrowthStage() - 1 : tile.getGrowthStage();
             }
-            return "soil/stage/" + stage + (watered ? "_watered" : "");
+            return "soil/stage/" + stage;
         }
     };
 
