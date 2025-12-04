@@ -25,6 +25,7 @@ public class MenuScreen implements Screen {
 
     private TextButton startButton;
     private TextButton exitButton;
+    private TextButton creditsButton;
     private Table table;
     private Image logo;
 
@@ -64,10 +65,13 @@ public class MenuScreen implements Screen {
                 return true;
             }
         });
+        this.creditsButton = new MenuButton("Credits");
         this.table.add(this.startButton);
         this.table.add(this.exitButton);
-        this.table.getCell(this.startButton).height(50).width(120).pad(50);
-        this.table.getCell(this.exitButton).height(50).width(120).pad(50);
+        this.table.add(this.creditsButton);
+        this.table.getCell(this.startButton).height(50).width(120).pad(40).padTop(100);
+        this.table.getCell(this.exitButton).height(50).width(120).pad(40).padTop(100);
+        this.table.getCell(this.creditsButton).height(50).width(120).pad(40).padTop(100);
         this.logo = new Image(this.game.assets.get(Asset.LOGO));
         this.logo.setScale(2f);
         this.stage.addActor(this.logo);
