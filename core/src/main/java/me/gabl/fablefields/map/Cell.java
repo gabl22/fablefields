@@ -8,8 +8,8 @@ public class Cell {
 
 
     @Deprecated //TODO
-    public static TiledMapTileLayer.Cell get(int baseTileSetId, CellNeighborAnalysis analysis) {
-        TiledMapTileLayer.Cell cell = get(baseTileSetId + analysis.neighborCase);
+    public static TiledMapTileLayer.Cell get(CellNeighborAnalysis analysis) {
+        TiledMapTileLayer.Cell cell = get(analysis.dominantNeighbor.id + "/neighbor/" + analysis.neighborCase);
         cell.setRotation(analysis.rotation);
         return cell;
     }

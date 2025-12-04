@@ -128,6 +128,11 @@
     "tile/plant/lettuce/stage/2_upper": 957,
     "tile/plant/lettuce/stage/2": 1021,
     "tile/plant/lettuce/stage/3_upper": 1085,
-    "tile/plant/lettuce/stage/3": 1149
+    "tile/plant/lettuce/stage/3": 1149,
+    "tile/sand/neighbor/0": 2436,
+    "tile/sand/neighbor/1": 2437,
+    "tile/sand/neighbor/2": 2438,
+    "tile/sand/neighbor/3": 2439,
+    "tile/sand/neighbor/4": 2440
   }
 }

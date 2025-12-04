@@ -30,12 +30,11 @@ public class Materials {
             }
 
             TiledMapTileLayer.Cell base = Cell.get("water/pattern/" + (context.x % 4) + "." + (context.y % 4));
-//            TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
             TiledMapTileLayer.Cell level = null;
 
             CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);
             if (Materials.SAND.equals(analysis.dominantNeighbor)) {
-                level = Cell.get(2435, analysis);
+                level = Cell.get(analysis);
             }
             if (level != null) {
                 return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level,
