@@ -46,24 +46,19 @@ public class PlantTile extends MapTile {
 
     public void grow() {
         growthStage++;
-        //change graphics etc
     }
 
     @Override
     public RenderInstruction[] render(MapTileContext context) {
-        int offset = getMaterial().tileSetOffset;
         ContextAddress address = context.getAddress();
         if (growthStage == 0 || growthStage == 1) {
-            return RenderInstruction.of(Cell.get(offset + (growthStage == 0 ? 819 : 883)), address);
+            return RenderInstruction.of(Cell.get("plant/%s/stage/%s".formatted(material.id, growthStage)), address);
         }
-        if (growthStage == 2) {
-            return new RenderInstruction[]{new RenderInstruction(Cell.get(offset + 1011), address),
-                    new RenderInstruction(Cell.get(offset + 947), address.up(), ZIndex.TALL_OVERLAY)};
-        }
-
-        if (growthStage == 3) {
-            return new RenderInstruction[]{new RenderInstruction(Cell.get(offset + 1139), address),
-                    new RenderInstruction(Cell.get(offset + 1075), address.up(), ZIndex.TALL_OVERLAY)};
+        if (growthStage == 2 || growthStage == 3) {
+            return new RenderInstruction[]{
+                    new RenderInstruction(Cell.get("plant/%s/stage/%s".formatted(material.id, growthStage)), address),
+                    new RenderInstruction(Cell.get("plant/%s/stage/%s_upper".formatted(material.id, growthStage)), address.up(), ZIndex.TALL_OVERLAY)
+            };
         }
 
         throw new IllegalStateException("Unsupported growth stage: " + growthStage);

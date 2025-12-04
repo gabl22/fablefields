@@ -7,15 +7,13 @@ import me.gabl.fablefields.map.render.RenderInstruction;
 
 public class PlantMaterial extends Material {
 
-    public final int tileSetOffset;
     // times in seconds for that stage to complete.
     // stage in the end = growthStages.length;
     private final float[] growthStages;
 
-    public PlantMaterial(String id, float[] growthStages, int tileSetOffset) {
+    public PlantMaterial(String id, float[] growthStages) {
         super(id);
         this.growthStages = growthStages;
-        this.tileSetOffset = tileSetOffset;
     }
 
     @Override

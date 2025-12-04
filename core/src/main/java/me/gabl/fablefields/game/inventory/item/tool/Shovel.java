@@ -12,7 +12,7 @@ import me.gabl.fablefields.player.RunningAction;
 public final class Shovel extends Tool {
 
     Shovel() {
-        super("shovel", 3114);
+        super("shovel");
     }
 
     @Override

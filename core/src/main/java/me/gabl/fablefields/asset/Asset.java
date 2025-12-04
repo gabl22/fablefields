@@ -1,5 +1,6 @@
 package me.gabl.fablefields.asset;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -29,6 +30,7 @@ public class Asset {
             "/tileset_debug.png", Texture.class, LoadSection.BEFORE_GAME_SCREEN);
 
     public static final TileSet TILESET = new TileSet();
+    public static final TileSetRegistry REGISTRY = new TileSetRegistry(Gdx.files.local("tiles/tileset.json"), TILESET);
     public static final int TILE_SIZE = 16;
     //TODO
     public static GameAssetManager manager;
@@ -44,14 +46,13 @@ public class Asset {
             UI_BOX_WHITE = new NinePatch(Asset.manager.get(UI_BOX).findRegion("white_knob"), 3, 3, 3, 3);
         }
         if (LoadSection.BEFORE_GAME_SCREEN > Asset.sectionCompleted && LoadSection.BEFORE_GAME_SCREEN <= section) {
-            Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE);
-            //            Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE_DEBUG);
-            for (int i = 0; i < 4096; i++) {
+            REGISTRY.read();
+            Texture tilesetImage = Asset.manager.get(Asset.TILESET_TEXTURE); // use Asset.TILESET_TEXTURE_DEBUG to debug
+
+            for (int i : REGISTRY.getTileSetIds()) {
                 StaticTiledMapTile tile = new StaticTiledMapTile(new TextureRegion(tilesetImage, (i % 64) * TILE_SIZE
                         , (i / 64) * TILE_SIZE, TILE_SIZE, TILE_SIZE));
                 Asset.TILESET.putTile(i, tile);
-
-                //TODO problems rendering at certain viewport sizes =?=
             }
         }
 

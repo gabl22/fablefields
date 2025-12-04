@@ -2,7 +2,6 @@ package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
-import me.gabl.fablefields.util.GdxLogPublisherPublisher;
 import me.gabl.fablefields.util.Logger;
 
 import java.util.ArrayList;

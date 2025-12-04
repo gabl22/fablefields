@@ -6,14 +6,14 @@ import me.gabl.fablefields.asset.Asset;
 
 public class Cell {
 
-    public static TiledMapTileLayer.Cell get(int baseTileSetId, CellNeighborAnalysis analysis) {
-        TiledMapTileLayer.Cell cell = get(baseTileSetId + analysis.neighborCase);
+    public static TiledMapTileLayer.Cell get(CellNeighborAnalysis analysis) {
+        TiledMapTileLayer.Cell cell = get(analysis.dominantNeighbor.id + "/neighbor/" + analysis.neighborCase);
         cell.setRotation(analysis.rotation);
         return cell;
     }
 
-    public static TiledMapTileLayer.Cell get(int tileSetId) {
-        return get(Asset.TILESET.getTile(tileSetId));
+    public static TiledMapTileLayer.Cell get(String name) {
+        return get(Asset.REGISTRY.getTile("tile/" + name));
     }
 
     public static TiledMapTileLayer.Cell get(TiledMapTile tile) {

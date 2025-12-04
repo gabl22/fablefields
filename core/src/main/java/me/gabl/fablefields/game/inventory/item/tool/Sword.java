@@ -7,7 +7,7 @@ import me.gabl.fablefields.player.Range;
 public final class Sword extends Tool {
 
     Sword() {
-        super("sword", 3050);
+        super("sword");
     }
 
     @Override

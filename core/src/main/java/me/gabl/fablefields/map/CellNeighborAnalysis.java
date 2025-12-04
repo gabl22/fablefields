@@ -58,12 +58,12 @@ public class CellNeighborAnalysis {
         locations += materialRight == dominantMaterial ? 8 : 0;
 
         int neighborCase = switch (locations) {
-            case 1, 2, 4, 8 -> 3;
-            case 5, 6, 9, 10 -> 1;
-            case 3, 12 -> 2;
-            case 7, 11, 13, 14 -> 4;
-            case 15 -> 5;
-            default -> 0;
+            case 1, 2, 4, 8 -> 2;
+            case 5, 6, 9, 10 -> 0;
+            case 3, 12 -> 1;
+            case 7, 11, 13, 14 -> 3;
+            case 15 -> 4;
+            default -> -1;
         };
 
         int rotation = switch (locations) {
