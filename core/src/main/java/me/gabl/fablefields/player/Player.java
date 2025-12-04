@@ -136,6 +136,7 @@ public class Player extends Entity {
 
     public void replaceAction(RunningAction action) {
         if (!actionReplaceable()) {
+            // TODO give feedback to player
             return;
         }
         this.action.interrupt();

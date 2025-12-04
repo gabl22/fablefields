@@ -2,7 +2,6 @@ package me.gabl.fablefields.map.logic;
 
 import lombok.Getter;
 import me.gabl.fablefields.map.material.Material;
-import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.MapTileContext;
 import me.gabl.fablefields.map.render.RenderInstruction;

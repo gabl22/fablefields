@@ -7,7 +7,7 @@ public enum Action {
     ATTACK("attack", 10, false), AXE("axe", 10, false, 0.08f), CARRY("carry", 8, true), CASTING("casting", 15, false)
     , CAUGHT("caught", 10, false), DEATH("death", 13, false), DIG("dig", 13, false, 0.1f), DOING("doing", 8, true),
     HAMMERING("hammering", 23, false), HURT("hurt", 8, false), IDLE("idle", 9, true, 0.25f), JUMP("jump", 9, false),
-    MINING("mining", 10, false), REELING("reeling", 13, true), ROLL("roll", 10, false), RUN("run", 8, true, 0.10f),
+    MINING("mining", 10, false), REELING("reeling", 13, true), ROLL("roll", 10, false), RUN("run", 8, true, 0.09f),
     SWIMMING("swimming", 12, true, 0.15f), WAITING("waiting", 9, true), WALKING("walking", 8, true, 0.15f), WATERING(
             "watering", 5, false, 0.2f);
 
