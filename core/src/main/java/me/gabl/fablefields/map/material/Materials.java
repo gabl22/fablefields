@@ -56,17 +56,17 @@ public class Materials {
         }
     };
 
-    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 10f, 10f}, 0);
-    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 10f, 10f}, 1);
-    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{10f, 10f, 10f}, 2);
-    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f}, 3);
-    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f}, 4);
-    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f}, 5);
-    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f}, 6);
-    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f}, 7);
-    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f}, 8);
-    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f}, 9);
-    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f}, 10);
+    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f});
 
     public static final Map<String, Material> FROM_ID;
 
