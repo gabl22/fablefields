@@ -47,17 +47,14 @@ public class Materials {
 
     public static final Material SOIL = new SingleLayerMaterial("soil") {
         @Override
-        public int renderTileSetId(MapTileContext context) {
+        public String name(MapTileContext context) {
+            int stage = 0;
+            boolean watered = false;
             if (context.inLayer(MapLayer.FEATURE).tile instanceof PlantTile tile) {
-                return switch (tile.getGrowthStage()) {
-                    case 0 -> 754;
-                    case 1 -> tile.needsWater() ? 818 : 882;
-                    case 2 -> 1010;
-                    case 3 -> 1138;
-                    default -> 818;
-                };
+                stage = tile.getGrowthStage();
+                watered = stage == 1 && !tile.needsWater();
             }
-            return 754;
+            return "soil/stage/" + stage + (watered ? "_watered" : "");
         }
     };
 

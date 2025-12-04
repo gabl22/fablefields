@@ -12,8 +12,8 @@ public abstract class SingleLayerMaterial extends Material {
 
     @Override
     public RenderInstruction[] render(MapTileContext context) {
-        return RenderInstruction.of(Cell.get(renderTileSetId(context)), context.getAddress());
+        return RenderInstruction.of(Cell.get(name(context)), context.getAddress());
     }
 
-    public abstract int renderTileSetId(MapTileContext context);
+    public abstract String name(MapTileContext context);
 }
