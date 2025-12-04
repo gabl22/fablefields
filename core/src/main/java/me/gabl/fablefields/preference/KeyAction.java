@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 public enum KeyAction {
 
-    MOVE_UP("move_up"), MOVE_DOWN("move_down"), MOVE_LEFT("move_left"), MOVE_RIGHT("move_right"), SWITCH_SLOT_BAR(
+    MOVE_UP("move_up"), MOVE_DOWN("move_down"), MOVE_LEFT("move_left"), MOVE_RIGHT("move_right"), MOVE_FAST("move_fast"), SWITCH_SLOT_BAR(
             "switch_slot_bar");
 
     public static final Map<String, KeyAction> ACTIONS = Arrays.stream(KeyAction.values())

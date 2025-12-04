@@ -1,6 +1,6 @@
 package me.gabl.fablefields.preference;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,11 +9,12 @@ public class Keybind {
 
     // @formatter:off
     static final Map<Integer, KeyAction> defaultKeys = Map.of(
-        Input.Keys.W, KeyAction.MOVE_UP,
-        Input.Keys.A, KeyAction.MOVE_LEFT,
-        Input.Keys.S, KeyAction.MOVE_DOWN,
-        Input.Keys.D, KeyAction.MOVE_RIGHT,
-        Input.Keys.TAB, KeyAction.SWITCH_SLOT_BAR
+        Keys.W,             KeyAction.MOVE_UP,
+        Keys.A,             KeyAction.MOVE_LEFT,
+        Keys.S,             KeyAction.MOVE_DOWN,
+        Keys.D,             KeyAction.MOVE_RIGHT,
+        Keys.TAB,           KeyAction.SWITCH_SLOT_BAR,
+        Keys.SHIFT_LEFT,    KeyAction.MOVE_FAST
     );
     // @formatter:on
     static final Map<String, KeyAction> defaultStringKeys = toStringMap(defaultKeys);
