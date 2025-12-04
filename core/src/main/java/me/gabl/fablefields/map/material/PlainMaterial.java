@@ -6,15 +6,12 @@ import me.gabl.fablefields.map.render.RenderInstruction;
 
 public class PlainMaterial extends Material {
 
-    private final int tileSetId;
-
-    public PlainMaterial(String id, int tileSetId) {
+    public PlainMaterial(String id) {
         super(id);
-        this.tileSetId = tileSetId;
     }
 
     @Override
     public RenderInstruction[] render(MapTileContext context) {
-        return RenderInstruction.of(Cell.get(tileSetId), context);
+        return RenderInstruction.of(Cell.get(id), context);
     }
 }

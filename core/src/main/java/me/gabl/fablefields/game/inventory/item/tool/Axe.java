@@ -10,7 +10,7 @@ import me.gabl.fablefields.player.RunningAction;
 public class Axe extends Tool {
 
     public Axe() {
-        super("axe", 2922);
+        super("axe");
     }
 
     @Override

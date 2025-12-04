@@ -1,5 +1,8 @@
 package me.gabl.fablefields.map.logic;
 
+/**
+ * Pseudo-Random, deterministic values for seed + (x, y) double coordinate pair
+ */
 public class Noise2D {
 
     private final long seed;
@@ -8,7 +11,13 @@ public class Noise2D {
         this.seed = seed;
     }
 
-    // [0; 1)
+    /**
+     * Computes a pseudo-random, deterministic noise value for the given (x, y) coordinates.
+     *
+     * @param x the x-coordinate in double precision
+     * @param y the y-coordinate in double precision
+     * @return a normalized pseudo-random value in the range [0, 1) based on the given coordinates
+     */
     public double getValue(double x, double y) {
         return normalize(getLongValue(x, y));
     }
@@ -18,7 +27,7 @@ public class Noise2D {
         return (longValue >>> 1) / (double) Long.MAX_VALUE;
     }
 
-    // Deterministic noise function: (x, y) -> int
+    // Deterministic noise function: (x, y) -> long
     public long getLongValue(double x, double y) {
         long bitsX = Double.doubleToLongBits(x);
         long bitsY = Double.doubleToLongBits(y);

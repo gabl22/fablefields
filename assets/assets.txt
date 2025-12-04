@@ -307,6 +307,7 @@ map/test2.tmx
 map/tileset.tsx
 map/tileset2.tsx
 tiles/ref.png
+tiles/tileset.json
 tiles/tileset.png
 tiles/tileset_debug.png
 tiles/tileset_forest.png

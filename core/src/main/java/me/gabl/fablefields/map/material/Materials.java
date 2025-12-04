@@ -15,12 +15,11 @@ import java.util.Map;
 
 public class Materials {
 
-    public static final Material SAND = new PlainMaterial("sand", 69);
+    public static final Material SAND = new PlainMaterial("sand");
 
-    public static final Material DIRT = new RandomMaterial("dirt", new int[]{4026, 4027, 4028, 4029, 4030, 4031});
+    public static final Material DIRT = new RandomMaterial("dirt", 6);
 
-    public static final Material GRASS = new RandomMaterial("grass", new int[]{4088, 4089, 4090, 4091, 4092, 4093, 4094,
-            4095});
+    public static final Material GRASS = new RandomMaterial("grass", 7);
 
     // todo outsource code
     public static final Material WATER = new Material("water") {
@@ -30,12 +29,12 @@ public class Materials {
                 return null;
             }
 
-            TiledMapTileLayer.Cell base = Cell.get(21 * 64 + 11 + (context.x % 4) - (context.y % 4) * 64);
+            TiledMapTileLayer.Cell base = Cell.get("water/pattern/" + (context.x % 4) + "." + (context.y % 4));
             TiledMapTileLayer.Cell level = null;
 
             CellNeighborAnalysis analysis = CellNeighborAnalysis.get(context);
             if (Materials.SAND.equals(analysis.dominantNeighbor)) {
-                level = Cell.get(2435, analysis);
+                level = Cell.get(analysis);
             }
             if (level != null) {
                 return RenderInstruction.of(context.getAddress(), base, ZIndex.BASE_WATER, level,
@@ -47,31 +46,26 @@ public class Materials {
 
     public static final Material SOIL = new SingleLayerMaterial("soil") {
         @Override
-        public int renderTileSetId(MapTileContext context) {
+        public String name(MapTileContext context) {
+            int stage = 0;
             if (context.inLayer(MapLayer.FEATURE).tile instanceof PlantTile tile) {
-                return switch (tile.getGrowthStage()) {
-                    case 0 -> 754;
-                    case 1 -> tile.needsWater() ? 818 : 882;
-                    case 2 -> 1010;
-                    case 3 -> 1138;
-                    default -> 818;
-                };
+                stage = tile.needsWater() ? tile.getGrowthStage() - 1 : tile.getGrowthStage();
             }
-            return 754;
+            return "soil/stage/" + stage;
         }
     };
 
-    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 10f, 10f}, 0);
-    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 10f, 10f}, 1);
-    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{10f, 10f, 10f}, 2);
-    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f}, 3);
-    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f}, 4);
-    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f}, 5);
-    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f}, 6);
-    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f}, 7);
-    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f}, 8);
-    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f}, 9);
-    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f}, 10);
+    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f});
 
     public static final Map<String, Material> FROM_ID;
 

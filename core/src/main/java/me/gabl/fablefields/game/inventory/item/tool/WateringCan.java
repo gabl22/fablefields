@@ -10,7 +10,7 @@ import me.gabl.fablefields.player.RunningAction;
 public final class WateringCan extends Tool {
 
     WateringCan() {
-        super("watering_can", 2858);
+        super("watering_can");
     }
 
     @Override
