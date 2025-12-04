@@ -23,10 +23,6 @@ public class MapTile {
         this.address = address;
     }
 
-    public boolean isWalkable() {
-        return !Materials.WATER.equals(material);
-    }
-
     public RenderInstruction[] render(MapTileContext context) {
         return material.render(context);
     }

@@ -5,6 +5,8 @@ import lombok.Setter;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Predicate;
+
 public class MapChunk {
 
     public final int width;
@@ -64,20 +66,20 @@ public class MapChunk {
         return position >= 0 && position < width * height;
     }
 
-    public boolean isWalkable(float x, float y) {
+    public boolean is(Predicate<MapTile> predicate, float x, float y) {
         int fx = (int) Math.floor(x);
         int fy = (int) Math.floor(y);
         if (!containsTile(fx, fy)) return false;
-        return isWalkable(position(fx, fy));
+        return is(predicate, position(fx, fy));
     }
 
     public boolean containsTile(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    public boolean isWalkable(int position) {
+    public boolean is(Predicate<MapTile> predicate, int position) {
         MapTile tile = getTile(MapLayer.GROUND, position);
-        return tile != null && tile.isWalkable();
+        return tile != null && predicate.test(tile);
     }
 
     public int position(int x, int y) {

@@ -411,4 +411,3 @@ ui/uiskin.atlas
 ui/uiskin.json
 ui/uiskin.png
 ui/water.png
-xmlgdxpref/keybind.json

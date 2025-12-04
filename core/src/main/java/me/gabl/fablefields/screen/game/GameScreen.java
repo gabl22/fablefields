@@ -21,6 +21,7 @@ import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
+import me.gabl.fablefields.player.Movement;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
@@ -60,6 +61,7 @@ public class GameScreen extends BaseScreen {
                 super.batch);
         this.renderer.setView(this.camera);
         this.player = new Player(this, this.chunk);
+        this.player.setPosition(chunk.width / 2 + 0.5f, chunk.height / 2 + 0.5f);
         this.camController = new OrthographicCameraController(viewport, this.player);
 
         Inventory inventory = new Inventory(InventoryHud.SLOTS);
@@ -100,7 +102,7 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < 500; i++) {
             float x = MathUtil.RANDOM.nextFloat() * chunk.width;
             float y = MathUtil.RANDOM.nextFloat() * chunk.height;
-            if (chunk.isWalkable(x, y)) {
+            if (chunk.is(Movement.WALKABLE, x, y)) {
                 Tree tree = new Tree(chunk, Tree.TYPES[i % Tree.TYPES.length]);
                 entities.addActor(tree);
                 tree.setPosition(x, y);

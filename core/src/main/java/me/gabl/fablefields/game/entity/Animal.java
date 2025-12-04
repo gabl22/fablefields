@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.entity;
 
 import me.gabl.fablefields.map.logic.MapChunk;
+import me.gabl.fablefields.player.Movement;
 import me.gabl.fablefields.util.MathUtil;
 
 public class Animal extends LivingEntity {
@@ -57,7 +58,7 @@ public class Animal extends LivingEntity {
     }
 
     public boolean walk(float x, float y) {
-        if (chunk.containsTile((int) x, (int) y) && chunk.isWalkable(x, y)) {
+        if (chunk.containsTile((int) x, (int) y) && chunk.is(Movement.WALKABLE, x, y)) {
             setPosition(x, y);
             return true;
         }

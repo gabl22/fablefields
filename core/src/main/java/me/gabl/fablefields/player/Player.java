@@ -8,6 +8,7 @@ import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.HitBox;
 import me.gabl.fablefields.map.logic.MapChunk;
+import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.Logger;
 
@@ -24,7 +25,7 @@ public class Player extends Entity {
     private final Vector2 movement = new Vector2();
     public transient RunningAction action;
     public transient Direction direction = Direction.RIGHT;
-    public ActionLayer hair = ActionLayer.SPIKEYHAIR;
+    public ActionLayer hair = ActionLayer.BOWLHAIR;
     public transient RunningPlayerAnimation currentAnimation = new RunningPlayerAnimation(Action.IDLE,
             new ActionLayer[]{
             ActionLayer.BASE, this.hair, ActionLayer.TOOLS}, false);
@@ -55,18 +56,22 @@ public class Player extends Entity {
     public void move(float delta) {
         this.calculateMovement();
         if (movement.x != 0 || movement.y != 0) {
-            // constant to match walking (framerate 0.1f): 15f/16 (framerate 0.025f: 15f/4)
-            // constant to match run (framerate 0.1): 15f / 12
-            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * 15f / 9);
-            //constant to match animation to speed
-            setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * 15f / 9);
-            this.action = RunningAction.get(Action.RUN);
+            Movement moveBy = Movement.WALK;
+            if (chunk.is(Movement.WALKABLE, super.getX(), super.getY())) {
+                moveBy = gameScreen.keyManager.isActionTriggered(KeyAction.MOVE_FAST) ? Movement.RUN : Movement.WALK;
+            } else if (chunk.is(Movement.SWIMMABLE, super.getX(), super.getY())) {
+                moveBy = Movement.SWIM;
+            }
+
+            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * moveBy.speedFactor);
+            setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * moveBy.speedFactor);
+            this.action = RunningAction.get(moveBy.action);
             if (movement.x > 0) {
                 this.direction = Direction.RIGHT;
             } else if (movement.x < 0) {
                 this.direction = Direction.LEFT;
             }
-        } else if (this.action.action == Action.RUN) {
+        } else if (this.action.action == Action.RUN || this.action.action == Action.WALKING) {
             replaceAction(Action.IDLE);
         }
 
@@ -96,15 +101,11 @@ public class Player extends Entity {
     }
 
     private void setXCollide(float x) {
-        if (gameScreen.getChunk().isWalkable(x, getY())) {
-            setX(x);
-        }
+        if (gameScreen.getChunk().is(Movement.ACCESSIBLE, x, getY())) setX(x);
     }
 
     private void setYCollide(float y) {
-        if (gameScreen.getChunk().isWalkable(getX(), y)) {
-            setY(y);
-        }
+        if (gameScreen.getChunk().is(Movement.ACCESSIBLE, getX(), y)) setY(y);
     }
 
     public void replaceAction(Action action) {
@@ -112,13 +113,13 @@ public class Player extends Entity {
     }
 
     private void checkEnvironment() {
-        if (gameScreen.getChunk().isWalkable(super.getX(), super.getY())) {
+        if (gameScreen.getChunk().is(Movement.ACCESSIBLE, super.getX(), super.getY())) {
             return;
         }
 
         Pair<Integer, Integer> safePosition = findSafety((x, y) -> {
-            boolean walkable = Player.this.gameScreen.getChunk().isWalkable(x, y);
-            Logger.get().info("Test " + x + " " + y + " " + walkable);
+            boolean walkable = Player.this.gameScreen.getChunk().is(Movement.WALKABLE, x, y);
+            logger.debug("Test " + x + " " + y + " " + walkable);
             return walkable;
         });
         if (safePosition == null) {
@@ -129,7 +130,14 @@ public class Player extends Entity {
         setY(safePosition.getSecond());
     }
 
+    public boolean actionReplaceable() {
+        return this.action.action != Action.SWIMMING && chunk.is(Movement.WALKABLE, getX(), getY());
+    }
+
     public void replaceAction(RunningAction action) {
+        if (!actionReplaceable()) {
+            return;
+        }
         this.action.interrupt();
         this.action = action;
         forceRenewAnimation = true;
