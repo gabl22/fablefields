@@ -136,6 +136,10 @@ public class Player extends Entity {
         this.action.start();
     }
 
+    public void turnTo(float x) {
+        this.direction = x > getX() ? Direction.RIGHT : Direction.LEFT;
+    }
+
     private Pair<Integer, Integer> findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
         int checkX = (int) getX();
         int checkY = (int) getY();

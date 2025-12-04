@@ -35,6 +35,12 @@ public class PlayerWorldController implements DefaultInputProcessor {
         if (!slot.item.type.isUsable(context)) {
             return;
         }
+        turnPlayer(context);
         slot.item.type.use(context);
+    }
+
+    public void turnPlayer(UseContext context) {
+        if (context.hitActor != null) player.turnTo(context.hitActor.getX());
+        else player.turnTo(context.x() + 0.5f);
     }
 }

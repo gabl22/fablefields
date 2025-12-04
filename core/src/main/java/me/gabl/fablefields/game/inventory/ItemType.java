@@ -19,7 +19,7 @@ public class ItemType {
     }
 
     public boolean isUsable(UseContext context) {
-        return true;
+        return false;
     }
 
     public Item createItem() {
