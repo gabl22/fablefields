@@ -74,10 +74,5 @@ public class TileSetRegistry {
     }
 
     @NoArgsConstructor
-    private static class Registry extends Envelope<Map<String, Float>> {
-
-        public Registry(Map<String, Float> data) {
-            super(data);
-        }
-    }
+    private static class Registry extends Envelope<Map<String, Float>> { }
 }
