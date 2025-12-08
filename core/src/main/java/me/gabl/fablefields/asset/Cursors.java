@@ -2,6 +2,7 @@ package me.gabl.fablefields.asset;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class Cursors {
@@ -27,6 +28,10 @@ public class Cursors {
     private static Cursor getCursor(String name, int hotspotX, int hotspotY) {
         Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor/" + name + ".png"));
         return Gdx.graphics.newCursor(pixmap, hotspotX, hotspotY);
+    }
+
+    public static void reset() {
+        Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
     }
 
     public static void arrow() {

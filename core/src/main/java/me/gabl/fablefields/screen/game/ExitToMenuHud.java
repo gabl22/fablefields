@@ -1,13 +1,12 @@
 package me.gabl.fablefields.screen.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import me.gabl.fablefields.Main;
+import me.gabl.fablefields.asset.Cursors;
 import me.gabl.fablefields.screen.menu.MenuButton;
 import me.gabl.fablefields.screen.menu.MenuScreen;
 import me.gabl.fablefields.screen.ui.Hud;
@@ -15,8 +14,6 @@ import me.gabl.fablefields.screen.ui.Hud;
 public class ExitToMenuHud extends Hud {
 
     private final Main game;
-    private MenuButton exitButton;
-    private Table table;
 
 
     public ExitToMenuHud(SpriteBatch batch, Main game) {
@@ -27,17 +24,17 @@ public class ExitToMenuHud extends Hud {
 
     @Override
     public void show() {
-        this.exitButton = new MenuButton("Exit");
+        MenuButton exitButton = new MenuButton("Exit");
         exitButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new MenuScreen(game));
-                Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+                Cursors.reset();
                 return true;
             }
         });
 
-        table = new Table();
+        Table table = new Table();
         table.top().left();
         table.setFillParent(true);
         table.add(exitButton).pad(10);
