@@ -34,10 +34,10 @@ public class CreditsScreen extends BaseScreen {
         root.setFillParent(true);
         root.pad(20);
         Label title = new Label("Credits", skin);
-        root.add(title).padBottom(50).row();
+        root.add(title).center().padBottom(50).row();
 
         root.add(creditTable("Graphics", "DanielDiggle", "https://danieldiggle.itch.io/sunnyside")).row();
-        root.add().expandY().row();
+        root.add().padBottom(40).row();
 
         stage.addActor(root);
 
@@ -69,12 +69,16 @@ public class CreditsScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 0);
+        stage.act(delta);
         stage.draw();
         multiplexer.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
+        camera.zoom = 1f / Math.round(Math.min(width / 640f, height / 480f));
+        stage.getViewport().update(width, height, true);
         multiplexer.resize(width, height);
     }
 
