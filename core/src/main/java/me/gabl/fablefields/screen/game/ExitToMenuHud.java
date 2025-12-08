@@ -15,10 +15,8 @@ public class ExitToMenuHud extends Hud {
 
     private final Main game;
 
-
     public ExitToMenuHud(SpriteBatch batch, Main game) {
         super(batch);
-
         this.game = game;
     }
 
