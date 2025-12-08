@@ -28,7 +28,6 @@ public class InventoryHud extends Hud {
 
     static {
         BitmapFont font = new BitmapFont();
-        font.setColor(Color.WHITE);
         slotCountStyle = new Label.LabelStyle(font, Color.BLACK);
     }
 

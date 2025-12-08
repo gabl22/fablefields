@@ -1,7 +1,5 @@
 package me.gabl.fablefields.game.inventory.item;
 
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.ItemType;
 import me.gabl.fablefields.map.material.PlantMaterial;
 

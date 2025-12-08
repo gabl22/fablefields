@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.screen.credits.CreditsScreen;
 import me.gabl.fablefields.screen.game.GameScreen;
 
 public class MenuScreen implements Screen {
@@ -25,6 +26,7 @@ public class MenuScreen implements Screen {
 
     private TextButton startButton;
     private TextButton exitButton;
+    private TextButton creditsButton;
     private Table table;
     private Image logo;
 
@@ -64,10 +66,20 @@ public class MenuScreen implements Screen {
                 return true;
             }
         });
+        this.creditsButton = new MenuButton("Credits");
+        this.creditsButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                MenuScreen.this.game.setScreen(new CreditsScreen(MenuScreen.this.game));
+                return true;
+            }
+        });
         this.table.add(this.startButton);
         this.table.add(this.exitButton);
-        this.table.getCell(this.startButton).height(50).width(120).pad(50);
-        this.table.getCell(this.exitButton).height(50).width(120).pad(50);
+        this.table.add(this.creditsButton);
+        this.table.getCell(this.startButton).height(50).width(120).pad(40).padTop(100);
+        this.table.getCell(this.exitButton).height(50).width(120).pad(40).padTop(100);
+        this.table.getCell(this.creditsButton).height(50).width(120).pad(40).padTop(100);
         this.logo = new Image(this.game.assets.get(Asset.LOGO));
         this.logo.setScale(2f);
         this.stage.addActor(this.logo);
