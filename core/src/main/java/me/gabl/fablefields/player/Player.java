@@ -2,11 +2,10 @@ package me.gabl.fablefields.player;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import kotlin.Pair;
 import lombok.Getter;
-import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.HitBox;
+import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
@@ -117,7 +116,7 @@ public class Player extends Entity {
             return;
         }
 
-        Pair<Integer, Integer> safePosition = findSafety((x, y) -> {
+        Vector2 safePosition = findSafety((x, y) -> {
             boolean walkable = Player.this.gameScreen.getChunk().is(Movement.WALKABLE, x, y);
             logger.debug("Test " + x + " " + y + " " + walkable);
             return walkable;
@@ -126,12 +125,7 @@ public class Player extends Entity {
             logger.error("No safe position for player found.");
             return;
         }
-        setX(safePosition.getFirst() + 0.5f);
-        setY(safePosition.getSecond());
-    }
-
-    public boolean actionReplaceable() {
-        return this.action.action != Action.SWIMMING && chunk.is(Movement.WALKABLE, getX(), getY());
+        setPosition(safePosition.x + 0.5f, safePosition.y);
     }
 
     public void replaceAction(RunningAction action) {
@@ -145,11 +139,7 @@ public class Player extends Entity {
         this.action.start();
     }
 
-    public void turnTo(float x) {
-        this.direction = x > getX() ? Direction.RIGHT : Direction.LEFT;
-    }
-
-    private Pair<Integer, Integer> findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
+    private Vector2 findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
         int checkX = (int) getX();
         int checkY = (int) getY();
         int cycles = 0;
@@ -157,30 +147,38 @@ public class Player extends Entity {
         while (cycles < 12) {
             for (int i = 0; i < stepLength; i++) {
                 checkX++;
-                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
             }
 
             for (int i = 0; i < stepLength; i++) {
                 checkY++;
-                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
             }
 
             stepLength++;
 
             for (int i = 0; i < stepLength; i++) {
                 checkX--;
-                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
             }
 
             for (int i = 0; i < stepLength; i++) {
                 checkY--;
-                if (safetyPredicate.apply(checkX, checkY)) return new Pair<>(checkX, checkY);
+                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
             }
 
             stepLength++;
             cycles++;
         }
         return null;
+    }
+
+    public boolean actionReplaceable() {
+        return this.action.action != Action.SWIMMING && chunk.is(Movement.WALKABLE, getX(), getY());
+    }
+
+    public void turnTo(float x) {
+        this.direction = x > getX() ? Direction.RIGHT : Direction.LEFT;
     }
 
     public boolean inRange(Range range, float x, float y) {
@@ -194,6 +192,21 @@ public class Player extends Entity {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.currentAnimation.draw(batch, this);
+    }
+
+    public void onSpawn() {
+        if (chunk.is(Movement.WALKABLE, getX(), getY())) {
+            return;
+        }
+        //@formatter:off
+        Vector2 safePosition = findSafety((x, y) ->
+                Player.this.gameScreen.getChunk().is(Movement.WALKABLE, x, y));
+        //@formatter:on
+        if (safePosition == null) {
+            logger.error("No safe position for player found.");
+        } else {
+            setPosition(safePosition.x + 0.5f, safePosition.y);
+        }
     }
 
     public static class Attributes {

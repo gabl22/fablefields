@@ -41,7 +41,6 @@ public class GameScreen extends BaseScreen {
     private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private Player player;
-    private ExitToMenuHud exitToMenuHud;
     private CursorManager cursorManager;
 
     public GameScreen(Main game) {
@@ -62,6 +61,7 @@ public class GameScreen extends BaseScreen {
         this.renderer.setView(this.camera);
         this.player = new Player(this, this.chunk);
         this.player.setPosition(chunk.width / 2 + 0.5f, chunk.height / 2 + 0.5f);
+        this.player.onSpawn();
         this.camController = new OrthographicCameraController(viewport, this.player);
 
         Inventory inventory = new Inventory(InventoryHud.SLOTS);
@@ -87,10 +87,10 @@ public class GameScreen extends BaseScreen {
         player.inventory = inventory;
 
         this.inventoryHud = new InventoryHud(batch, inventory);
-        this.exitToMenuHud = new ExitToMenuHud(batch, game);
+        ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.exitToMenuHud.getStage(), this.inventoryHud,
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), this.inventoryHud,
                 this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
 
         Entities entities = new Entities();
