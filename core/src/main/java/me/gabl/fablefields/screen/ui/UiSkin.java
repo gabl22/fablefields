@@ -53,9 +53,6 @@ public class UiSkin {
             skin.add("box-white-" + i, white);
             skin.add("box-light-" + i, light);
             skin.add("box-dark-" + i, dark);
-            //            skin.add("box-white-" + i, new NinePatchDrawable(white));
-            //            skin.add("box-light-" + i, new NinePatchDrawable(light));
-            //            skin.add("box-dark-" + i, new NinePatchDrawable(dark));
         }
     }
 

@@ -18,7 +18,6 @@ import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 public class CreditsScreen extends BaseScreen {
 
     private final Skin skin = UiSkin.skin();
-    private ExitToMenuHud exitToMenuHud;
     private ScreenMultiplexer multiplexer;
 
     public CreditsScreen(Main game) {
@@ -27,8 +26,8 @@ public class CreditsScreen extends BaseScreen {
 
     @Override
     public void show() {
-        exitToMenuHud = new ExitToMenuHud(this.batch, this.game);
-        Gdx.input.setInputProcessor(new InputMultiplexer(this.exitToMenuHud.getStage(), stage));
+        ExitToMenuHud exitToMenuHud = new ExitToMenuHud(this.batch, this.game);
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), stage));
 
         Table root = new Table();
         root.setFillParent(true);
