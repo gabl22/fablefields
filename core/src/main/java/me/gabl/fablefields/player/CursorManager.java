@@ -8,6 +8,7 @@ import me.gabl.fablefields.game.inventory.Item;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
+import me.gabl.fablefields.screen.ui.Hud;
 
 public class CursorManager {
 
@@ -18,10 +19,13 @@ public class CursorManager {
     private final Vector3 position3 = new Vector3();
     private final Vector2 position2 = new Vector2();
 
-    public CursorManager(Player player, GameScreen screen, MapChunk chunk) {
+    private final Hud[] huds;
+
+    public CursorManager(Player player, GameScreen screen, MapChunk chunk, Hud... huds) {
         this.player = player;
         this.screen = screen;
         this.chunk = chunk;
+        this.huds = huds;
     }
 
     public void update() {
@@ -31,9 +35,11 @@ public class CursorManager {
         }
 
         getCursorPosition(position2);
-        if (screen.inventoryHud.isCursorHovering()) {
-            Cursors.arrow();
-            return;
+        for (Hud hud : huds) {
+            if (hud.isHovering()) {
+                Cursors.arrow();
+                return;
+            }
         }
         Item selectedItem = player.inventory.getSelectedItem();
         if (selectedItem == null) {
@@ -45,7 +51,10 @@ public class CursorManager {
                 screen.entityHitCursor());
         if (selectedItem.type.isUsable(context)) {
             Cursors.arrow();
+            screen.toolTipHud.update("Text123", selectedItem.type, new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            screen.toolTipHud.show();
         } else {
+            screen.toolTipHud.hide();
             Cursors.unavailable();
         }
     }

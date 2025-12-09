@@ -226,7 +226,8 @@ public class InventoryHud extends Hud {
         return stage;
     }
 
-    public boolean isCursorHovering() {
+    @Override
+    public boolean isHovering() {
         return inventoryHover.isHovering();
     }
 }

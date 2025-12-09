@@ -10,20 +10,16 @@ import me.gabl.fablefields.asset.Cursors;
 import me.gabl.fablefields.screen.menu.MenuButton;
 import me.gabl.fablefields.screen.menu.MenuScreen;
 import me.gabl.fablefields.screen.ui.Hud;
+import me.gabl.fablefields.screen.ui.UiSkin;
 
 public class ExitToMenuHud extends Hud {
 
-    private final Main game;
+    private final MenuButton button;
 
     public ExitToMenuHud(SpriteBatch batch, Main game) {
         super(batch);
-        this.game = game;
-    }
-
-    @Override
-    public void show() {
-        MenuButton exitButton = new MenuButton("Exit");
-        exitButton.addListener(new ClickListener() {
+        this.button = new MenuButton("Exit", UiSkin.getButtonStyle());
+        this.button.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new MenuScreen(game));
@@ -31,16 +27,24 @@ public class ExitToMenuHud extends Hud {
                 return true;
             }
         });
+    }
 
+    @Override
+    public void show() {
         Table table = new Table();
         table.top().left();
         table.setFillParent(true);
-        table.add(exitButton).pad(10);
+        table.add(this.button).pad(10);
 
         stage.addActor(table);
     }
 
     public Stage getStage() {
         return stage;
+    }
+
+    @Override
+    public boolean isHovering() {
+        return this.button.isOver();
     }
 }

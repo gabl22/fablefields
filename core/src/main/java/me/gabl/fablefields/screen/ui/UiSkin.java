@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import lombok.Getter;
 import me.gabl.fablefields.asset.Asset;
 
 public class UiSkin {
@@ -13,6 +14,9 @@ public class UiSkin {
     private UiSkin() {
         throw new UnsupportedOperationException();
     }
+
+    @Getter
+    private static TextButton.TextButtonStyle buttonStyle;
 
     public static Skin skin() {
         Skin skin = new Skin();
@@ -26,17 +30,23 @@ public class UiSkin {
         labelStyle.fontColor = Color.WHITE;
         skin.add("default", labelStyle);
 
+        Label.LabelStyle labelStyleBackground = new Label.LabelStyle();
+        labelStyleBackground.font = font;
+        labelStyleBackground.fontColor = Color.BLACK;
+        labelStyleBackground.background = skin.getDrawable("box-white-2");
+        skin.add("background", labelStyleBackground);
 
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.fontColor = Color.WHITE;
+        if (buttonStyle == null) {
+            buttonStyle = new TextButton.TextButtonStyle();
+            buttonStyle.font = font;
+            buttonStyle.fontColor = Color.WHITE;
 
-        textButtonStyle.up = skin.getDrawable("box-light-2");
-        textButtonStyle.down = skin.getDrawable("box-dark-2");
-        textButtonStyle.over = skin.getDrawable("box-dark-2");
-        textButtonStyle.disabled = skin.getDrawable("box-white-2");
-
-        skin.add("default", textButtonStyle);
+            buttonStyle.up = skin.getDrawable("box-light-2");
+            buttonStyle.down = skin.getDrawable("box-dark-2");
+            buttonStyle.over = skin.getDrawable("box-dark-2");
+            buttonStyle.disabled = skin.getDrawable("box-white-2");
+        }
+        skin.add("default", buttonStyle);
 
 
         return skin;

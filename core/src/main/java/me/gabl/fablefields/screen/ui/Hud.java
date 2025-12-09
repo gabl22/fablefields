@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import me.gabl.fablefields.screen.util.DefaultInputProcessor;
 
-public class Hud implements Screen, DefaultInputProcessor {
+public abstract class Hud implements Screen, DefaultInputProcessor {
 
     protected final Viewport viewport;
     protected final Stage stage;
@@ -56,4 +56,6 @@ public class Hud implements Screen, DefaultInputProcessor {
     public void dispose() {
         stage.dispose();
     }
+
+    public abstract boolean isHovering();
 }
