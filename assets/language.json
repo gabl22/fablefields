@@ -1,6 +1,10 @@
 {
   "data": {
     "class": "java.util.HashMap",
-    "navigation/exit": "Exit"
+    "navigation/exit_game": "Exit",
+    "navigation/quit_application": "Quit",
+    "navigation/credits": "Credits",
+    "navigation/start_game": "Start Game",
+    "item/axe/tooltip/chop_tree": "CHOP"
   }
 }

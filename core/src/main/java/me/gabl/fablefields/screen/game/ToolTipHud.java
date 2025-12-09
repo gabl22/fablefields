@@ -27,28 +27,34 @@ public class ToolTipHud extends Hud {
         this.root = new Group();
 
         Skin skin = UiSkin.skin();
-        this.label = new Label("Text123", skin, "background");
+        this.label = new Label("!", skin, "background"); // need any symbol for correct label.height
         Texture baseTexture = Asset.manager.get(Asset.getTexture("ui/itemdisc.png"));
         this.base = new Image(baseTexture);
         this.itemImage = new Image(GenericItems.WOOD.render()); // any item with item size
+        root.addActor(label);
         root.addActor(base);
         root.addActor(itemImage);
-        root.addActor(label);
         base.setPosition(0, 0);
         base.scaleBy(2f);
         itemImage.scaleBy(2f);
         itemImage.setPosition((base.getWidth() - itemImage.getWidth()) / 2 + 5,
                 (base.getHeight() - itemImage.getHeight()) / 2 + 5);
+        label.setPosition(base.getWidth() * base.getScaleX() - 12, (base.getHeight() * base.getScaleY() - label.getHeight()) / 2);
         stage.addActor(root);
     }
 
 
-    public void update(@Nullable String text, @Nullable ItemType itemType, @NotNull Vector2 screenPosition) {
+    public void update(@Nullable String text, @Nullable ItemType itemType) {
         if (text == null || itemType == null) {
             hide();
             return;
         }
-        this.label.setText(text);
+        this.label.setText("  " + text);
+        label.setWidth(label.getPrefWidth());
+        itemImage.setDrawable(itemType.render());
+    }
+
+    public void updatePosition(@NotNull Vector2 screenPosition) {
         Vector2 cursorPosition = stage.screenToStageCoordinates(screenPosition);
         float width = stage.getViewport().getWorldWidth();
         float height = stage.getViewport().getWorldHeight();
@@ -62,9 +68,7 @@ public class ToolTipHud extends Hud {
         if (x > width - rootHalfWidth) x -= 2 * xDivertHorizontal;
         if (y < rootHalfHeight) y = rootHalfHeight;
         if (y > height - rootHalfHeight) y -= 2 * yDivertVertical;
-        itemImage.setDrawable(itemType.render());
         root.setPosition(x, y);
-        label.setPosition(base.getWidth() + label.getWidth(), 0);
     }
 
     @Override

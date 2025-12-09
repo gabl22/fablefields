@@ -51,8 +51,14 @@ public class CursorManager {
                 screen.entityHitCursor());
         if (selectedItem.type.isUsable(context)) {
             Cursors.arrow();
-            screen.toolTipHud.update("Text123", selectedItem.type, new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            screen.toolTipHud.show();
+            String toolTip = selectedItem.type.getUseToolTip();
+            if (toolTip != null) {
+                screen.toolTipHud.updatePosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                screen.toolTipHud.update(toolTip, selectedItem.type);
+                screen.toolTipHud.show();
+            } else {
+                screen.toolTipHud.hide();
+            }
         } else {
             screen.toolTipHud.hide();
             Cursors.unavailable();

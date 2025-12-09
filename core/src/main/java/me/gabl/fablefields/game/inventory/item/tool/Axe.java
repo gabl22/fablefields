@@ -29,4 +29,9 @@ public class Axe extends Tool {
         if (context.hitActor == null) return false;
         return context.hitActor instanceof Tree tree && context.entityInRange(Range.TOOL, tree);
     }
+
+    @Override
+    public String getUseToolTip() {
+        return tooltip("chop_tree");
+    }
 }

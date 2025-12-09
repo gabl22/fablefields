@@ -19,7 +19,7 @@ public class ExitToMenuHud extends Hud {
 
     public ExitToMenuHud(SpriteBatch batch, Main game) {
         super(batch);
-        this.button = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/exit"), UiSkin.getButtonStyle());
+        this.button = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/exit_game"), UiSkin.getButtonStyle());
         this.button.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

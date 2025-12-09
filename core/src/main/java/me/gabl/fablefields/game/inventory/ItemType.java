@@ -25,6 +25,14 @@ public class ItemType {
         return false;
     }
 
+    public String getUseToolTip() {
+        return null;
+    }
+
+    public String tooltip(String name) {
+        return Asset.LANGUAGE_SERVICE.get("item/"+this.id+"/tooltip/"+name);
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (!(o instanceof ItemType type)) return false;
