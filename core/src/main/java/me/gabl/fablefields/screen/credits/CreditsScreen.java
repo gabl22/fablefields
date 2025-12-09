@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import me.gabl.fablefields.Main;
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.screen.game.ExitToMenuHud;
 import me.gabl.fablefields.screen.ui.UiSkin;
 import me.gabl.fablefields.screen.util.BaseScreen;
@@ -35,7 +36,7 @@ public class CreditsScreen extends BaseScreen {
         Label title = new Label("Credits", skin);
         root.add(title).center().padBottom(50).row();
 
-        root.add(creditTable("Graphics", "DanielDiggle", "https://danieldiggle.itch.io/sunnyside")).row();
+        root.add(creditTable(language("graphics"), "danieldiggle")).row();
         root.add().padBottom(40).row();
 
         stage.addActor(root);
@@ -44,17 +45,17 @@ public class CreditsScreen extends BaseScreen {
         multiplexer.show();
     }
 
-    public Table creditTable(String function, String reference, String url) {
+    public Table creditTable(String function, String name) {
         Table table = new Table();
         table.pad(10);
         Label functionLabel = new Label(function + ":", skin);
-        Label referenceLabel = new Label(reference, skin);
+        Label referenceLabel = new Label(language(name + "/reference"), skin);
 
-        TextButton link = new TextButton("Open Link", skin);
+        TextButton link = new TextButton(language("open_link"), skin);
         link.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.net.openURI(url);
+                Gdx.net.openURI(language(name + "/url"));
                 return true;
             }
         });
@@ -89,5 +90,9 @@ public class CreditsScreen extends BaseScreen {
     @Override
     public void dispose() {
         multiplexer.dispose();
+    }
+
+    private String language(String name) {
+        return Asset.LANGUAGE_SERVICE.get("credits/"+name);
     }
 }

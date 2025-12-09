@@ -29,39 +29,37 @@ public class CursorManager {
     }
 
     public void update() {
+        screen.toolTipHud.hide();
         if (screen.camController.isDragging()) {
             Cursors.grab();
             return;
         }
 
-        getCursorPosition(position2);
         for (Hud hud : huds) {
             if (hud.isHovering()) {
                 Cursors.arrow();
                 return;
             }
         }
+
+
+        getCursorPosition(position2);
         Item selectedItem = player.inventory.getSelectedItem();
         if (selectedItem == null) {
             Cursors.pointer();
-            return;
-        }
-
-        UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y,
-                screen.entityHitCursor());
-        if (selectedItem.type.isUsable(context)) {
-            Cursors.arrow();
-            String toolTip = selectedItem.type.getUseToolTip(context);
-            if (toolTip != null) {
-                screen.toolTipHud.updatePosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                screen.toolTipHud.update(toolTip, selectedItem.type);
-                screen.toolTipHud.show();
-            } else {
-                screen.toolTipHud.hide();
-            }
         } else {
-            screen.toolTipHud.hide();
-            Cursors.unavailable();
+            UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y, screen.entityHitCursor());
+            if (selectedItem.type.isUsable(context)) {
+                Cursors.arrow();
+                String toolTip = selectedItem.type.getUseToolTip(context);
+                if (toolTip != null) {
+                    screen.toolTipHud.updatePosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                    screen.toolTipHud.update(toolTip, selectedItem.type);
+                    screen.toolTipHud.show();
+                }
+            } else {
+                Cursors.unavailable();
+            }
         }
     }
 

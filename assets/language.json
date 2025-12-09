@@ -10,6 +10,8 @@
     "item/shovel/tooltip/untill": "UNTILL",
     "item/shovel/tooltip/till": "TILL",
     "item/sword/tooltip/hit": "HIT %entity%",
+    "item/watering_can/tooltip/water_crop": "WATER %crop%",
+    "item/seed/plant_crop": "PLANT %crop%",
 
 
     "material/carrot": "Carrot",
@@ -24,6 +26,11 @@
     "material/wheat": "Wheat",
     "material/lettuce": "Lettuce",
 
-    "entity/chicken": "Chicken"
+    "entity/chicken": "Chicken",
+
+    "credits/graphics": "Graphics",
+    "credits/open_link": "Open Link",
+    "credits/danieldiggle/reference": "DanielDiggle",
+    "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside"
   }
 }
