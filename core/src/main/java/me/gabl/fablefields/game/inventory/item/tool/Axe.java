@@ -31,7 +31,7 @@ public class Axe extends Tool {
     }
 
     @Override
-    public String getUseToolTip() {
+    protected String getUseToolTip() {
         return tooltip("chop_tree");
     }
 }

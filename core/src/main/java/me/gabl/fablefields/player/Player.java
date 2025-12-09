@@ -32,7 +32,7 @@ public class Player extends Entity {
     public Inventory inventory;
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
-        super(chunk);
+        super(chunk, "player");
         this.gameScreen = gameScreen;
         this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();

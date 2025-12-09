@@ -25,12 +25,20 @@ public class ItemType {
         return false;
     }
 
-    public String getUseToolTip() {
+    public String getUseToolTip(UseContext context) {
+        return getUseToolTip();
+    }
+
+    protected String getUseToolTip() {
         return null;
     }
 
+    public String language(String name) {
+        return Asset.LANGUAGE_SERVICE.get(name);
+    }
+
     public String tooltip(String name) {
-        return Asset.LANGUAGE_SERVICE.get("item/"+this.id+"/tooltip/"+name);
+        return language("item/"+this.id+"/tooltip/"+name);
     }
 
     @Override

@@ -12,11 +12,11 @@ public class Chicken extends Animal {
 
     @SuppressWarnings("unchecked")
     public Chicken(MapChunk chunk) {
-        super(chunk);
+        super(chunk, "chicken");
         super.setSize(2, 2);
         setOrigin(1, 0.5f);
         setHitbox(HitBox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
-        maxHealth = 200;
+        maxHealth = 12;
         health = maxHealth;
         getAnimation().setAnimationLayers(new Animation[]{getChickenAnimation()});
     }
@@ -30,10 +30,5 @@ public class Chicken extends Animal {
     @Override
     public void act(float delta) {
         super.act(delta);
-    }
-
-    @Override
-    public void onDamage(float damage) {
-        super.onDamage(damage);
     }
 }

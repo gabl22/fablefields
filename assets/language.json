@@ -5,6 +5,25 @@
     "navigation/quit_application": "Quit",
     "navigation/credits": "Credits",
     "navigation/start_game": "Start Game",
-    "item/axe/tooltip/chop_tree": "CHOP"
+    "item/axe/tooltip/chop_tree": "CHOP",
+    "item/hoe/tooltip/harvest_crop": "HARVEST %crop%",
+    "item/shovel/tooltip/untill": "UNTILL",
+    "item/shovel/tooltip/till": "TILL",
+    "item/sword/tooltip/hit": "HIT %entity%",
+
+
+    "material/carrot": "Carrot",
+    "material/cauliflower": "Cauliflower",
+    "material/pumpkin": "Pumpkin",
+    "material/sunflower": "Sunflower",
+    "material/radish": "Radish",
+    "material/parsnip": "Parsnip",
+    "material/potato": "Potato",
+    "material/cabbage": "Cabbage",
+    "material/beetroot": "Beetroot",
+    "material/wheat": "Wheat",
+    "material/lettuce": "Lettuce",
+
+    "entity/chicken": "Chicken"
   }
 }

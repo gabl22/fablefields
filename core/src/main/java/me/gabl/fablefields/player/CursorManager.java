@@ -51,7 +51,7 @@ public class CursorManager {
                 screen.entityHitCursor());
         if (selectedItem.type.isUsable(context)) {
             Cursors.arrow();
-            String toolTip = selectedItem.type.getUseToolTip();
+            String toolTip = selectedItem.type.getUseToolTip(context);
             if (toolTip != null) {
                 screen.toolTipHud.updatePosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
                 screen.toolTipHud.update(toolTip, selectedItem.type);

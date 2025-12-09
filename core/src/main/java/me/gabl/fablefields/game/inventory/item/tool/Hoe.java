@@ -5,6 +5,7 @@ import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.material.Materials;
+import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
 
@@ -34,5 +35,12 @@ public final class Hoe extends Tool {
             return tile.isFullyGrown();
         }
         return false;
+    }
+
+
+    @Override
+    public String getUseToolTip(UseContext context) {
+        PlantMaterial material = ((PlantTile) context.getTile(MapLayer.FEATURE)).getMaterial();
+        return tooltip("harvest_crop").replace("%crop%", language("material/" + material.id));
     }
 }

@@ -10,8 +10,11 @@ public class Entity extends Actor {
     @Setter
     protected HitBox hitbox;
 
-    public Entity(MapChunk chunk) {
+    public final String id;
+
+    public Entity(MapChunk chunk, String id) {
         this.chunk = chunk;
+        this.id = id;
     }
 
     @Override

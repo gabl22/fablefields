@@ -101,7 +101,11 @@ public class GameScreen extends BaseScreen {
         stage.addActor(entities);
 
         entities.addActor(player);
-        entities.addActor(new Chicken(chunk));
+        for (int i = 0; i < 150; i++) {
+            Chicken chicken = new Chicken(chunk);
+            chicken.setPosition(MathUtil.RANDOM.nextFloat() * chunk.width, MathUtil.RANDOM.nextFloat() * chunk.height);
+            entities.addActor(chicken);
+        }
 
         for (int i = 0; i < 500; i++) {
             float x = MathUtil.RANDOM.nextFloat() * chunk.width;
