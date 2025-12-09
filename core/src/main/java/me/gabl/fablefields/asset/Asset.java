@@ -31,6 +31,8 @@ public class Asset {
 
     public static final TileSet TILESET = new TileSet();
     public static final TileSetRegistry REGISTRY = new TileSetRegistry(Gdx.files.local("tiles/tileset.json"), TILESET);
+    public static final LanguageRegistry LANGUAGE_SERVICE = new LanguageRegistry(Gdx.files.local("language.json"));
+
     public static final int TILE_SIZE = 16;
     //TODO
     public static GameAssetManager manager;
@@ -44,6 +46,8 @@ public class Asset {
             UI_BOX_DARK = new NinePatch(Asset.manager.get(UI_BOX).findRegion("dark_knob"), 3, 3, 3, 3);
             UI_BOX_LIGHT = new NinePatch(Asset.manager.get(UI_BOX).findRegion("light_knob"), 3, 3, 3, 3);
             UI_BOX_WHITE = new NinePatch(Asset.manager.get(UI_BOX).findRegion("white_knob"), 3, 3, 3, 3);
+
+            LANGUAGE_SERVICE.read();
         }
         if (LoadSection.BEFORE_GAME_SCREEN > Asset.sectionCompleted && LoadSection.BEFORE_GAME_SCREEN <= section) {
             REGISTRY.read();

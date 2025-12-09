@@ -301,6 +301,7 @@ elements/trees/tree_round.png
 elements/trees/tree_slim.png
 fablefields.png
 fablefieldsx2.png
+language.json
 libgdx.png
 map/test1.tmx
 map/test2.tmx

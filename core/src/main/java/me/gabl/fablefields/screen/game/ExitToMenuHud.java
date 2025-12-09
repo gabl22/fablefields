@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import me.gabl.fablefields.Main;
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.asset.Cursors;
 import me.gabl.fablefields.screen.menu.MenuButton;
 import me.gabl.fablefields.screen.menu.MenuScreen;
@@ -18,7 +19,7 @@ public class ExitToMenuHud extends Hud {
 
     public ExitToMenuHud(SpriteBatch batch, Main game) {
         super(batch);
-        this.button = new MenuButton("Exit", UiSkin.getButtonStyle());
+        this.button = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/exit"), UiSkin.getButtonStyle());
         this.button.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
