@@ -7,8 +7,8 @@ public class LivingEntity extends AnimatedEntity {
     public float maxHealth;
     public float health;
 
-    public LivingEntity(MapChunk chunk) {
-        super(chunk);
+    public LivingEntity(MapChunk chunk, String id) {
+        super(chunk, id);
     }
 
     public final void inflictDamage(float damage) {

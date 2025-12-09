@@ -17,7 +17,6 @@ public final class Shovel extends Tool {
 
     @Override
     public void use(UseContext context) {
-        if (!context.chunkContainsTile()) return;
         MapTile surfaceTile = context.getTile(MapLayer.SURFACE);
         Material old = surfaceTile == null ? null : surfaceTile.material;
         RunningAction soilGround = RunningAction.get(Action.DIG).copyAnimation();
@@ -34,5 +33,13 @@ public final class Shovel extends Tool {
     public boolean isUsable(UseContext context) {
         if (!context.cursorInRange(Range.TOOL)) return false;
         return Materials.DIRT.materialEquals(context.chunk.getTile(MapLayer.GROUND, context.mouseX, context.mouseY));
+    }
+
+    @Override
+    public String getUseToolTip(UseContext context) {
+        MapTile surfaceTile = context.getTile(MapLayer.SURFACE);
+        Material old = surfaceTile == null ? null : surfaceTile.material;
+        if (old == Materials.SOIL) return tooltip("untill");
+        else return tooltip("till");
     }
 }

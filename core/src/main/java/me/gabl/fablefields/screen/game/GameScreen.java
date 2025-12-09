@@ -43,6 +43,8 @@ public class GameScreen extends BaseScreen {
     private Player player;
     private CursorManager cursorManager;
 
+    public ToolTipHud toolTipHud;
+
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
 
@@ -86,18 +88,26 @@ public class GameScreen extends BaseScreen {
 
         player.inventory = inventory;
 
+        this.toolTipHud = new ToolTipHud(batch);
         this.inventoryHud = new InventoryHud(batch, inventory);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);
+        multiplexer.addProcessor(toolTipHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), this.inventoryHud,
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), toolTipHud, this.inventoryHud,
                 this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
 
         Entities entities = new Entities();
         stage.addActor(entities);
 
         entities.addActor(player);
-        entities.addActor(new Chicken(chunk));
+        for (int i = 0; i < 40; i++) {
+            Chicken chicken = new Chicken(chunk);
+            do {
+                chicken.setPosition(MathUtil.RANDOM.nextFloat() * chunk.width, MathUtil.RANDOM.nextFloat() * chunk.height);
+            } while (!chunk.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()));
+            entities.addActor(chicken);
+        }
 
         for (int i = 0; i < 500; i++) {
             float x = MathUtil.RANDOM.nextFloat() * chunk.width;
@@ -109,7 +119,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        this.cursorManager = new CursorManager(player, this, chunk);
+        this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud);
         multiplexer.show();
 
         this.syncScheduler = new ActSynchronousScheduler();

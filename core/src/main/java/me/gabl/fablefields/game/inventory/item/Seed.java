@@ -7,6 +7,8 @@ import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
 import me.gabl.fablefields.util.Logger;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public final class Seed extends ItemType {
 
@@ -22,8 +24,7 @@ public final class Seed extends ItemType {
     public static final Seed WHEAT = new Seed("wheat_seed");
     public static final Seed LETTUCE = new Seed("lettuce_seed");
 
-
-    public Seed(String id) {
+    private Seed(String id) {
         super(id);
     }
 
@@ -43,7 +44,13 @@ public final class Seed extends ItemType {
 
     }
 
-    public static PlantMaterial getMaterial(Seed seed) {
+    @Override
+    protected String getUseToolTip() {
+        return language("item/seed/plant_crop").replace("%crop%", language("material/" + getMaterial(this).id));
+    }
+
+    @Contract("_ -> !null")
+    public static PlantMaterial getMaterial(@NotNull Seed seed) {
         return switch (seed.id) {
             case "carrot_seed" -> Materials.CARROT;
             case "cauliflower_seed" -> Materials.CAULIFLOWER;

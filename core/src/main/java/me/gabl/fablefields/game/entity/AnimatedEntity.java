@@ -9,8 +9,8 @@ public class AnimatedEntity extends Entity {
     @Getter
     private final EntityAnimation animation;
 
-    public AnimatedEntity(MapChunk chunk) {
-        super(chunk);
+    public AnimatedEntity(MapChunk chunk, String id) {
+        super(chunk, id);
         this.animation = new EntityAnimation();
     }
 

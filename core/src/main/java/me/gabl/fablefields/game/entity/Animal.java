@@ -10,8 +10,8 @@ public class Animal extends LivingEntity {
     private float actionDuration;
     private int direction;
 
-    public Animal(MapChunk chunk) {
-        super(chunk);
+    public Animal(MapChunk chunk, String id) {
+        super(chunk, id);
     }
 
     @Override

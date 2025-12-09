@@ -301,6 +301,7 @@ elements/trees/tree_round.png
 elements/trees/tree_slim.png
 fablefields.png
 fablefieldsx2.png
+language.json
 libgdx.png
 map/test1.tmx
 map/test2.tmx
@@ -379,7 +380,7 @@ ui/happiness_02.png
 ui/happiness_03.png
 ui/happiness_04.png
 ui/indicator.png
-ui/itemdisc_01.png
+ui/itemdisc.png
 ui/itemdisc_02.png
 ui/label_left.png
 ui/label_middle.png
@@ -412,3 +413,4 @@ ui/uiskin.atlas
 ui/uiskin.json
 ui/uiskin.png
 ui/water.png
+xmlgdxpref/keybind.json

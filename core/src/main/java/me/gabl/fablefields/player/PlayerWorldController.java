@@ -27,7 +27,6 @@ public class PlayerWorldController implements DefaultInputProcessor {
 
     public void checkUse() {
         Slot slot = player.inventory.getSelectedSlot();
-        // todo check if hit instanceof entity
         if (slot == null) return;
         Vector2 position = ScreenUtil.getPosition(screenVector.x, screenVector.y, screen);
         UseContext context = new UseContext(slot.item, player, screen, chunk, position.x, position.y,

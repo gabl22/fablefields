@@ -49,7 +49,7 @@ public class MenuScreen implements Screen {
         this.camera.update();
 
 
-        this.startButton = new MenuButton("Start Game");
+        this.startButton = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/start_game"));
         this.startButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -57,7 +57,7 @@ public class MenuScreen implements Screen {
                 return true;
             }
         });
-        this.exitButton = new MenuButton("Exit");
+        this.exitButton = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/quit_application"));
         this.exitButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -66,7 +66,7 @@ public class MenuScreen implements Screen {
                 return true;
             }
         });
-        this.creditsButton = new MenuButton("Credits");
+        this.creditsButton = new MenuButton(Asset.LANGUAGE_SERVICE.get("navigation/credits"));
         this.creditsButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

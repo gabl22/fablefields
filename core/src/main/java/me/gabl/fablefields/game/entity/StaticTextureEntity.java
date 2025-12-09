@@ -11,13 +11,13 @@ public class StaticTextureEntity extends Entity {
     @Setter
     private boolean flip;
 
-    public StaticTextureEntity(MapChunk chunk, Texture texture) {
-        super(chunk);
+    public StaticTextureEntity(MapChunk chunk, String id, Texture texture) {
+        super(chunk, id);
         this.texture = texture;
     }
 
-    public StaticTextureEntity(MapChunk chunk) {
-        super(chunk);
+    public StaticTextureEntity(MapChunk chunk, String id) {
+        super(chunk, id);
     }
 
     @Override

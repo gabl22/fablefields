@@ -23,4 +23,8 @@ public class MenuButton extends TextButton {
     public MenuButton(String text) {
         super(text, commonStyle);
     }
+
+    public MenuButton(String text, TextButtonStyle style) {
+        super(text, style);
+    }
 }

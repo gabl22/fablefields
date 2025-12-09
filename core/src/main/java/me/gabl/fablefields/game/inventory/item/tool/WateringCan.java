@@ -2,6 +2,7 @@ package me.gabl.fablefields.game.inventory.item.tool;
 
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapLayer;
+import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.Range;
@@ -32,5 +33,12 @@ public final class WateringCan extends Tool {
             return tile.needsWater();
         }
         return false;
+    }
+
+
+    @Override
+    public String getUseToolTip(UseContext context) {
+        PlantMaterial material = ((PlantTile) context.getTile(MapLayer.FEATURE)).getMaterial();
+        return tooltip("water_crop").replace("%crop%", language("material/" + material.id));
     }
 }

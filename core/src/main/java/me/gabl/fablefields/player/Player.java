@@ -11,8 +11,6 @@ import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.Logger;
 
-import java.util.function.BiFunction;
-
 public class Player extends Entity {
 
     private static final Logger logger = Logger.get(Player.class);
@@ -32,7 +30,7 @@ public class Player extends Entity {
     public Inventory inventory;
 
     public Player(GameScreen gameScreen, MapChunk chunk) {
-        super(chunk);
+        super(chunk, "player");
         this.gameScreen = gameScreen;
         this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();
@@ -139,40 +137,6 @@ public class Player extends Entity {
         this.action.start();
     }
 
-    private Vector2 findSafety(BiFunction<Integer, Integer, Boolean> safetyPredicate) {
-        int checkX = (int) getX();
-        int checkY = (int) getY();
-        int cycles = 0;
-        int stepLength = 1;
-        while (cycles < 12) {
-            for (int i = 0; i < stepLength; i++) {
-                checkX++;
-                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
-            }
-
-            for (int i = 0; i < stepLength; i++) {
-                checkY++;
-                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
-            }
-
-            stepLength++;
-
-            for (int i = 0; i < stepLength; i++) {
-                checkX--;
-                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
-            }
-
-            for (int i = 0; i < stepLength; i++) {
-                checkY--;
-                if (safetyPredicate.apply(checkX, checkY)) return new Vector2(checkX, checkY);
-            }
-
-            stepLength++;
-            cycles++;
-        }
-        return null;
-    }
-
     public boolean actionReplaceable() {
         return this.action.action != Action.SWIMMING && chunk.is(Movement.WALKABLE, getX(), getY());
     }
@@ -192,21 +156,6 @@ public class Player extends Entity {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.currentAnimation.draw(batch, this);
-    }
-
-    public void onSpawn() {
-        if (chunk.is(Movement.WALKABLE, getX(), getY())) {
-            return;
-        }
-        //@formatter:off
-        Vector2 safePosition = findSafety((x, y) ->
-                Player.this.gameScreen.getChunk().is(Movement.WALKABLE, x, y));
-        //@formatter:on
-        if (safePosition == null) {
-            logger.error("No safe position for player found.");
-        } else {
-            setPosition(safePosition.x + 0.5f, safePosition.y);
-        }
     }
 
     public static class Attributes {

@@ -14,7 +14,7 @@ public class Tree extends StaticTextureEntity {
     public static final Type[] TYPES = new Type[]{ROUND, SLIM, CONE};
 
     public Tree(MapChunk chunk, Type type) {
-        super(chunk, Asset.manager.get(Asset.getTexture(type.texturePath)));
+        super(chunk, "tree", Asset.manager.get(Asset.getTexture(type.texturePath)));
         float width = texture.getWidth() / 16f;
         float height = texture.getHeight() / 16f;
         setSize(width, height);
