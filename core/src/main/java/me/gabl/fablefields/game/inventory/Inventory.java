@@ -82,6 +82,15 @@ public class Inventory {
     }
 
     /**
+     * adds one item to the inventory
+     * @param type of item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(ItemType type) {
+        return addItem(type, 1);
+    }
+
+    /**
      * @param count amount of item to be added
      * @param item  item to be added
      * @return true iff item has been added to inventory

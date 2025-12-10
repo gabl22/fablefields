@@ -2,6 +2,12 @@
   "data": {
     "class": "java.util.HashMap",
     "item/wood": 753,
+    "item/coin": 1336,
+    "item/iron": 1463,
+    "item/coal": 1591,
+    "item/diamond": 1719,
+    "item/gold": 1847,
+    "item/stone": 1975,
     "item/carrot": 691,
     "item/cauliflower": 692,
     "item/pumpkin": 693,

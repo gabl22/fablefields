@@ -16,6 +16,7 @@ import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.entity.Chicken;
 import me.gabl.fablefields.game.entity.Entity;
+import me.gabl.fablefields.game.inventory.item.GenericItems;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.MapGenerator;
@@ -84,6 +85,7 @@ public class GameScreen extends BaseScreen {
         inventory.addItem(Seed.BEETROOT, 10);
         inventory.addItem(Seed.WHEAT, 10);
         inventory.addItem(Seed.LETTUCE, 10);
+        inventory.addItem(GenericItems.COIN);
 
 
         player.inventory = inventory;
