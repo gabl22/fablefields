@@ -45,6 +45,7 @@ public class GameScreen extends BaseScreen {
     private CursorManager cursorManager;
 
     public ToolTipHud toolTipHud;
+    public ObjectivesHud objectivesHud;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -91,12 +92,14 @@ public class GameScreen extends BaseScreen {
         player.inventory = inventory;
 
         this.toolTipHud = new ToolTipHud(batch);
+        this.objectivesHud = new ObjectivesHud(batch);
         this.inventoryHud = new InventoryHud(batch, inventory);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);
+        multiplexer.addProcessor(objectivesHud);
         multiplexer.addProcessor(toolTipHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), toolTipHud, this.inventoryHud,
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), objectivesHud.getStage(), toolTipHud, this.inventoryHud,
                 this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
 
         Entities entities = new Entities();

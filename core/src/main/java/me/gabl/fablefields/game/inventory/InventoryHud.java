@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.screen.game.HoverListener;
 import me.gabl.fablefields.screen.ui.Hud;
+import me.gabl.fablefields.screen.ui.UiSkin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +54,9 @@ public class InventoryHud extends Hud {
         slotCount = new ArrayList<>(COLUMNS * ROWS);
         slots = new ArrayList<>(COLUMNS * ROWS);
 
-        slotBackground = new NinePatchDrawable(Asset.UI_BOX_LIGHT);
-        slotSelectedBackground = new NinePatchDrawable(Asset.UI_BOX_DARK);
-        slotSwapBackground = new NinePatchDrawable(Asset.UI_BOX_WHITE);
+        slotBackground = UiSkin.skin().get("box-light-2", NinePatchDrawable.class);
+        slotSelectedBackground = UiSkin.skin().get("box-dark-2", NinePatchDrawable.class);
+        slotSwapBackground = UiSkin.skin().get("box-white-2", NinePatchDrawable.class);
     }
 
     public void update() {
