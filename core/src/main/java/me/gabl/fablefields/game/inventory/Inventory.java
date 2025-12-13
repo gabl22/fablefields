@@ -1,5 +1,10 @@
 package me.gabl.fablefields.game.inventory;
 
+import me.gabl.fablefields.screen.game.GameScreen;
+import me.gabl.fablefields.task.eventbus.EventBus;
+import me.gabl.fablefields.task.eventbus.event.InventoryAddItemEvent;
+import me.gabl.fablefields.task.eventbus.event.InventorySwapSlotEvent;
+
 import java.util.function.Predicate;
 
 public class Inventory {
@@ -9,11 +14,13 @@ public class Inventory {
     final Slot[] slots;
     Runnable onUpdate;
     int selectedSlot;
+    private final EventBus bus;
 
-    public Inventory(int size) {
+    public Inventory(int size, GameScreen screen) {
         this.slots = new Slot[size];
         this.size = size;
         this.selectedSlot = 0;
+        this.bus = screen.eventBus;
     }
 
     public Slot getSelectedSlot() {
@@ -47,11 +54,15 @@ public class Inventory {
         return matches;
     }
 
-    public Slot setSlot(int slotId, Slot slot) {
+    private Slot setSlot(int slotId, Slot slot) {
         Slot oldSlot = slots[slotId];
         slots[slotId] = slot;
         reportUpdate();
         return oldSlot;
+    }
+
+    public Slot getSlot(int slotId) {
+        return slots[slotId];
     }
 
     private void reportUpdate() {
@@ -62,6 +73,7 @@ public class Inventory {
         Slot oldSlot = slots[slotId1];
         slots[slotId1] = slots[slotId2];
         slots[slotId2] = oldSlot;
+        bus.fire(new InventorySwapSlotEvent(this, slotId1, slotId2));
         reportUpdate();
     }
 
@@ -101,6 +113,7 @@ public class Inventory {
             if (slots[i] == null) continue;
             if (item.mergeableWith(slots[i].item)) {
                 slots[i] = new Slot(item, count + slots[i].count);
+                bus.fire(new InventoryAddItemEvent(this, slots[i]));
                 reportUpdate();
                 return true;
             }
@@ -109,6 +122,7 @@ public class Inventory {
         for (int i = 0; i < size; i++) {
             if (slots[i] == null || slots[i].item == null) {
                 slots[i] = new Slot(item, count);
+                bus.fire(new InventoryAddItemEvent(this, slots[i]));
                 reportUpdate();
                 return true;
             }

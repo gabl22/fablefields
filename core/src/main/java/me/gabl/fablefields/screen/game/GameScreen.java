@@ -27,6 +27,8 @@ import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.task.ActSynchronousScheduler;
+import me.gabl.fablefields.task.eventbus.EventBus;
+import me.gabl.fablefields.task.eventbus.SyncEventBus;
 import me.gabl.fablefields.util.MathUtil;
 import me.gabl.fablefields.util.ScreenUtil;
 
@@ -46,6 +48,7 @@ public class GameScreen extends BaseScreen {
 
     public ToolTipHud toolTipHud;
     public ObjectivesHud objectivesHud;
+    public EventBus eventBus;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -56,6 +59,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         this.keyManager = new KeyInputManager();
+        this.eventBus = new SyncEventBus();
 
         this.chunk = MapGenerator.getMap();
         this.chunk.initRenderComponent();
@@ -68,7 +72,7 @@ public class GameScreen extends BaseScreen {
         this.player.onSpawn();
         this.camController = new OrthographicCameraController(viewport, this.player);
 
-        Inventory inventory = new Inventory(InventoryHud.SLOTS);
+        Inventory inventory = new Inventory(InventoryHud.SLOTS, this);
         //TODO
         inventory.addItem(Tools.SWORD, 1);
         inventory.addItem(Tools.SHOVEL, 1);
