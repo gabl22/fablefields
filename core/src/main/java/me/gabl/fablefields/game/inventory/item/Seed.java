@@ -32,15 +32,11 @@ public final class Seed extends ItemType {
     public void use(UseContext context) {
         PlantMaterial material = getMaterial(this);
         //        PlantMaterial material = getMaterial((Seed) context.item.type); <- complicated way
-        if (material != null) { //should never be null!
-            PlantTile tile = material.createMapTile(context.getAddress(MapLayer.FEATURE), context.chunk);
-            context.setTile(MapLayer.FEATURE, tile);
-            context.chunk.getRenderComponent().updateCells(context.x(), context.y());
-            context.removeSelectedItem();
-            tile.getGrowTask().schedule(context.screen.syncScheduler);
-        } else {
-            Logger.get().error("No tile found for seed: " + id + " #okdtva");
-        }
+        PlantTile tile = material.createMapTile(context.getAddress(MapLayer.FEATURE), context.screen);
+        context.setTile(MapLayer.FEATURE, tile);
+        context.chunk.getRenderComponent().updateCells(context.x(), context.y());
+        context.removeSelectedItem();
+        tile.getGrowTask().schedule(context.screen.syncScheduler);
 
     }
 

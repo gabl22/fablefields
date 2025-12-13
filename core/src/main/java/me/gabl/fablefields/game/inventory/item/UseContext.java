@@ -65,7 +65,7 @@ public class UseContext extends Context {
     //material == null -> return null;
     public MapTile setTile(MapLayer layer, Material material) {
         ContextAddress address = getAddress(layer);
-        chunk.setTile(material == null ? null : material.createMapTile(address, chunk), address);
+        chunk.setTile(material == null ? null : material.createMapTile(address, screen), address);
         return chunk.getTile(address);
     }
 

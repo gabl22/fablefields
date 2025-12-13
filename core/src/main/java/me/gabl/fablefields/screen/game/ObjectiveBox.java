@@ -7,14 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.screen.ui.UiSkin;
 
-public class TaskBox extends Table {
+public class ObjectiveBox extends Table {
 
 
     private final Label titleLabel;
     private final Label bodyLabel;
     private final Table iconsTable;
 
-    public TaskBox(String title, String body, float fixedWidth) {
+    public ObjectiveBox(String title, String body, float fixedWidth) {
         super(UiSkin.skin());
         Skin skin = UiSkin.skin();
         setBackground(skin.getDrawable("box-light-2"));

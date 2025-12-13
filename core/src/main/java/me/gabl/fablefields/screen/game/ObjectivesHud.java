@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.objectives.Objective;
 import me.gabl.fablefields.screen.ui.Hud;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 
 public class ObjectivesHud extends Hud {
 
-    private final Map<Objective, TaskBox> objectiveBoxes = new HashMap<>();
+    private final Map<Objective, ObjectiveBox> objectiveBoxes = new HashMap<>();
 
     private final Table list;
 
@@ -55,7 +54,7 @@ public class ObjectivesHud extends Hud {
         Vector2 stageCoords = stage.screenToStageCoordinates(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         Actor hit = stage.hit(stageCoords.x, stageCoords.y, true);
         while (hit != null) {
-            if ((hit instanceof TaskBox) && hit.isDescendantOf(list)) {
+            if ((hit instanceof ObjectiveBox) && hit.isDescendantOf(list)) {
                 return true;
             }
             hit = hit.getParent();
@@ -64,28 +63,15 @@ public class ObjectivesHud extends Hud {
     }
 
     public void add(Objective objective) {
-        TaskBox box = new TaskBox(title(objective), body(objective), 200f);
+        ObjectiveBox box = new ObjectiveBox(objective.title(), objective.body(), 200f);
         list.add(box).width(220f).padTop(6f).left().row();
         objectiveBoxes.put(objective, box);
     }
 
-    private String title(Objective objective) {
-        return fillPlaceholders(Asset.LANGUAGE_SERVICE.get("objective/" + objective.id + "/title"), objective);
-    }
-
-    private String body(Objective objective) {
-        return fillPlaceholders(Asset.LANGUAGE_SERVICE.get("objective/" + objective.id + "/body"), objective);
-    }
-
-    private String fillPlaceholders(String text, Objective objective) {
-        return text.replace("%progress%", objective.progress + "/" + objective.maxProgress)
-                .replace("%remaining%", String.valueOf(objective.maxProgress - objective.progress));
-    }
-
     public void update(Objective objective) {
-        TaskBox box = objectiveBoxes.get(objective);
-        box.setTitle(title(objective));
-        box.setBody(body(objective));
+        ObjectiveBox box = objectiveBoxes.get(objective);
+        box.setTitle(objective.title());
+        box.setBody(objective.body());
     }
 
     public void clearIcons(Objective objective) {
@@ -97,6 +83,7 @@ public class ObjectivesHud extends Hud {
     }
 
     public void remove(Objective objective) {
-        objectiveBoxes.remove(objective).remove();
+        ObjectiveBox removed = objectiveBoxes.remove(objective);
+        if (removed != null) removed.remove();
     }
 }

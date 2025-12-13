@@ -36,6 +36,10 @@
     "objective/get_wood/title": "Get Wood (%progress%)",
     "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel.",
     "objective/till_soil/title": "Till Dirt to Soil (%progress%)",
-    "objective/till_soil/body": "Use your shovel to prepare the ground for sowing!"
+    "objective/till_soil/body": "Use your shovel to prepare the ground for sowing!",
+    "objective/water_plant/title": "Plant in Need of Water!",
+    "objective/water_plant/body": "Water your %plant%! All plants need water to grow.",
+    "objective/await_plant_harvestable/title": "Wait for %plant% to grow",
+    "objective/await_plant_harvestable/body": "In the meantime, you can plant some pumpkins."
   }
 }

@@ -1,9 +1,9 @@
 package me.gabl.fablefields.map.material;
 
-import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.MapTileContext;
 import me.gabl.fablefields.map.render.RenderInstruction;
+import me.gabl.fablefields.screen.game.GameScreen;
 
 public class PlantMaterial extends Material {
 
@@ -22,7 +22,7 @@ public class PlantMaterial extends Material {
     }
 
     @Override
-    public PlantTile createMapTile(ContextAddress address, MapChunk chunk) {
-        return new PlantTile(this, growthStages, address, chunk);
+    public PlantTile createMapTile(ContextAddress address, GameScreen screen) {
+        return new PlantTile(this, growthStages, address, screen.getChunk(), screen.eventBus);
     }
 }

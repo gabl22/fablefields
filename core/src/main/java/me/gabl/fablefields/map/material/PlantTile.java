@@ -8,6 +8,7 @@ import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.MapTileContext;
 import me.gabl.fablefields.map.render.RenderInstruction;
 import me.gabl.fablefields.map.render.ZIndex;
+import me.gabl.fablefields.task.eventbus.EventBus;
 
 // Prozess:
 // Pflanze angepflanzt
@@ -23,10 +24,10 @@ public class PlantTile extends MapTile {
     private int growthStage = 0;
     private boolean watered = false;
 
-    public PlantTile(PlantMaterial material, float[] growthStages, ContextAddress address, MapChunk chunk) {
+    public PlantTile(PlantMaterial material, float[] growthStages, ContextAddress address, MapChunk chunk, EventBus bus) {
         super(material, address);
         this.growthStages = growthStages;
-        this.growTask = new PlantGrowTask(this, chunk);
+        this.growTask = new PlantGrowTask(this, chunk, bus);
     }
 
     public boolean isFullyGrown() {
@@ -35,6 +36,7 @@ public class PlantTile extends MapTile {
 
     public void water() {
         if (needsWater()) {
+
             watered = true;
             growTask.reschedule();
         }

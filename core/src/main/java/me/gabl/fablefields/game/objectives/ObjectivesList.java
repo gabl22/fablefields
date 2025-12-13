@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.objectives;
 
 import me.gabl.fablefields.game.inventory.Inventory;
+import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.game.GameScreen;
@@ -32,12 +33,15 @@ public class ObjectivesList {
 
     void markCompleted(Objective objective) {
         currentObjectives.remove(objective);
-        hud.remove(objective);
+        if (!objective.hidden) hud.remove(objective);
         bus.removeListener(objective);
     }
 
     public void addTutorialObjectives() {
         add(Objectives.getWood(this));
+        //todo remove
+        player.inventory.addItem(Tools.SHOVEL);
+        add(Objectives.tillSoil(this));
     }
 
     void add(Objective objective) {

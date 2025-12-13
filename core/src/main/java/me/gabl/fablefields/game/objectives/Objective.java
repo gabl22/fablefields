@@ -1,11 +1,16 @@
 package me.gabl.fablefields.game.objectives;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.util.CompositeDrawable;
+
+import java.util.Arrays;
 
 public class Objective {
 
     public final String id;
-    private final ObjectivesList objectivesList;
+    protected final ObjectivesList objectivesList;
     public int progress;
     public final int maxProgress;
 
@@ -24,6 +29,10 @@ public class Objective {
 
     public Objective(String id, ObjectivesList objectivesList, int maxProgress) {
         this(id, objectivesList, false, maxProgress);
+    }
+
+    public Objective(String id, ObjectivesList objectivesList) {
+        this(id, objectivesList, false);
     }
 
     public void complete() {
@@ -64,7 +73,30 @@ public class Objective {
 
     public final void addIcon(String... names) {
         for (String name : names) {
-            objectivesList.hud.addIcon(this, Asset.REGISTRY.getDrawable(name), 32);
+            Drawable drawable;
+            if (name.contains(";")) {
+                drawable = new CompositeDrawable(Arrays.stream(name.split(";")).map(Asset.REGISTRY::getDrawable).toArray(Drawable[]::new));
+            } else {
+                drawable = Asset.REGISTRY.getDrawable(name);
+            }
+            objectivesList.hud.addIcon(this, drawable, 32);
         }
+    }
+
+    public String title() {
+        return fillPlaceholders(Asset.LANGUAGE_SERVICE.get("objective/" + id + "/title"));
+    }
+
+    public String body() {
+        return fillPlaceholders(Asset.LANGUAGE_SERVICE.get("objective/" + id + "/body"));
+    }
+
+    private String fillPlaceholders(String text) {
+        return fillSpecificPlaceholders(text.replace("%progress%", progress + "/" + maxProgress)
+                .replace("%remaining%", String.valueOf(maxProgress - progress)));
+    }
+
+    protected String fillSpecificPlaceholders(String text) {
+        return text;
     }
 }

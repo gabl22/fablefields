@@ -1,12 +1,12 @@
 package me.gabl.fablefields.game.objectives;
 
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.item.GenericItems;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
+import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.task.eventbus.Subscribe;
-import me.gabl.fablefields.task.eventbus.event.InventoryAddItemEvent;
-import me.gabl.fablefields.task.eventbus.event.TillSoilEvent;
-import me.gabl.fablefields.task.eventbus.event.UntillSoilEvent;
+import me.gabl.fablefields.task.eventbus.event.*;
 
 public class Objectives {
 
@@ -58,6 +58,53 @@ public class Objectives {
             public void onComplete() {
                 objectivesList.inventory.addItem(Seed.CARROT, 5);
                 objectivesList.inventory.addItem(Seed.CAULIFLOWER, 5);
+                objectivesList.add(HiddenObjectives.awaitWaterNeeded(objectivesList));
+            }
+        };
+    }
+
+    public static Objective waterPlant(ObjectivesList list, PlantMaterial material) {
+        return new Objective("water_plant", list, 1) {
+            private PlantMaterial wateredMaterial;
+
+            @Override
+            public void addIcons() {
+                super.addIcon("item/watering_can", "tile/soil/stage/0;tile/plant/"+material.id+"/stage/1", "item/"+material.id);
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%plant%", Asset.LANGUAGE_SERVICE.get("material/" + material.id));
+            }
+
+            @Subscribe
+            public void onPlantWater(PlantWaterEvent event) {
+                wateredMaterial = event.tile.getMaterial();
+                complete();
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(awaitPlantHarvestable(objectivesList, wateredMaterial));
+            }
+        };
+    }
+
+    public static Objective awaitPlantHarvestable(ObjectivesList list, PlantMaterial material) {
+        return new Objective("await_plant_harvestable", list) {
+            @Override
+            public void addIcons() {
+                addIcon("icon/hourglass", "icon/plant_grow", "tile/soil/stage/2;tile/plant/"+material.id+"/stage/2");
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%plant%", Asset.LANGUAGE_SERVICE.get("material/" + material.id));
+            }
+
+            @Subscribe
+            public void onPlantGrow(PlantGrowEvent event) {
+                if (event.tile.isFullyGrown()) complete();
             }
         };
     }
