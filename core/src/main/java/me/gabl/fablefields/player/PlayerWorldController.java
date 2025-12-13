@@ -7,6 +7,7 @@ import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.screen.util.DefaultInputProcessor;
+import me.gabl.fablefields.task.eventbus.event.ItemUseEvent;
 import me.gabl.fablefields.util.ScreenUtil;
 
 @AllArgsConstructor
@@ -36,6 +37,7 @@ public class PlayerWorldController implements DefaultInputProcessor {
         }
         turnPlayer(context);
         slot.item.type.use(context);
+        screen.eventBus.fire(new ItemUseEvent(context));
     }
 
     public void turnPlayer(UseContext context) {

@@ -16,10 +16,8 @@ import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.entity.Chicken;
 import me.gabl.fablefields.game.entity.Entity;
-import me.gabl.fablefields.game.inventory.item.GenericItems;
-import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
-import me.gabl.fablefields.game.objectives.Objectives;
+import me.gabl.fablefields.game.objectives.ObjectivesList;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
@@ -49,7 +47,7 @@ public class GameScreen extends BaseScreen {
 
     public ToolTipHud toolTipHud;
     public ObjectivesHud objectivesHud;
-    public Objectives objectives;
+    public ObjectivesList objectivesList;
     public EventBus eventBus;
 
     public GameScreen(Main game) {
@@ -80,28 +78,28 @@ public class GameScreen extends BaseScreen {
         inventory.addItem(Tools.SWORD, 1);
 //        inventory.addItem(Tools.SHOVEL, 1);
         inventory.addItem(Tools.HOE, 1);
-        inventory.addItem(Tools.WATERING_CAN, 1);
+//        inventory.addItem(Tools.WATERING_CAN, 1);
         inventory.addItem(Tools.AXE, 1);
-        inventory.addItem(Seed.CARROT, 10);
-        inventory.addItem(Seed.CAULIFLOWER, 10);
-        inventory.addItem(Seed.PUMPKIN, 10);
-        inventory.addItem(Seed.SUNFLOWER, 10);
-        inventory.addItem(Seed.RADISH, 10);
-        inventory.addItem(Seed.PARSNIP, 10);
-        inventory.addItem(Seed.POTATO, 10);
-        inventory.addItem(Seed.CABBAGE, 10);
-        inventory.addItem(Seed.BEETROOT, 10);
-        inventory.addItem(Seed.WHEAT, 10);
-        inventory.addItem(Seed.LETTUCE, 10);
-        inventory.addItem(GenericItems.COIN);
+//        inventory.addItem(Seed.CARROT, 10);
+//        inventory.addItem(Seed.CAULIFLOWER, 10);
+//        inventory.addItem(Seed.PUMPKIN, 10);
+//        inventory.addItem(Seed.SUNFLOWER, 10);
+//        inventory.addItem(Seed.RADISH, 10);
+//        inventory.addItem(Seed.PARSNIP, 10);
+//        inventory.addItem(Seed.POTATO, 10);
+//        inventory.addItem(Seed.CABBAGE, 10);
+//        inventory.addItem(Seed.BEETROOT, 10);
+//        inventory.addItem(Seed.WHEAT, 10);
+//        inventory.addItem(Seed.LETTUCE, 10);
+//        inventory.addItem(GenericItems.COIN);
 
 
         player.inventory = inventory;
 
         this.toolTipHud = new ToolTipHud(batch);
         this.objectivesHud = new ObjectivesHud(batch);
-        this.objectives = new Objectives(this, this.player);
-        this.objectives.addTutorialObjectives();
+        this.objectivesList = new ObjectivesList(this, this.player);
+        this.objectivesList.addTutorialObjectives();
         this.inventoryHud = new InventoryHud(batch, inventory);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);
@@ -133,7 +131,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud);
+        this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud, objectivesHud);
         multiplexer.show();
 
         this.syncScheduler = new ActSynchronousScheduler();

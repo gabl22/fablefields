@@ -34,6 +34,8 @@
     "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside",
 
     "objective/get_wood/title": "Get Wood (%progress%)",
-    "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel."
+    "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel.",
+    "objective/till_soil/title": "Till Dirt to Soil (%progress%)",
+    "objective/till_soil/body": "Use your shovel to prepare the ground for sowing!"
   }
 }
