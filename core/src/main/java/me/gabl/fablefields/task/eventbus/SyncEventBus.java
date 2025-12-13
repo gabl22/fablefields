@@ -3,6 +3,7 @@ package me.gabl.fablefields.task.eventbus;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class SyncEventBus implements EventBus {
 
@@ -21,7 +22,7 @@ public class SyncEventBus implements EventBus {
     public void addListener(Object listener) {
         Map<Class<?>, Set<Subscriber>> containedSubscribers = MethodScanner.findSubscribers(listener);
         this.listeners.put(listener, containedSubscribers);
-        for (Entry<Class<?>, Set<Subscriber>> entry : containedSubscribers.entrySet()) {
+        for (Entry<Class<?>, Set<Subscriber>> entry : containedSubscribers.entrySet().stream().collect(Collectors.toUnmodifiableSet())) {
             subscribers.computeIfAbsent(entry.getKey(), (_any) -> new HashSet<>()).addAll(entry.getValue());
         }
     }
@@ -29,7 +30,7 @@ public class SyncEventBus implements EventBus {
     @Override
     public void removeListener(Object listener) {
         Map<Class<?>, Set<Subscriber>> removedSubscribers = this.listeners.remove(listener);
-        for (Entry<Class<?>, Set<Subscriber>> entry : removedSubscribers.entrySet()) {
+        for (Entry<Class<?>, Set<Subscriber>> entry : removedSubscribers.entrySet().stream().collect(Collectors.toUnmodifiableSet())) {
             if (!subscribers.containsKey(entry.getKey())) {
                 continue;
             }
@@ -39,7 +40,7 @@ public class SyncEventBus implements EventBus {
                 subscribers.remove(entry.getKey());
             }
         }
-        removedSubscribers.forEach((key, value) -> subscribers.get(key).removeAll(value));
+//        removedSubscribers.forEach((key, value) -> subscribers.get(key).removeAll(value));
     }
 
     @Override
@@ -49,7 +50,7 @@ public class SyncEventBus implements EventBus {
             if (!subscribers.containsKey(hierarchyClass)) {
                 continue;
             }
-            for (Subscriber subscriber : subscribers.get(hierarchyClass)) {
+            for (Subscriber subscriber : subscribers.get(hierarchyClass).stream().toList()) {
                 invoke(subscriber, event);
             }
         }

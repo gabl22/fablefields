@@ -19,6 +19,7 @@ import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.inventory.item.GenericItems;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
+import me.gabl.fablefields.game.objectives.Objectives;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
@@ -48,6 +49,7 @@ public class GameScreen extends BaseScreen {
 
     public ToolTipHud toolTipHud;
     public ObjectivesHud objectivesHud;
+    public Objectives objectives;
     public EventBus eventBus;
 
     public GameScreen(Main game) {
@@ -72,10 +74,11 @@ public class GameScreen extends BaseScreen {
         this.player.onSpawn();
         this.camController = new OrthographicCameraController(viewport, this.player);
 
+
         Inventory inventory = new Inventory(InventoryHud.SLOTS, this);
         //TODO
         inventory.addItem(Tools.SWORD, 1);
-        inventory.addItem(Tools.SHOVEL, 1);
+//        inventory.addItem(Tools.SHOVEL, 1);
         inventory.addItem(Tools.HOE, 1);
         inventory.addItem(Tools.WATERING_CAN, 1);
         inventory.addItem(Tools.AXE, 1);
@@ -97,6 +100,8 @@ public class GameScreen extends BaseScreen {
 
         this.toolTipHud = new ToolTipHud(batch);
         this.objectivesHud = new ObjectivesHud(batch);
+        this.objectives = new Objectives(this, this.player);
+        this.objectives.addTutorialObjectives();
         this.inventoryHud = new InventoryHud(batch, inventory);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);

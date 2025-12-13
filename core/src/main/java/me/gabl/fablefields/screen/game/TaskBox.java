@@ -26,7 +26,7 @@ public class TaskBox extends Table {
         bodyLabel.setWrap(true);
         iconsTable = new Table();
         iconsTable.left();
-        defaults().left().top().expandX().fillX().pad(6f);
+        defaults().left().top().expandX().fillX().padLeft(6f).padRight(6f);
         add(titleLabel);
         row();
         add(bodyLabel);

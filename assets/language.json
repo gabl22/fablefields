@@ -31,6 +31,9 @@
     "credits/graphics": "Graphics",
     "credits/open_link": "Open Link",
     "credits/danieldiggle/reference": "DanielDiggle",
-    "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside"
+    "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside",
+
+    "objective/get_wood/title": "Get Wood (%progress%)",
+    "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel."
   }
 }

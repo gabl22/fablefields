@@ -22,6 +22,7 @@ public class Subscriber {
     }
 
     public void invoke(Object event) throws InvocationTargetException, IllegalAccessException {
+        method.setAccessible(true);
         method.invoke(listener, event);
     }
 }
