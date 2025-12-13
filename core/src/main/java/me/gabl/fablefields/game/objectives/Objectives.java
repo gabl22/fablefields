@@ -41,6 +41,7 @@ public class Objectives {
     void add(Objective objective) {
         currentObjectives.add(objective);
         hud.add(objective);
+        objective.addIcons();
         bus.addListener(objective);
     }
 

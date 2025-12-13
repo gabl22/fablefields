@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.objectives.Objective;
 import me.gabl.fablefields.screen.ui.Hud;
@@ -85,6 +86,14 @@ public class ObjectivesHud extends Hud {
         TaskBox box = objectiveBoxes.get(objective);
         box.setTitle(title(objective));
         box.setBody(body(objective));
+    }
+
+    public void clearIcons(Objective objective) {
+        objectiveBoxes.get(objective).clearIcons();
+    }
+
+    public void addIcon(Objective objective, Drawable drawable, float size) {
+        objectiveBoxes.get(objective).addIcon(drawable, size);
     }
 
     public void remove(Objective objective) {
