@@ -1,5 +1,6 @@
 package me.gabl.fablefields.game.objectives;
 
+import lombok.Getter;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.logic.MapChunk;
@@ -18,6 +19,7 @@ public class ObjectivesList {
     final GameScreen screen;
     final MapChunk chunk;
     final Inventory inventory;
+    @Getter
     private final List<Objective> currentObjectives;
     private final EventBus bus;
 
@@ -33,7 +35,7 @@ public class ObjectivesList {
 
     void markCompleted(Objective objective) {
         currentObjectives.remove(objective);
-        if (!objective.hidden) hud.remove(objective);
+        if (!objective.hidden) rebuildHud();
         bus.removeListener(objective);
     }
 
@@ -44,10 +46,19 @@ public class ObjectivesList {
         add(Objectives.tillSoil(this));
     }
 
+    void remove(Objective objective) {
+        currentObjectives.remove(objective);
+        rebuildHud();
+        bus.removeListener(objective);
+    }
+
     void add(Objective objective) {
         currentObjectives.add(objective);
         if (!objective.hidden) hud.add(objective);
-        objective.addIcons();
         bus.addListener(objective);
+    }
+
+    private void rebuildHud() {
+        hud.rebuild(currentObjectives.stream().filter(o -> !o.hidden).toList());
     }
 }

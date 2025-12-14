@@ -2,6 +2,7 @@ package me.gabl.fablefields.game.inventory.item;
 
 import me.gabl.fablefields.game.inventory.ItemType;
 import me.gabl.fablefields.map.material.PlantMaterial;
+import org.jetbrains.annotations.NotNull;
 
 //todo use concept (?)
 public class Crop extends ItemType {
@@ -22,9 +23,10 @@ public class Crop extends ItemType {
         super(id);
     }
 
+    @NotNull
     public static Crop getCrop(PlantMaterial plantMaterial) {
         return switch (plantMaterial.id) {
-            case "carrot" -> CARROT;
+             case "carrot" -> CARROT;
             case "cauliflower" -> CAULIFLOWER;
             case "pumpkin" -> PUMPKIN;
             case "sunflower" -> SUNFLOWER;

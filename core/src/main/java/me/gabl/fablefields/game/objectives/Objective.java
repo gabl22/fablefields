@@ -1,6 +1,5 @@
 package me.gabl.fablefields.game.objectives;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.util.CompositeDrawable;
@@ -58,29 +57,17 @@ public class Objective {
     public void update() {
         if (hidden) return;
         objectivesList.hud.update(this);
-        objectivesList.hud.clearIcons(this);
-        addIcons();
+        getIconNames();
     }
 
-    public void addIcons() {
+    public String[] getIconNames() {
 
+        return null;
     }
 
     public void regress() {
         progress--;
         update();
-    }
-
-    public final void addIcon(String... names) {
-        for (String name : names) {
-            Drawable drawable;
-            if (name.contains(";")) {
-                drawable = new CompositeDrawable(Arrays.stream(name.split(";")).map(Asset.REGISTRY::getDrawable).toArray(Drawable[]::new));
-            } else {
-                drawable = Asset.REGISTRY.getDrawable(name);
-            }
-            objectivesList.hud.addIcon(this, drawable, 32);
-        }
     }
 
     public String title() {

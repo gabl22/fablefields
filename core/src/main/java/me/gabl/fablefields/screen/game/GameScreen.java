@@ -77,7 +77,7 @@ public class GameScreen extends BaseScreen {
         //TODO
         inventory.addItem(Tools.SWORD, 1);
 //        inventory.addItem(Tools.SHOVEL, 1);
-        inventory.addItem(Tools.HOE, 1);
+//        inventory.addItem(Tools.HOE, 1);
 //        inventory.addItem(Tools.WATERING_CAN, 1);
         inventory.addItem(Tools.AXE, 1);
 //        inventory.addItem(Seed.CARROT, 10);

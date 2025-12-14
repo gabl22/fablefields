@@ -6,39 +6,30 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.game.objectives.Objective;
 import me.gabl.fablefields.screen.ui.Hud;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ObjectivesHud extends Hud {
 
     private final Map<Objective, ObjectiveBox> objectiveBoxes = new HashMap<>();
 
-    private final Table list;
+    private final Table root;
+    private Table list;
 
     public ObjectivesHud(SpriteBatch batch) {
         super(batch);
-        list = new Table();
-        list.top().right();
-//        this.taskBox = new TaskBox("Aquatitios", "Dreh eine Runde im Wasser!", 200f);
-    }
-
-    @Override
-    public void show() {
-        Table root = new Table();
+        this.root = new Table();
         root.setFillParent(true);
         root.top().right();
         root.pad(10f);
 
-//        list.add(taskBox).width(220f).left().top().row();
-//        list.add(new TaskBox("Title", "Body", 200f)).width(220f).padTop(6f).left().row();
-
-        root.add(list).left().top();
-
         stage.addActor(root);
+
+        rebuild(List.of());
     }
 
     public Stage getStage() {
@@ -62,28 +53,24 @@ public class ObjectivesHud extends Hud {
         return false;
     }
 
+    public void rebuild(List<Objective> objectives) {
+        if (list != null) list.remove();
+        root.removeActor(list);
+        this.list = new Table();
+        this.list.top().right();
+        root.add(list).left().top();
+        objectives.forEach(this::add);
+    }
+
     public void add(Objective objective) {
-        ObjectiveBox box = new ObjectiveBox(objective.title(), objective.body(), 200f);
-        list.add(box).width(220f).padTop(6f).left().row();
+        ObjectiveBox box = new ObjectiveBox(objective, 200f);
+        list.add(box).width(220f).padBottom(6f).left().row();
+        list.invalidate();
+        list.layout();
         objectiveBoxes.put(objective, box);
     }
 
     public void update(Objective objective) {
-        ObjectiveBox box = objectiveBoxes.get(objective);
-        box.setTitle(objective.title());
-        box.setBody(objective.body());
-    }
-
-    public void clearIcons(Objective objective) {
-        objectiveBoxes.get(objective).clearIcons();
-    }
-
-    public void addIcon(Objective objective, Drawable drawable, float size) {
-        objectiveBoxes.get(objective).addIcon(drawable, size);
-    }
-
-    public void remove(Objective objective) {
-        ObjectiveBox removed = objectiveBoxes.remove(objective);
-        if (removed != null) removed.remove();
+        objectiveBoxes.get(objective).rebuild();
     }
 }

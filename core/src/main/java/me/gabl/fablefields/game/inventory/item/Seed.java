@@ -63,6 +63,22 @@ public final class Seed extends ItemType {
         };
     }
 
+    @Contract("_ -> !null")
+    public static Seed getSeed(@NotNull PlantMaterial material) {
+        return switch (material.id) {
+            case "carrot" -> CARROT;
+            case "cauliflower" -> CAULIFLOWER;
+            case "pumpkin" -> PUMPKIN;
+            case "sunflower" -> SUNFLOWER;
+            case "radish" -> RADISH;
+            case "parsnip" -> PARSNIP;
+            case "potato" -> POTATO;
+            case "cabbage" -> CABBAGE;
+            case "beetroot" -> BEETROOT;
+            default -> null;
+        };
+    }
+
     @Override
     public boolean isUsable(UseContext context) {
         if (!context.cursorInRange(Range.PLACE)) {

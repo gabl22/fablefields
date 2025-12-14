@@ -5,7 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.game.objectives.Objective;
 import me.gabl.fablefields.screen.ui.UiSkin;
+import me.gabl.fablefields.util.CompositeDrawable;
+
+import java.util.Arrays;
 
 public class ObjectiveBox extends Table {
 
@@ -14,15 +19,31 @@ public class ObjectiveBox extends Table {
     private final Label bodyLabel;
     private final Table iconsTable;
 
-    public ObjectiveBox(String title, String body, float fixedWidth) {
+    private final Objective objective;
+    private final float fixedWidth;
+
+    public void rebuild() {
+//        clearChildren();
+        setTitle(objective.title());
+        setBody(objective.body());
+        updateIcons();
+
+        setWidth(fixedWidth);
+        invalidateHierarchy();
+        pack();
+    }
+
+    public ObjectiveBox(Objective objective, float fixedWidth) {
         super(UiSkin.skin());
+        this.objective = objective;
+        this.fixedWidth = fixedWidth;
         Skin skin = UiSkin.skin();
         setBackground(skin.getDrawable("box-light-2"));
-        titleLabel = new Label(title, skin, "title");
+        titleLabel = new Label(objective.title(), skin, "title");
         titleLabel.setFontScale(1.15f); //fake bold
         titleLabel.setColor(0f, 0f, 0f, 1f);
 
-        bodyLabel = new Label(body, skin, "default-black");
+        bodyLabel = new Label(objective.body(), skin, "default-black");
         bodyLabel.setWrap(true);
         iconsTable = new Table();
         iconsTable.left();
@@ -32,9 +53,8 @@ public class ObjectiveBox extends Table {
         add(bodyLabel);
         row();
         add(iconsTable);
-        setWidth(fixedWidth);
-        invalidateHierarchy();
-        pack();
+
+        rebuild();
     }
 
     public void setTitle(String title) {
@@ -57,7 +77,20 @@ public class ObjectiveBox extends Table {
         repack();
     }
 
-    public void addIcon(Drawable drawable, float size) {
+    public void updateIcons() {
+        clearIcons();
+        for (String name : objective.getIconNames()) {
+            Drawable drawable;
+            if (name.contains(";")) {
+                drawable = new CompositeDrawable(Arrays.stream(name.split(";")).map(Asset.REGISTRY::getDrawable).toArray(Drawable[]::new));
+            } else {
+                drawable = Asset.REGISTRY.getDrawable(name);
+            }
+            addIcon(drawable, 32);
+        }
+    }
+
+    private void addIcon(Drawable drawable, float size) {
         Image icon = new Image(drawable);
         iconsTable.add(icon).size(size).padRight(4f);
         repack();

@@ -4,6 +4,7 @@ import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.item.GenericItems;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
+import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.task.eventbus.Subscribe;
 import me.gabl.fablefields.task.eventbus.event.*;
@@ -18,8 +19,8 @@ public class Objectives {
         return new Objective("get_wood", objectivesList, 5) {
 
             @Override
-            public void addIcons() {
-                addIcon("item/axe", "item/wood", "item/shovel");
+            public String[] getIconNames() {
+                return new String[]{"item/axe", "item/wood", "item/shovel"};
             }
 
             @Subscribe
@@ -40,8 +41,8 @@ public class Objectives {
         return new Objective("till_soil", objectivesList, 7) {
 
             @Override
-            public void addIcons() {
-                super.addIcon("item/shovel", "tile/soil/stage/0", "item/carrot", "item/cauliflower");
+            public String[] getIconNames() {
+                return new String[]{"item/shovel", "tile/soil/stage/0", "item/carrot", "item/cauliflower"};
             }
 
             @Subscribe
@@ -68,8 +69,9 @@ public class Objectives {
             private PlantMaterial wateredMaterial;
 
             @Override
-            public void addIcons() {
-                super.addIcon("item/watering_can", "tile/soil/stage/0;tile/plant/"+material.id+"/stage/1", "item/"+material.id);
+            public String[] getIconNames() {
+                return new String[]{"item/watering_can", "tile/soil/stage/0;tile/plant/" + material.id + "/stage/1", "item" +
+                        "/" + material.id};
             }
 
             @Override
@@ -92,9 +94,12 @@ public class Objectives {
 
     public static Objective awaitPlantHarvestable(ObjectivesList list, PlantMaterial material) {
         return new Objective("await_plant_harvestable", list) {
+            private PlantMaterial grownMaterial;
+
             @Override
-            public void addIcons() {
-                addIcon("icon/hourglass", "icon/plant_grow", "tile/soil/stage/2;tile/plant/"+material.id+"/stage/2");
+            public String[] getIconNames() {
+                return new String[]{"icon/hourglass", "icon/plant_grow", "tile/soil/stage/2;tile/plant/" + material.id + "/stage" +
+                        "/2"};
             }
 
             @Override
@@ -104,7 +109,42 @@ public class Objectives {
 
             @Subscribe
             public void onPlantGrow(PlantGrowEvent event) {
-                if (event.tile.isFullyGrown()) complete();
+                if (event.tile.isFullyGrown()) {
+                    grownMaterial = event.tile.getMaterial();
+                    complete();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(harvestPlant(objectivesList, grownMaterial));
+                objectivesList.player.inventory.addItem(Tools.HOE, 1);
+            }
+        };
+    }
+
+    public static Objective harvestPlant(ObjectivesList list, PlantMaterial material) {
+        return new Objective("harvest_plant", list) {
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"item/hoe", "tile/soil/stage/3;tile/plant/" + material.id + "/stage/3", "item/" + material.id
+                        , "item/" + material.id + "_seed"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%plant%", Asset.LANGUAGE_SERVICE.get("material/" + material.id));
+            }
+
+            @Subscribe
+            private void onPlantHarvest(PlantHarvestEvent event) {
+                complete();
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(new HarvestNewSeedObjective(objectivesList, 10, Materials.CARROT,
+                        Materials.SUNFLOWER, 3));
             }
         };
     }
