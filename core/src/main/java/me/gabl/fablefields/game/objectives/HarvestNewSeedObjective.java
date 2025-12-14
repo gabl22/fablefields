@@ -28,7 +28,7 @@ public class HarvestNewSeedObjective extends Objective {
 
     @Subscribe
     public void onPlantHarvest(PlantHarvestEvent event) {
-        if (required.materialEquals(event.tile)) progress();
+        if (required.materialEquals(event.tile)) progress(event.awardedCrop);
     }
 
     @Override

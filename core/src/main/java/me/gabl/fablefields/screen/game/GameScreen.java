@@ -76,22 +76,7 @@ public class GameScreen extends BaseScreen {
         Inventory inventory = new Inventory(InventoryHud.SLOTS, this);
         //TODO
         inventory.addItem(Tools.SWORD, 1);
-//        inventory.addItem(Tools.SHOVEL, 1);
-//        inventory.addItem(Tools.HOE, 1);
-//        inventory.addItem(Tools.WATERING_CAN, 1);
         inventory.addItem(Tools.AXE, 1);
-//        inventory.addItem(Seed.CARROT, 10);
-//        inventory.addItem(Seed.CAULIFLOWER, 10);
-//        inventory.addItem(Seed.PUMPKIN, 10);
-//        inventory.addItem(Seed.SUNFLOWER, 10);
-//        inventory.addItem(Seed.RADISH, 10);
-//        inventory.addItem(Seed.PARSNIP, 10);
-//        inventory.addItem(Seed.POTATO, 10);
-//        inventory.addItem(Seed.CABBAGE, 10);
-//        inventory.addItem(Seed.BEETROOT, 10);
-//        inventory.addItem(Seed.WHEAT, 10);
-//        inventory.addItem(Seed.LETTUCE, 10);
-//        inventory.addItem(GenericItems.COIN);
 
 
         player.inventory = inventory;

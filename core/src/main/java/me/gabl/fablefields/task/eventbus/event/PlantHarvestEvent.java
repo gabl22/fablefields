@@ -4,12 +4,12 @@ import me.gabl.fablefields.map.material.PlantTile;
 
 public class PlantHarvestEvent extends PlantEvent {
 
-    private final int awardedSeeds;
-    private final int awardedPlant;
+    public final int awardedSeeds;
+    public final int awardedCrop;
 
-    public PlantHarvestEvent(PlantTile tile, int awardedSeeds, int awardedPlant) {
+    public PlantHarvestEvent(PlantTile tile, int awardedSeeds, int awardedCrop) {
         super(tile);
         this.awardedSeeds = awardedSeeds;
-        this.awardedPlant = awardedPlant;
+        this.awardedCrop = awardedCrop;
     }
 }

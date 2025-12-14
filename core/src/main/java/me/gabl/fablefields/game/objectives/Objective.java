@@ -45,7 +45,11 @@ public class Objective {
     }
 
     public void progress() {
-        progress++;
+        progress(1);
+    }
+
+    public void progress(int progression) {
+        progress += progression;
         update();
         checkCompleted();
     }
