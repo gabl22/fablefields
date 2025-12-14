@@ -1,10 +1,6 @@
 package me.gabl.fablefields.game.objectives;
 
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import me.gabl.fablefields.asset.Asset;
-import me.gabl.fablefields.util.CompositeDrawable;
-
-import java.util.Arrays;
 
 public class Objective {
 

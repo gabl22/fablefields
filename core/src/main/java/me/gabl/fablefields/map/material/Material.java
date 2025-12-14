@@ -1,6 +1,5 @@
 package me.gabl.fablefields.map.material;
 
-import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.RenderMaterial;

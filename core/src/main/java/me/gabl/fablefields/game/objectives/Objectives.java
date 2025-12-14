@@ -137,7 +137,7 @@ public class Objectives {
             }
 
             @Subscribe
-            private void onPlantHarvest(PlantHarvestEvent event) {
+            private void onPlantHarvest(PlantHarvestEvent _event) {
                 complete();
             }
 

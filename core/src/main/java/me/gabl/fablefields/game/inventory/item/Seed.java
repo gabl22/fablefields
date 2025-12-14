@@ -6,7 +6,6 @@ import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
-import me.gabl.fablefields.util.Logger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,6 +74,8 @@ public final class Seed extends ItemType {
             case "potato" -> POTATO;
             case "cabbage" -> CABBAGE;
             case "beetroot" -> BEETROOT;
+            case "wheat" -> WHEAT;
+            case "lettuce" -> LETTUCE;
             default -> null;
         };
     }
