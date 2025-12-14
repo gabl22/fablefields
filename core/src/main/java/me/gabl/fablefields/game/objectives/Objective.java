@@ -6,7 +6,7 @@ public class Objective {
 
     public final String id;
     protected final ObjectivesList objectivesList;
-    public int progress;
+    private int progress;
     public final int maxProgress;
 
     final boolean hidden;
@@ -30,6 +30,12 @@ public class Objective {
         this(id, objectivesList, false);
     }
 
+    public void setProgress(int progress) {
+        this.progress = progress;
+        update();
+        checkCompleted();
+    }
+
     public void complete() {
         progress = maxProgress;
         checkCompleted();
@@ -49,9 +55,7 @@ public class Objective {
     }
 
     public void progress(int progression) {
-        progress += progression;
-        update();
-        checkCompleted();
+        setProgress(progress + progression);
     }
 
     public void update() {
@@ -80,7 +84,8 @@ public class Objective {
 
     private String fillPlaceholders(String text) {
         return fillSpecificPlaceholders(text.replace("%progress%", progress + "/" + maxProgress)
-                .replace("%remaining%", String.valueOf(maxProgress - progress)));
+                .replace("%remaining%", String.valueOf(maxProgress - progress))
+                .replace("%maxprogress%", String.valueOf(maxProgress)));
     }
 
     protected String fillSpecificPlaceholders(String text) {

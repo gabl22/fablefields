@@ -2,6 +2,7 @@ package me.gabl.fablefields.game.objectives;
 
 import lombok.Getter;
 import me.gabl.fablefields.game.inventory.Inventory;
+import me.gabl.fablefields.game.inventory.item.Crop;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Player;
@@ -44,6 +45,7 @@ public class ObjectivesList {
         //todo remove
         player.inventory.addItem(Tools.SHOVEL);
         add(Objectives.tillSoil(this));
+        add(new CropRemoveCoinObjective(this, 2, 10, Crop.CAULIFLOWER));
     }
 
     void remove(Objective objective) {

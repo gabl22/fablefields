@@ -44,6 +44,8 @@
     "objective/harvest_plant/title": "%plant% is ready for Harvest!",
     "objective/harvest_plant/body": "Use your Hoe to obtain %plant%. If lucky, you will be rewarded with extra seeds.",
     "objective/generic/harvest_new_seed/title": "Harvest %plant% (%progress%)",
-    "objective/generic/harvest_new_seed/body": "Collect %remaining% more %plant% to obtain %reward_count% %reward% seeds."
+    "objective/generic/harvest_new_seed/body": "Collect %remaining% more %plant% to obtain %reward_count% %reward% seeds.",
+    "objective/generic/crop_remove_coin/title": "Collect %plant% (%progress%)",
+    "objective/generic/crop_remove_coin/body": "Have %maxprogress%x %plant% in your inventory to receive %reward% coins in return."
   }
 }

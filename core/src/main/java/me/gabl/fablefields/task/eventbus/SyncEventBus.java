@@ -30,6 +30,7 @@ public class SyncEventBus implements EventBus {
     @Override
     public void removeListener(Object listener) {
         Map<Class<?>, Set<Subscriber>> removedSubscribers = this.listeners.remove(listener);
+        if (removedSubscribers == null) return;
         for (Entry<Class<?>, Set<Subscriber>> entry : removedSubscribers.entrySet().stream().collect(Collectors.toUnmodifiableSet())) {
             if (!subscribers.containsKey(entry.getKey())) {
                 continue;

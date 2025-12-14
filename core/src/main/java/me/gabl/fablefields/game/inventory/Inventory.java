@@ -33,14 +33,14 @@ public class Inventory {
     }
 
     public int countOf(ItemType type) {
-        return countItems(slot -> slot.item.typeEquals(type));
+        return countItems(slot -> slot != null && slot.item != null && slot.item.typeEquals(type));
     }
 
     public int countItems(Predicate<Slot> predicate) {
         int count = 0;
         for (Slot slot : slots) {
             if (predicate.test(slot)) {
-                count++;
+                count += slot.count;
             }
         }
         return count;
@@ -100,6 +100,23 @@ public class Inventory {
      */
     public boolean addItem(ItemType type) {
         return addItem(type, 1);
+    }
+
+    public boolean removeItem(ItemType type, int count) {
+        for (int i = 0; i < slots.length; i++) {
+            Slot slot = slots[i];
+            if (slot.item == null || !type.equals(slot.item.type)) continue;
+            if (count < slot.count) {
+                slot.count -= count;
+                return true;
+            } else {
+                count -= slot.count;
+                slot.count = 0;
+                slots[i] = null;
+            }
+            if (count == 0) return true;
+        }
+        return false;
     }
 
     /**
