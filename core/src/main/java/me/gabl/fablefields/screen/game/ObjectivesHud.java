@@ -71,6 +71,8 @@ public class ObjectivesHud extends Hud {
     }
 
     public void update(Objective objective) {
+        if (!objectiveBoxes.containsKey(objective)) return;
+
         objectiveBoxes.get(objective).rebuild();
     }
 }

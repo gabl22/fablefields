@@ -35,7 +35,7 @@ public class Inventory {
     }
 
     public int countOf(ItemType type) {
-        return countItems(slot -> slot != null && slot.item != null && slot.item.typeEquals(type));
+        return countItems(slot -> slot != null && slot.item != null && type.equals(slot.item.type));
     }
 
     public boolean hasAnyItem(Predicate<Slot> predicate) {

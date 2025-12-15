@@ -5,6 +5,7 @@ import me.gabl.fablefields.game.inventory.item.GenericItems;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.material.Materials;
+import me.gabl.fablefields.map.material.Plant;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.task.eventbus.Subscribe;
 import me.gabl.fablefields.task.eventbus.event.*;
@@ -127,8 +128,7 @@ public class Objectives {
         return new Objective("harvest_plant", list) {
             @Override
             public String[] getIconNames() {
-                return new String[]{"item/hoe", "tile/soil/stage/3;tile/plant/" + material.id + "/stage/3",
-                        "item/" + material.id, "item/" + material.id + "_seed"};
+                return new String[]{"item/hoe", "item/" + material.id, "item/" + material.id + "_seed"};
             }
 
             @Override
@@ -143,8 +143,9 @@ public class Objectives {
 
             @Override
             public void onComplete() {
-                objectivesList.add(new HarvestNewSeedObjective(objectivesList, 10, Materials.CARROT,
-                        Materials.SUNFLOWER, 3));
+                objectivesList.add(new HarvestNewSeedObjective(objectivesList, 10, Materials.CARROT, Plant.SUNFLOWER,
+                        3));
+                objectivesList.screen.syncScheduler.schedule(new RefillObjectiveTask(objectivesList), 15);
             }
         };
     }

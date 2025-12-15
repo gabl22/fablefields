@@ -1,11 +1,10 @@
 package me.gabl.fablefields.game.inventory.item.tool;
 
-import me.gabl.fablefields.game.inventory.item.Crop;
-import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.material.Materials;
+import me.gabl.fablefields.map.material.Plant;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
@@ -21,11 +20,11 @@ public final class Hoe extends Tool {
     public void use(UseContext context) {
         if (!context.chunkContainsTile()) return;
         PlantTile tile = (PlantTile) context.getTile(MapLayer.FEATURE); //due to check in useable
-        PlantMaterial material = tile.getMaterial();
-        int seeds = material.dropChances.drawSeed();
-        int crops = material.dropChances.drawCrop();
-        context.player.inventory.addItem(Crop.getCrop(material).createItem(), crops);
-        context.player.inventory.addItem(Seed.getSeed(material).createItem(), seeds);
+        Plant plant = Plant.get(tile.getMaterial());
+        int seeds = plant.material.dropChances.drawSeed();
+        int crops = plant.material.dropChances.drawCrop();
+        context.player.inventory.addItem(plant.crop.createItem(), crops);
+        context.player.inventory.addItem(plant.seed.createItem(), seeds);
         context.chunk.setTile(null, context.getAddress(MapLayer.FEATURE));
         if (Materials.SOIL.materialEquals(context.getTile(MapLayer.SURFACE).material)) {
             context.setTile(MapLayer.SURFACE, (MapTile) null);

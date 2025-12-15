@@ -3,11 +3,9 @@ package me.gabl.fablefields.game.inventory.item;
 import me.gabl.fablefields.game.inventory.ItemType;
 import me.gabl.fablefields.map.logic.MapLayer;
 import me.gabl.fablefields.map.material.Materials;
-import me.gabl.fablefields.map.material.PlantMaterial;
+import me.gabl.fablefields.map.material.Plant;
 import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Range;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public final class Seed extends ItemType {
 
@@ -29,9 +27,7 @@ public final class Seed extends ItemType {
 
     @Override //todo differentiation item <-> type really needed?
     public void use(UseContext context) {
-        PlantMaterial material = getMaterial(this);
-        //        PlantMaterial material = getMaterial((Seed) context.item.type); <- complicated way
-        PlantTile tile = material.createMapTile(context.getAddress(MapLayer.FEATURE), context.screen);
+        PlantTile tile = Plant.get(this).material.createMapTile(context.getAddress(MapLayer.FEATURE), context.screen);
         context.setTile(MapLayer.FEATURE, tile);
         context.chunk.getRenderComponent().updateCells(context.x(), context.y());
         context.removeSelectedItem();
@@ -41,45 +37,7 @@ public final class Seed extends ItemType {
 
     @Override
     protected String getUseToolTip() {
-        return language("item/seed/plant_crop").replace("%crop%", language("material/" + getMaterial(this).id));
-    }
-
-    @Contract("_ -> !null")
-    @Deprecated
-    public static PlantMaterial getMaterial(@NotNull Seed seed) {
-        return switch (seed.id) {
-            case "carrot_seed" -> Materials.CARROT;
-            case "cauliflower_seed" -> Materials.CAULIFLOWER;
-            case "pumpkin_seed" -> Materials.PUMPKIN;
-            case "sunflower_seed" -> Materials.SUNFLOWER;
-            case "radish_seed" -> Materials.RADISH;
-            case "parsnip_seed" -> Materials.PARSNIP;
-            case "potato_seed" -> Materials.POTATO;
-            case "cabbage_seed" -> Materials.CABBAGE;
-            case "beetroot_seed" -> Materials.BEETROOT;
-            case "wheat_seed" -> Materials.WHEAT;
-            case "lettuce_seed" -> Materials.LETTUCE;
-            default -> null;
-        };
-    }
-
-    @Contract("_ -> !null")
-    @Deprecated
-    public static Seed getSeed(@NotNull PlantMaterial material) {
-        return switch (material.id) {
-            case "carrot" -> CARROT;
-            case "cauliflower" -> CAULIFLOWER;
-            case "pumpkin" -> PUMPKIN;
-            case "sunflower" -> SUNFLOWER;
-            case "radish" -> RADISH;
-            case "parsnip" -> PARSNIP;
-            case "potato" -> POTATO;
-            case "cabbage" -> CABBAGE;
-            case "beetroot" -> BEETROOT;
-            case "wheat" -> WHEAT;
-            case "lettuce" -> LETTUCE;
-            default -> null;
-        };
+        return language("item/seed/plant_crop").replace("%crop%", language("material/" + Plant.get(this).id));
     }
 
     @Override

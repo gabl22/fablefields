@@ -21,7 +21,7 @@ public class Plant {
     }
 
     public static Plant get(String id) {
-        return PLANT_TYPES.get(id);
+        return PLANT_TYPES.get(id.replace("_seed", ""));
     }
 
     public static Plant get(Crop crop) {
@@ -33,7 +33,7 @@ public class Plant {
     }
 
     public static Plant get(Seed seed) {
-        return get(seed.id);
+        return get(seed.id.replace("_seed", ""));
     }
 
     private static final Map<String, Plant> PLANT_TYPES = new HashMap<>();
@@ -58,4 +58,7 @@ public class Plant {
         }
     }
 
+    public String getSeedId() {
+        return seed.id;
+    }
 }

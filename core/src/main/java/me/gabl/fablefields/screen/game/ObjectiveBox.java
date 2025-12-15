@@ -42,6 +42,7 @@ public class ObjectiveBox extends Table {
         titleLabel = new Label(objective.title(), skin, "title");
         titleLabel.setFontScale(1.15f); //fake bold
         titleLabel.setColor(0f, 0f, 0f, 1f);
+        titleLabel.setWrap(true);
 
         bodyLabel = new Label(objective.body(), skin, "default-black");
         bodyLabel.setWrap(true);

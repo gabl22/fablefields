@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.objectives;
 
-import me.gabl.fablefields.game.inventory.item.Seed;
+import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.map.material.Plant;
 import me.gabl.fablefields.map.material.PlantMaterial;
 import me.gabl.fablefields.task.eventbus.Subscribe;
 import me.gabl.fablefields.task.eventbus.event.PlantHarvestEvent;
@@ -8,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class HarvestNewSeedObjective extends Objective {
 
+    final Plant reward;
     private final PlantMaterial required;
-    private final PlantMaterial reward;
     private final int rewardCount;
 
     public HarvestNewSeedObjective(ObjectivesList objectivesList, int maxProgress, @NotNull PlantMaterial required,
-            @NotNull PlantMaterial reward, int rewardCount) {
+            @NotNull Plant reward, int rewardCount) {
         super("generic/harvest_new_seed", objectivesList, maxProgress);
         this.required = required;
         this.reward = reward;
@@ -22,7 +23,8 @@ public class HarvestNewSeedObjective extends Objective {
 
     @Override
     protected String fillSpecificPlaceholders(String text) {
-        return text.replace("%plant%", required.toString()).replace("%reward%", reward.toString())
+        return text.replace("%plant%", required.toString())
+                .replace("%reward%", Asset.LANGUAGE_SERVICE.get("material/" + reward.id))
                 .replace("%reward_count%", String.valueOf(rewardCount));
     }
 
@@ -33,11 +35,12 @@ public class HarvestNewSeedObjective extends Objective {
 
     @Override
     public String[] getIconNames() {
-        return new String[]{"icon/plant_grow", "item/"+required.id+"_seed", "tile/soil/stage/3;tile/plant/"+required.id+"/stage/3", "item/hoe", "item/"+reward.id+"_seed"};
+        return new String[]{"icon/plant_grow", "item/" + required.id + "_seed", "item/" + required.id, "item/hoe",
+                "item/" + reward.id + "_seed"};
     }
 
     @Override
     public void onComplete() {
-        objectivesList.inventory.addItem(Seed.getSeed(reward), rewardCount);
+        objectivesList.inventory.addItem(reward.seed, rewardCount);
     }
 }
