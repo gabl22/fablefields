@@ -1,5 +1,6 @@
 package me.gabl.fablefields.util;
 
+import java.util.Collection;
 import java.util.Random;
 
 public class MathUtil {
@@ -11,6 +12,14 @@ public class MathUtil {
     public static final float[] dir4 = {0, -1, 1, 0, 0, 1, -1, 0};
     public static final float[] dir8 = {0, -1, INV_SQRT2, -INV_SQRT2, 1, 0, INV_SQRT2, INV_SQRT2, 0, 1, -INV_SQRT2,
             INV_SQRT2, -1, 0, -INV_SQRT2, -INV_SQRT2};
+
+    public static <T> T random(T[] array) {
+        return array[RANDOM.nextInt(array.length)];
+    }
+
+    public static <T> T random(Collection<T> collection) {
+        return collection.stream().skip(RANDOM.nextInt(collection.size())).findFirst().orElse(null);
+    }
 
     public static float[] random(float[] dir) {
         int direction = RANDOM.nextInt(dir.length / 2);

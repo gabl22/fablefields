@@ -70,8 +70,8 @@ public class Objectives {
 
             @Override
             public String[] getIconNames() {
-                return new String[]{"item/watering_can", "tile/soil/stage/0;tile/plant/" + material.id + "/stage/1", "item" +
-                        "/" + material.id};
+                return new String[]{"item/watering_can", "tile/soil/stage/0;tile/plant/" + material.id + "/stage/1",
+                        "item" + "/" + material.id};
             }
 
             @Override
@@ -98,8 +98,8 @@ public class Objectives {
 
             @Override
             public String[] getIconNames() {
-                return new String[]{"icon/hourglass", "icon/plant_grow", "tile/soil/stage/2;tile/plant/" + material.id + "/stage" +
-                        "/2"};
+                return new String[]{"icon/hourglass", "icon/plant_grow",
+                        "tile/soil/stage/0;tile/plant/" + material.id + "/stage/1"};
             }
 
             @Override
@@ -127,8 +127,8 @@ public class Objectives {
         return new Objective("harvest_plant", list) {
             @Override
             public String[] getIconNames() {
-                return new String[]{"item/hoe", "tile/soil/stage/3;tile/plant/" + material.id + "/stage/3", "item/" + material.id
-                        , "item/" + material.id + "_seed"};
+                return new String[]{"item/hoe", "tile/soil/stage/3;tile/plant/" + material.id + "/stage/3",
+                        "item/" + material.id, "item/" + material.id + "_seed"};
             }
 
             @Override

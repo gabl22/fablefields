@@ -43,9 +43,7 @@ public class ObjectivesList {
     public void addTutorialObjectives() {
         add(Objectives.getWood(this));
         //todo remove
-        player.inventory.addItem(Tools.SHOVEL);
-        add(Objectives.tillSoil(this));
-        add(new CropRemoveCoinObjective(this, 2, 10, Crop.CAULIFLOWER));
+        add(new CropRemoveCoinObjective(this, 2, 3, Crop.CAULIFLOWER));
     }
 
     void remove(Objective objective) {

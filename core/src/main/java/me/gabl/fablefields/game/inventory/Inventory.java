@@ -5,7 +5,9 @@ import me.gabl.fablefields.task.eventbus.EventBus;
 import me.gabl.fablefields.task.eventbus.event.InventoryAddItemEvent;
 import me.gabl.fablefields.task.eventbus.event.InventorySwapSlotEvent;
 
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class Inventory {
 
@@ -36,10 +38,17 @@ public class Inventory {
         return countItems(slot -> slot != null && slot.item != null && slot.item.typeEquals(type));
     }
 
+    public boolean hasAnyItem(Predicate<Slot> predicate) {
+        for (Slot slot : slots) {
+            if (slot != null && predicate.test(slot)) return true;
+        }
+        return false;
+    }
+
     public int countItems(Predicate<Slot> predicate) {
         int count = 0;
         for (Slot slot : slots) {
-            if (predicate.test(slot)) {
+            if (slot != null && predicate.test(slot)) {
                 count += slot.count;
             }
         }
@@ -85,6 +94,10 @@ public class Inventory {
         reportUpdate();
     }
 
+    public Stream<Slot> streamNotNull() {
+        return Stream.of(slots).filter(Objects::nonNull);
+    }
+
     /**
      * @param slot count & item to be added
      * @return true iff item has been added to inventory
@@ -105,7 +118,7 @@ public class Inventory {
     public boolean removeItem(ItemType type, int count) {
         for (int i = 0; i < slots.length; i++) {
             Slot slot = slots[i];
-            if (slot.item == null || !type.equals(slot.item.type)) continue;
+            if (slot == null || slot.item == null || !type.equals(slot.item.type)) continue;
             if (count < slot.count) {
                 slot.count -= count;
                 return true;

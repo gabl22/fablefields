@@ -45,6 +45,7 @@ public final class Seed extends ItemType {
     }
 
     @Contract("_ -> !null")
+    @Deprecated
     public static PlantMaterial getMaterial(@NotNull Seed seed) {
         return switch (seed.id) {
             case "carrot_seed" -> Materials.CARROT;
@@ -63,6 +64,7 @@ public final class Seed extends ItemType {
     }
 
     @Contract("_ -> !null")
+    @Deprecated
     public static Seed getSeed(@NotNull PlantMaterial material) {
         return switch (material.id) {
             case "carrot" -> CARROT;

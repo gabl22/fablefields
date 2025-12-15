@@ -67,6 +67,20 @@ public class Materials {
     public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f}, PlantDropChances.WHEAT);
     public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f}, PlantDropChances.LETTUCE);
 
+    public static final PlantMaterial[] PLANT_MATERIALS = new PlantMaterial[]{
+            CARROT,
+            CAULIFLOWER,
+            PUMPKIN,
+            SUNFLOWER,
+            RADISH,
+            PARSNIP,
+            POTATO,
+            CABBAGE,
+            BEETROOT,
+            WHEAT,
+            LETTUCE
+    };
+
     public static final Map<String, Material> FROM_ID;
 
     static {
