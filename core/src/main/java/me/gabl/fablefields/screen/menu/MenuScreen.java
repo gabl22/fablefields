@@ -81,7 +81,8 @@ public class MenuScreen implements Screen {
         this.table.getCell(this.exitButton).height(50).width(120).pad(40).padTop(100);
         this.table.getCell(this.creditsButton).height(50).width(120).pad(40).padTop(100);
         this.logo = new Image(this.game.assets.get(Asset.LOGO));
-        this.logo.setScale(2f);
+        this.logo.setScale(3f);
+
         this.stage.addActor(this.logo);
 
     }
@@ -99,8 +100,8 @@ public class MenuScreen implements Screen {
         this.stage.getViewport().update(width, height, true);
         this.camera.zoom = 1 / Math.min(width / 640f, height / 480f);
 
-        this.logo.setX(width / 2f - this.logo.getWidth());
-        this.logo.setY(height / 2f - this.logo.getHeight() + 100);
+        this.logo.setX(width / 2f - this.logo.getWidth() * 3 / 2);
+        this.logo.setY(height / 2f - this.logo.getHeight() * 3 / 2 + 100);
 
     }
 

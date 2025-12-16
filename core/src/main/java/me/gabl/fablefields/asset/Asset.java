@@ -16,14 +16,10 @@ import java.util.Set;
 
 public class Asset {
 
-    public static final AssetLoadDescriptor<Texture> LOGO_LIBGDX = new AssetLoadDescriptor<>("libgdx.png",
-            Texture.class, LoadSection.NEVER);
     public static final AssetLoadDescriptor<Texture> LOGO = new AssetLoadDescriptor<>("fablefields.png",
             Texture.class, LoadSection.BEFORE_LOADING_SCREEN);
     public static final AssetLoadDescriptor<TextureAtlas> UI_BOX = new AssetLoadDescriptor<>("ui/box.atlas",
             TextureAtlas.class, LoadSection.BEFORE_LOADING_SCREEN);
-    public static final AssetLoadDescriptor<TextureAtlas> UI_SKIN = new AssetLoadDescriptor<>("ui/uiskin.atlas",
-            TextureAtlas.class, LoadSection.NEVER);
     public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE = new AssetLoadDescriptor<>("tiles/tileset.png",
             Texture.class, LoadSection.BEFORE_GAME_SCREEN);
     public static final AssetLoadDescriptor<Texture> TILESET_TEXTURE_DEBUG = new AssetLoadDescriptor<>("tiles" +
@@ -64,7 +60,7 @@ public class Asset {
     }
 
     public static void registerAll(GameAssetManager manager) {
-        manager.registerAssets(LOGO_LIBGDX, LOGO, UI_BOX, UI_SKIN, TILESET_TEXTURE, TILESET_TEXTURE_DEBUG);
+        manager.registerAssets(LOGO, UI_BOX, TILESET_TEXTURE, TILESET_TEXTURE_DEBUG);
         manager.registerAssets(getHumanAnimationDescriptors());
     }
 

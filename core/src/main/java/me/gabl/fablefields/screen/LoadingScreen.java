@@ -19,7 +19,7 @@ public class LoadingScreen implements Screen {
     private ScreenViewport viewport;
     private Stage stage;
     private Image logo;
-    private PlainTiledProgressBar tb;
+    private PlainTiledProgressBar progressBar;
 
     public LoadingScreen(Main game) {
         this.game = game;
@@ -38,13 +38,14 @@ public class LoadingScreen implements Screen {
         Asset.manager.loadAssets(LoadSection.BEFORE_GAME_SCREEN);
         Cursors.load();
         this.logo = new Image(Asset.manager.get(Asset.LOGO));
+        this.logo.setScale(2f);
         this.stage = new Stage();
 
-        this.tb = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT),
+        this.progressBar = new PlainTiledProgressBar(new NinePatchDrawable(Asset.UI_BOX_LIGHT),
                 new NinePatchDrawable(Asset.UI_BOX_DARK));
-        this.tb.setWidth(400);
-        this.tb.setHeight(50);
-        this.stage.addActor(this.tb);
+        this.progressBar.setWidth(400);
+        this.progressBar.setHeight(50);
+        this.stage.addActor(this.progressBar);
 
         this.stage.addActor(this.logo);
         this.viewport = new ScreenViewport();
@@ -57,7 +58,7 @@ public class LoadingScreen implements Screen {
             Asset.manager.complete();
             this.game.setScreen(new MenuScreen(this.game));
         }
-        this.tb.setProgress(Asset.manager.getProgress());
+        this.progressBar.setProgress(Asset.manager.getProgress());
         this.stage.draw();
     }
 
@@ -69,10 +70,10 @@ public class LoadingScreen implements Screen {
         this.viewport.update(width, height, true);
         float worldWidth = this.viewport.getWorldWidth();
         float worldHeight = this.viewport.getWorldHeight();
-        this.logo.setX(worldWidth / 2 - this.logo.getWidth() / 2);
-        this.logo.setY(worldHeight / 2 - this.logo.getHeight() / 2 - 100);
-        this.tb.setX(worldWidth / 2 - this.tb.getWidth() / 2);
-        this.tb.setY(worldHeight / 2 - this.tb.getHeight() / 2 + 100);
+        this.logo.setX(worldWidth / 2 - this.logo.getWidth());
+        this.logo.setY(worldHeight / 2 - this.logo.getHeight() - 100);
+        this.progressBar.setX(worldWidth / 2 - this.progressBar.getWidth() / 2);
+        this.progressBar.setY(worldHeight / 2 - this.progressBar.getHeight() / 2 + 100);
 
     }
 
