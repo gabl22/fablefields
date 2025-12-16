@@ -2,7 +2,12 @@ package me.gabl.fablefields.map.logic;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.gabl.fablefields.game.entity.Chicken;
+import me.gabl.fablefields.game.entity.Tree;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
+import me.gabl.fablefields.player.Movement;
+import me.gabl.fablefields.screen.game.Entities;
+import me.gabl.fablefields.util.MathUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -92,5 +97,25 @@ public class MapChunk {
         int fy = (int) Math.floor(y);
         if (!containsTile(fx, fy)) return null;
         return getTile(layer, position(fx, fy));
+    }
+
+    public void populate(Entities entities) {
+        for (int i = 0; i < 40; i++) {
+            Chicken chicken = new Chicken(this);
+            do {
+                chicken.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
+            } while (!this.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()));
+            entities.addActor(chicken);
+        }
+
+        for (int i = 0; i < 500; i++) {
+            float x = MathUtil.RANDOM.nextFloat() * width;
+            float y = MathUtil.RANDOM.nextFloat() * height;
+            if (this.is(Movement.WALKABLE, x, y)) {
+                Tree tree = new Tree(this, Tree.TYPES[i % Tree.TYPES.length]);
+                entities.addActor(tree);
+                tree.setPosition(x, y);
+            }
+        }
     }
 }

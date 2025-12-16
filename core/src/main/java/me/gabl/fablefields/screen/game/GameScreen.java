@@ -11,24 +11,20 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import lombok.Getter;
 import me.gabl.fablefields.Main;
 import me.gabl.fablefields.asset.Asset;
-import me.gabl.fablefields.game.entity.Tree;
+import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
-import me.gabl.fablefields.game.entity.Chicken;
-import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.game.objectives.ObjectivesList;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
-import me.gabl.fablefields.player.Movement;
 import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.task.ActSynchronousScheduler;
 import me.gabl.fablefields.task.eventbus.EventBus;
 import me.gabl.fablefields.task.eventbus.SyncEventBus;
-import me.gabl.fablefields.util.MathUtil;
 import me.gabl.fablefields.util.ScreenUtil;
 
 public class GameScreen extends BaseScreen {
@@ -39,16 +35,15 @@ public class GameScreen extends BaseScreen {
     public OrthographicCameraController camController;
     public InventoryHud inventoryHud;
     public ActSynchronousScheduler syncScheduler;
+    public ToolTipHud toolTipHud;
+    public ObjectivesHud objectivesHud;
+    public ObjectivesList objectivesList;
+    public EventBus eventBus;
     @Getter
     private MapChunk chunk;
     private OrthogonalTiledMapRenderer renderer;
     private Player player;
     private CursorManager cursorManager;
-
-    public ToolTipHud toolTipHud;
-    public ObjectivesHud objectivesHud;
-    public ObjectivesList objectivesList;
-    public EventBus eventBus;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -91,30 +86,15 @@ public class GameScreen extends BaseScreen {
         multiplexer.addProcessor(objectivesHud);
         multiplexer.addProcessor(toolTipHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), objectivesHud.getStage(), toolTipHud, this.inventoryHud,
-                this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), objectivesHud.getStage(),
+                toolTipHud, this.inventoryHud, this.inventoryHud.getStage(), this.camController, this.keyManager,
+                this.player.worldController));
 
         Entities entities = new Entities();
         stage.addActor(entities);
 
         entities.addActor(player);
-        for (int i = 0; i < 40; i++) {
-            Chicken chicken = new Chicken(chunk);
-            do {
-                chicken.setPosition(MathUtil.RANDOM.nextFloat() * chunk.width, MathUtil.RANDOM.nextFloat() * chunk.height);
-            } while (!chunk.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()));
-            entities.addActor(chicken);
-        }
-
-        for (int i = 0; i < 500; i++) {
-            float x = MathUtil.RANDOM.nextFloat() * chunk.width;
-            float y = MathUtil.RANDOM.nextFloat() * chunk.height;
-            if (chunk.is(Movement.WALKABLE, x, y)) {
-                Tree tree = new Tree(chunk, Tree.TYPES[i % Tree.TYPES.length]);
-                entities.addActor(tree);
-                tree.setPosition(x, y);
-            }
-        }
+        chunk.populate(entities);
 
         this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud, objectivesHud);
         multiplexer.show();
