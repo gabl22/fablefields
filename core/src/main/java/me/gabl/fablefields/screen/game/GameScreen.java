@@ -16,8 +16,8 @@ import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.game.inventory.InventoryHud;
 import me.gabl.fablefields.game.entity.Chicken;
 import me.gabl.fablefields.game.entity.Entity;
-import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
+import me.gabl.fablefields.game.objectives.ObjectivesList;
 import me.gabl.fablefields.map.MapGenerator;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.CursorManager;
@@ -26,6 +26,8 @@ import me.gabl.fablefields.player.Player;
 import me.gabl.fablefields.screen.util.BaseScreen;
 import me.gabl.fablefields.screen.util.ScreenMultiplexer;
 import me.gabl.fablefields.task.ActSynchronousScheduler;
+import me.gabl.fablefields.task.eventbus.EventBus;
+import me.gabl.fablefields.task.eventbus.SyncEventBus;
 import me.gabl.fablefields.util.MathUtil;
 import me.gabl.fablefields.util.ScreenUtil;
 
@@ -44,6 +46,9 @@ public class GameScreen extends BaseScreen {
     private CursorManager cursorManager;
 
     public ToolTipHud toolTipHud;
+    public ObjectivesHud objectivesHud;
+    public ObjectivesList objectivesList;
+    public EventBus eventBus;
 
     public GameScreen(Main game) {
         super(game, new FillViewport(800, 600));
@@ -54,6 +59,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         this.keyManager = new KeyInputManager();
+        this.eventBus = new SyncEventBus();
 
         this.chunk = MapGenerator.getMap();
         this.chunk.initRenderComponent();
@@ -66,35 +72,26 @@ public class GameScreen extends BaseScreen {
         this.player.onSpawn();
         this.camController = new OrthographicCameraController(viewport, this.player);
 
-        Inventory inventory = new Inventory(InventoryHud.SLOTS);
+
+        Inventory inventory = new Inventory(InventoryHud.SLOTS, this);
         //TODO
         inventory.addItem(Tools.SWORD, 1);
-        inventory.addItem(Tools.SHOVEL, 1);
-        inventory.addItem(Tools.HOE, 1);
-        inventory.addItem(Tools.WATERING_CAN, 1);
         inventory.addItem(Tools.AXE, 1);
-        inventory.addItem(Seed.CARROT, 10);
-        inventory.addItem(Seed.CAULIFLOWER, 10);
-        inventory.addItem(Seed.PUMPKIN, 10);
-        inventory.addItem(Seed.SUNFLOWER, 10);
-        inventory.addItem(Seed.RADISH, 10);
-        inventory.addItem(Seed.PARSNIP, 10);
-        inventory.addItem(Seed.POTATO, 10);
-        inventory.addItem(Seed.CABBAGE, 10);
-        inventory.addItem(Seed.BEETROOT, 10);
-        inventory.addItem(Seed.WHEAT, 10);
-        inventory.addItem(Seed.LETTUCE, 10);
 
 
         player.inventory = inventory;
 
         this.toolTipHud = new ToolTipHud(batch);
+        this.objectivesHud = new ObjectivesHud(batch);
+        this.objectivesList = new ObjectivesList(this, this.player);
+        this.objectivesList.addTutorialObjectives();
         this.inventoryHud = new InventoryHud(batch, inventory);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
         multiplexer.addProcessor(exitToMenuHud);
+        multiplexer.addProcessor(objectivesHud);
         multiplexer.addProcessor(toolTipHud);
         multiplexer.addProcessor(inventoryHud);
-        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), toolTipHud, this.inventoryHud,
+        Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), objectivesHud.getStage(), toolTipHud, this.inventoryHud,
                 this.inventoryHud.getStage(), this.camController, this.keyManager, this.player.worldController));
 
         Entities entities = new Entities();
@@ -119,7 +116,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud);
+        this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud, objectivesHud);
         multiplexer.show();
 
         this.syncScheduler = new ActSynchronousScheduler();

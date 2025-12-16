@@ -55,17 +55,17 @@ public class Materials {
         }
     };
 
-    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{10f, 10f, 10f});
-    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{10f, 10f, 10f});
+    public static final PlantMaterial CARROT = new PlantMaterial("carrot", new float[]{10f, 5f, 15f}, PlantDropChances.CARROT);
+    public static final PlantMaterial CAULIFLOWER = new PlantMaterial("cauliflower", new float[]{10f, 5f, 20f}, PlantDropChances.CAULIFLOWER);
+    public static final PlantMaterial PUMPKIN = new PlantMaterial("pumpkin", new float[]{30f, 25f, 35f}, PlantDropChances.PUMPKIN);
+    public static final PlantMaterial SUNFLOWER = new PlantMaterial("sunflower", new float[]{10f, 15f, 30f}, PlantDropChances.SUNFLOWER);
+    public static final PlantMaterial RADISH = new PlantMaterial("radish", new float[]{20f, 15f, 25f}, PlantDropChances.RADISH);
+    public static final PlantMaterial PARSNIP = new PlantMaterial("parsnip", new float[]{20f, 10f, 25f}, PlantDropChances.PARSNIP);
+    public static final PlantMaterial POTATO = new PlantMaterial("potato", new float[]{20f, 20f, 35f}, PlantDropChances.POTATO);
+    public static final PlantMaterial CABBAGE = new PlantMaterial("cabbage", new float[]{20f, 15f, 35f}, PlantDropChances.CABBAGE);
+    public static final PlantMaterial BEETROOT = new PlantMaterial("beetroot", new float[]{20f, 10f, 30f}, PlantDropChances.BEETROOT);
+    public static final PlantMaterial WHEAT = new PlantMaterial("wheat", new float[]{15f, 10f, 20f}, PlantDropChances.WHEAT);
+    public static final PlantMaterial LETTUCE = new PlantMaterial("lettuce", new float[]{15f, 15f, 20f}, PlantDropChances.LETTUCE);
 
     public static final Map<String, Material> FROM_ID;
 

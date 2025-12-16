@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import lombok.Getter;
 import me.gabl.fablefields.asset.Asset;
 
@@ -29,6 +30,16 @@ public class UiSkin {
         labelStyle.font = font;
         labelStyle.fontColor = Color.WHITE;
         skin.add("default", labelStyle);
+
+        Label.LabelStyle titleStyle = new Label.LabelStyle();
+        titleStyle.font = font;
+        titleStyle.fontColor = Color.BLACK;
+        skin.add("title", titleStyle);
+
+        Label.LabelStyle blackLabelStyle = new Label.LabelStyle();
+        blackLabelStyle.font = font;
+        blackLabelStyle.fontColor = Color.BLACK;
+        skin.add("default-black", blackLabelStyle);
 
         Label.LabelStyle labelStyleBackground = new Label.LabelStyle();
         labelStyleBackground.font = font;
@@ -60,10 +71,15 @@ public class UiSkin {
             white.scale(i, i);
             light.scale(i, i);
             dark.scale(i, i);
-            skin.add("box-white-" + i, white);
-            skin.add("box-light-" + i, light);
-            skin.add("box-dark-" + i, dark);
+            addNinePatch(skin, "box-white-" + i, white);
+            addNinePatch(skin, "box-light-" + i, light);
+            addNinePatch(skin, "box-dark-" + i, dark);
         }
+    }
+
+    private static void addNinePatch(Skin skin, String name, NinePatch patch) {
+        skin.add(name, new NinePatchDrawable(patch));
+        skin.add(name, patch);
     }
 
 }

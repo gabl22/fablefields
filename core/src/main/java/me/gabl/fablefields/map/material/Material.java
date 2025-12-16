@@ -1,17 +1,19 @@
 package me.gabl.fablefields.map.material;
 
-import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.map.logic.MapTile;
 import me.gabl.fablefields.map.render.ContextAddress;
 import me.gabl.fablefields.map.render.RenderMaterial;
+import me.gabl.fablefields.screen.game.GameScreen;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public abstract class Material implements RenderMaterial {
 
+    @NotNull
     public final String id; //used for equals, logging
 
-    public Material(String id) {
+    public Material(@NotNull String id) {
         this.id = id;
     }
 
@@ -55,7 +57,7 @@ public abstract class Material implements RenderMaterial {
         return new MapTile(this, address);
     }
 
-    public MapTile createMapTile(ContextAddress address, MapChunk chunk) {
+    public MapTile createMapTile(ContextAddress address, GameScreen screen) {
         return createMapTile(address);
     }
 }

@@ -2,6 +2,12 @@
   "data": {
     "class": "java.util.HashMap",
     "item/wood": 753,
+    "item/coin": 1336,
+    "item/iron": 1463,
+    "item/coal": 1591,
+    "item/diamond": 1719,
+    "item/gold": 1847,
+    "item/stone": 1975,
     "item/carrot": 691,
     "item/cauliflower": 692,
     "item/pumpkin": 693,
@@ -133,6 +139,9 @@
     "tile/sand/neighbor/1": 2437,
     "tile/sand/neighbor/2": 2438,
     "tile/sand/neighbor/3": 2439,
-    "tile/sand/neighbor/4": 2440
+    "tile/sand/neighbor/4": 2440,
+    "icon/hourglass": 3176,
+    "icon/plant_grow": 2921
+
   }
 }

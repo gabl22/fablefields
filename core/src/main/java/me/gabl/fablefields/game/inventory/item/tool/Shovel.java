@@ -8,6 +8,8 @@ import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.Range;
 import me.gabl.fablefields.player.RunningAction;
+import me.gabl.fablefields.task.eventbus.event.TillSoilEvent;
+import me.gabl.fablefields.task.eventbus.event.UntillSoilEvent;
 
 public final class Shovel extends Tool {
 
@@ -25,6 +27,8 @@ public final class Shovel extends Tool {
         soilGround.setOnFinished(() -> {
             context.setTile(MapLayer.SURFACE, newMapTile);
             context.setTile(MapLayer.FEATURE, (MapTile) null); //destroy crops no matter what
+            if (Materials.SOIL.materialEquals(newMapTile)) context.screen.eventBus.fire(new TillSoilEvent());
+            else context.screen.eventBus.fire(new UntillSoilEvent());
         });
         context.player.replaceAction(soilGround);
     }

@@ -1,6 +1,13 @@
 package me.gabl.fablefields.game.inventory;
 
+import me.gabl.fablefields.screen.game.GameScreen;
+import me.gabl.fablefields.task.eventbus.EventBus;
+import me.gabl.fablefields.task.eventbus.event.InventoryAddItemEvent;
+import me.gabl.fablefields.task.eventbus.event.InventorySwapSlotEvent;
+
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class Inventory {
 
@@ -9,11 +16,13 @@ public class Inventory {
     final Slot[] slots;
     Runnable onUpdate;
     int selectedSlot;
+    private final EventBus bus;
 
-    public Inventory(int size) {
+    public Inventory(int size, GameScreen screen) {
         this.slots = new Slot[size];
         this.size = size;
         this.selectedSlot = 0;
+        this.bus = screen.eventBus;
     }
 
     public Slot getSelectedSlot() {
@@ -26,14 +35,21 @@ public class Inventory {
     }
 
     public int countOf(ItemType type) {
-        return countItems(slot -> slot.item.typeEquals(type));
+        return countItems(slot -> slot != null && slot.item != null && type.equals(slot.item.type));
+    }
+
+    public boolean hasAnyItem(Predicate<Slot> predicate) {
+        for (Slot slot : slots) {
+            if (slot != null && predicate.test(slot)) return true;
+        }
+        return false;
     }
 
     public int countItems(Predicate<Slot> predicate) {
         int count = 0;
         for (Slot slot : slots) {
-            if (predicate.test(slot)) {
-                count++;
+            if (slot != null && predicate.test(slot)) {
+                count += slot.count;
             }
         }
         return count;
@@ -47,11 +63,15 @@ public class Inventory {
         return matches;
     }
 
-    public Slot setSlot(int slotId, Slot slot) {
+    private Slot setSlot(int slotId, Slot slot) {
         Slot oldSlot = slots[slotId];
         slots[slotId] = slot;
         reportUpdate();
         return oldSlot;
+    }
+
+    public Slot getSlot(int slotId) {
+        return slots[slotId];
     }
 
     private void reportUpdate() {
@@ -62,6 +82,7 @@ public class Inventory {
         Slot oldSlot = slots[slotId1];
         slots[slotId1] = slots[slotId2];
         slots[slotId2] = oldSlot;
+        bus.fire(new InventorySwapSlotEvent(this, slotId1, slotId2));
         reportUpdate();
     }
 
@@ -73,12 +94,42 @@ public class Inventory {
         reportUpdate();
     }
 
+    public Stream<Slot> streamNotNull() {
+        return Stream.of(slots).filter(Objects::nonNull);
+    }
+
     /**
      * @param slot count & item to be added
      * @return true iff item has been added to inventory
      */
     public boolean addItem(Slot slot) {
         return addItem(slot.item, slot.count);
+    }
+
+    /**
+     * adds one item to the inventory
+     * @param type of item to be added
+     * @return true iff item has been added to inventory
+     */
+    public boolean addItem(ItemType type) {
+        return addItem(type, 1);
+    }
+
+    public boolean removeItem(ItemType type, int count) {
+        for (int i = 0; i < slots.length; i++) {
+            Slot slot = slots[i];
+            if (slot == null || slot.item == null || !type.equals(slot.item.type)) continue;
+            if (count < slot.count) {
+                slot.count -= count;
+                return true;
+            } else {
+                count -= slot.count;
+                slot.count = 0;
+                slots[i] = null;
+            }
+            if (count == 0) return true;
+        }
+        return false;
     }
 
     /**
@@ -92,6 +143,7 @@ public class Inventory {
             if (slots[i] == null) continue;
             if (item.mergeableWith(slots[i].item)) {
                 slots[i] = new Slot(item, count + slots[i].count);
+                bus.fire(new InventoryAddItemEvent(this, slots[i]));
                 reportUpdate();
                 return true;
             }
@@ -100,6 +152,7 @@ public class Inventory {
         for (int i = 0; i < size; i++) {
             if (slots[i] == null || slots[i].item == null) {
                 slots[i] = new Slot(item, count);
+                bus.fire(new InventoryAddItemEvent(this, slots[i]));
                 reportUpdate();
                 return true;
             }

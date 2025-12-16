@@ -31,6 +31,21 @@
     "credits/graphics": "Graphics",
     "credits/open_link": "Open Link",
     "credits/danieldiggle/reference": "DanielDiggle",
-    "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside"
+    "credits/danieldiggle/url": "https://danieldiggle.itch.io/sunnyside",
+
+    "objective/get_wood/title": "Get Wood (%progress%)",
+    "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel.",
+    "objective/till_soil/title": "Till Dirt to Soil (%progress%)",
+    "objective/till_soil/body": "Use your shovel to prepare the ground for sowing!",
+    "objective/water_plant/title": "Plant in Need of Water!",
+    "objective/water_plant/body": "Water your %plant%! All plants need water to grow.",
+    "objective/await_plant_harvestable/title": "Wait for %plant% to grow",
+    "objective/await_plant_harvestable/body": "In the meantime, you can plant something else.",
+    "objective/harvest_plant/title": "%plant% is ready for Harvest!",
+    "objective/harvest_plant/body": "Use your Hoe to obtain %plant%. If lucky, you will be rewarded with extra seeds.",
+    "objective/generic/harvest_new_seed/title": "Harvest %plant% (%progress%)",
+    "objective/generic/harvest_new_seed/body": "Collect %remaining% more %plant% to obtain %reward_count% %reward% seeds.",
+    "objective/generic/crop_remove_coin/title": "Collect %plant% (%progress%)",
+    "objective/generic/crop_remove_coin/body": "Have %maxprogress%x %plant% in your inventory to receive %reward% coins in return."
   }
 }

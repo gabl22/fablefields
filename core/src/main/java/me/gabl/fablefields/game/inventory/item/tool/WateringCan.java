@@ -7,6 +7,8 @@ import me.gabl.fablefields.map.material.PlantTile;
 import me.gabl.fablefields.player.Action;
 import me.gabl.fablefields.player.Range;
 import me.gabl.fablefields.player.RunningAction;
+import me.gabl.fablefields.task.eventbus.event.PlantGrowEvent;
+import me.gabl.fablefields.task.eventbus.event.PlantWaterEvent;
 
 public final class WateringCan extends Tool {
 
@@ -21,6 +23,7 @@ public final class WateringCan extends Tool {
         RunningAction waterPlant = RunningAction.get(Action.WATERING).copyAnimation();
         waterPlant.setOnFinished(() -> {
             tile.water();
+            context.screen.eventBus.fire(new PlantWaterEvent(tile));
             context.updateCells();
         });
         context.player.replaceAction(waterPlant);
