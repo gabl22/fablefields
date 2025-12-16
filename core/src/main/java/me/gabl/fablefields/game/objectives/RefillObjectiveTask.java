@@ -24,14 +24,15 @@ public class RefillObjectiveTask extends SchedulerTask {
         context.rescheduleFixDelay(MathUtil.RANDOM.nextFloat(15, 90));
         List<Objective> currentObjectives = list.getCurrentObjectives();
         Set<Plant> availablePlants = new HashSet<>();
-        for (Objective objective : currentObjectives) {
-            if (objective instanceof HarvestNewSeedObjective newSeedObjective) {
-                availablePlants.add(newSeedObjective.reward);
-            }
-        }
         availablePlants.addAll(list.inventory.streamNotNull()
                 .filter(slot -> slot.item != null && slot.item.type instanceof Seed)
                 .map(slot -> Plant.get((Seed) slot.item.type)).collect(Collectors.toSet()));
+        for (Objective objective : currentObjectives) {
+            if (objective instanceof HarvestNewSeedObjective newSeedObjective) {
+                availablePlants.add(newSeedObjective.reward);
+                availablePlants.remove(Plant.get(newSeedObjective.required));
+            }
+        }
 
         if (currentObjectives.size() > 5) return;
 

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class HarvestNewSeedObjective extends Objective {
 
     final Plant reward;
-    private final PlantMaterial required;
+    final PlantMaterial required;
     private final int rewardCount;
 
     public HarvestNewSeedObjective(ObjectivesList objectivesList, int maxProgress, @NotNull PlantMaterial required,

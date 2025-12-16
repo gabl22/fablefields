@@ -23,7 +23,6 @@ public class ObjectiveBox extends Table {
     private final float fixedWidth;
 
     public void rebuild() {
-//        clearChildren();
         setTitle(objective.title());
         setBody(objective.body());
         updateIcons();
