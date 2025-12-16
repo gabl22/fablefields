@@ -24,6 +24,8 @@ public class OrthographicCameraController extends InputAdapter {
     boolean dragging = false;
     boolean snapDrag = false;
 
+    boolean hasTouchedDown = false;
+
     public OrthographicCameraController(Viewport viewport, Actor center) {
         this.camera = (OrthographicCamera) viewport.getCamera();
 
@@ -58,6 +60,10 @@ public class OrthographicCameraController extends InputAdapter {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (!hasTouchedDown) {
+            setTouchDown(screenX, screenY);
+            return true;
+        }
         mouseScreen.set(screenX, screenY);
         if (dragging || dragToleranceReached()) {
             snapDrag = false;
@@ -84,10 +90,15 @@ public class OrthographicCameraController extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        setTouchDown(screenX, screenY);
+        return false;
+    }
+
+    private void setTouchDown(int screenX, int screenY) {
+        hasTouchedDown = true;
         touchDown.set(screenX, screenY);
         worldTouch.set(screenX, screenY);
         viewport.unproject(worldTouch);
-        return false;
     }
 
     @Override
