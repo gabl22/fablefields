@@ -27,6 +27,8 @@ public class MapChunk {
     @Getter
     private MapChunkRenderComponent renderComponent;
 
+
+
     public MapChunk(MapChunkLayers<MapTile[]> tileLayers, int width, int height, long seed) {
         this.seed = seed;
         this.noise = new Noise2D(seed);
@@ -114,13 +116,13 @@ public class MapChunk {
         QuadTree<Tree> treeTree = new QuadTree<>(0, new Rectangle(0, 0, width, height));
 
         //TODO max iterations!
-        for (int i = 0; i < 500;) {
+        for (int i = 0; i < 800;) {
             float x = MathUtil.RANDOM.nextFloat() * width;
             float y = MathUtil.RANDOM.nextFloat() * height;
             if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {
                 Tree tree = new Tree(this, Tree.TYPES[i % Tree.TYPES.length]);
                 tree.setPosition(x, y);
-                if (treeTree.overlapsAny(tree.collisionBox) || !treeTree.bounds.contains(tree.collisionBox)) {
+                if (!treeTree.bounds.contains(tree.getCollisionBox()) || treeTree.overlapsAny(tree.getCollisionBox())) {
                     continue;
                 }
                 i++;

@@ -1,13 +1,17 @@
 package me.gabl.fablefields.screen.util;
 
 import com.badlogic.gdx.math.Rectangle;
-import me.gabl.fablefields.game.entity.StaticCollisionEntity;
+import me.gabl.fablefields.game.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class QuadTree<T extends StaticCollisionEntity> {
+/**
+ * not a classic quad tree
+ * @param <T>
+ */
+public class QuadTree<T extends Entity> {
 
     private static final int MAX_ACTORS = 10;
     private static final int MAX_LEVEL = 6;
@@ -59,7 +63,7 @@ public class QuadTree<T extends StaticCollisionEntity> {
 
     private void insertNode(T node) {
         for (QuadTree<T> child : children) {
-            if (node.collisionBox.contains(child.bounds) || node.collisionBox.overlaps(child.bounds)) {
+            if (node.getCollisionBox().overlaps(child.bounds)) {
                 child.add(node);
             }
         }
@@ -72,7 +76,7 @@ public class QuadTree<T extends StaticCollisionEntity> {
     public void getCollidingEntities(Consumer<T> consumer, Rectangle bounds) {
         if (nodes != null) {
             for (T node : nodes) {
-                if (node.collisionBox.overlaps(bounds) || node.collisionBox.contains(bounds)) {
+                if (node.getCollisionBox().overlaps(bounds)) {
                     consumer.accept(node);
                 }
             }
@@ -86,19 +90,15 @@ public class QuadTree<T extends StaticCollisionEntity> {
     public boolean overlapsAny(Rectangle bounds) {
         if (nodes != null) {
             for (T node : nodes) {
-                if (node.collisionBox.overlaps(bounds) || node.collisionBox.contains(bounds)) {
+                if (node.getCollisionBox().overlaps(bounds)) {
                     return true;
                 }
             }
             return false;
         }
         for (QuadTree<T> child : children) {
-            if (child.isRespectiveQuadTree(bounds) && child.overlapsAny(bounds)) return true;
+            if (child.bounds.overlaps(bounds) && child.overlapsAny(bounds)) return true;
         }
         return false;
-    }
-
-    private boolean isRespectiveQuadTree(Rectangle bounds) {
-        return this.bounds.overlaps(bounds) || this.bounds.contains(bounds);
     }
 }

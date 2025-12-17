@@ -1,5 +1,6 @@
 package me.gabl.fablefields.game.entity;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.Getter;
@@ -17,6 +18,11 @@ public class Entity extends Actor {
     protected final MapChunk chunk;
     @Setter @Getter
     protected HitBox hitbox;
+
+    @Getter @Setter
+    protected Rectangle collisionBoxRelative;
+    private final Rectangle collisionBox = new Rectangle();
+    private boolean collisionBoxValid = true;
 
     public Entity(MapChunk chunk, String id) {
         this.chunk = chunk;
@@ -86,5 +92,40 @@ public class Entity extends Actor {
 
     public int tileY() {
         return (int) getY();
+    }
+
+    public Rectangle getCollisionBox() {
+        if (collisionBoxValid) return collisionBox;
+        if (collisionBoxRelative == null) return null;
+
+        collisionBox.x = getX() + collisionBoxRelative.x;
+        collisionBox.y = getY() + collisionBoxRelative.y;
+        collisionBox.width = collisionBoxRelative.width;
+        collisionBox.height = collisionBoxRelative.height;
+        return collisionBox;
+    }
+
+    @Override
+    public void moveBy(float x, float y) {
+        collisionBoxValid = false;
+        super.moveBy(x, y);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        collisionBoxValid = false;
+        super.setPosition(x, y);
+    }
+
+    @Override
+    public void setX(float x) {
+        collisionBoxValid = false;
+        super.setX(x);
+    }
+
+    @Override
+    public void setY(float y) {
+        collisionBoxValid = false;
+        super.setY(y);
     }
 }

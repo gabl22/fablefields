@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.map.logic.MapChunk;
 
-public class Tree extends StaticCollisionEntity {
+public class Tree extends StaticTextureEntity {
 
 
     public static final Type ROUND = new Type("elements/trees/tree_round.png");
@@ -20,6 +20,7 @@ public class Tree extends StaticCollisionEntity {
         setSize(width, height);
         setOrigin(width/2, 0);
         setHitbox(HitBox.rect(-width/2, width/2, 0, height));
+                setCollisionBoxRelative(HitBox.rectangle(-width/2, width/2, 0.2f, 1.2f));
     }
 
     @AllArgsConstructor
