@@ -2,6 +2,7 @@ package me.gabl.fablefields.game.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.player.Movement;
@@ -14,7 +15,7 @@ public class Entity extends Actor {
     private static final Logger logger = Logger.get(Entity.class);
     public final String id;
     protected final MapChunk chunk;
-    @Setter
+    @Setter @Getter
     protected HitBox hitbox;
 
     public Entity(MapChunk chunk, String id) {

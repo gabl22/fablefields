@@ -1,12 +1,15 @@
 package me.gabl.fablefields.map.logic;
 
+import com.badlogic.gdx.math.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.game.entity.Chicken;
 import me.gabl.fablefields.game.entity.Tree;
+import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
 import me.gabl.fablefields.player.Movement;
 import me.gabl.fablefields.screen.game.Entities;
+import me.gabl.fablefields.screen.util.QuadTree;
 import me.gabl.fablefields.util.MathUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,13 +111,21 @@ public class MapChunk {
             entities.addActor(chicken);
         }
 
-        for (int i = 0; i < 500; i++) {
+        QuadTree<Tree> treeTree = new QuadTree<>(0, new Rectangle(0, 0, width, height));
+
+        //TODO max iterations!
+        for (int i = 0; i < 500;) {
             float x = MathUtil.RANDOM.nextFloat() * width;
             float y = MathUtil.RANDOM.nextFloat() * height;
-            if (this.is(Movement.WALKABLE, x, y)) {
+            if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {
                 Tree tree = new Tree(this, Tree.TYPES[i % Tree.TYPES.length]);
-                entities.addActor(tree);
                 tree.setPosition(x, y);
+                if (treeTree.overlapsAny(tree.collisionBox) || !treeTree.bounds.contains(tree.collisionBox)) {
+                    continue;
+                }
+                i++;
+                treeTree.add(tree);
+                entities.addActor(tree);
             }
         }
     }

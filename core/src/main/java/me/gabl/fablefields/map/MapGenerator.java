@@ -8,7 +8,7 @@ import me.gabl.fablefields.map.render.Noise;
 
 public class MapGenerator {
 
-    private static final int size = 100; //TODO
+    private static final int size = 120; //TODO
 
     public static MapChunk getMap() {
         Noise noise = Noise.get(System.currentTimeMillis(), 1 / 100d);

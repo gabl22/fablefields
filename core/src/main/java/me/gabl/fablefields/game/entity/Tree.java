@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.map.logic.MapChunk;
 
-public class Tree extends StaticTextureEntity {
+public class Tree extends StaticCollisionEntity {
 
 
     public static final Type ROUND = new Type("elements/trees/tree_round.png");
