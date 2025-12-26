@@ -26,7 +26,7 @@ public class Tree extends StaticTextureEntity {
     @Override
     public boolean remove() {
         boolean removed = super.remove();
-        chunk.rebuildCollision();
+        chunk.collision.removeIf(entity -> entity == this);
         return removed;
     }
 

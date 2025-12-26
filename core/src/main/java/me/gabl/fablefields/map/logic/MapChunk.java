@@ -152,16 +152,4 @@ public class MapChunk {
         }
         return moved;
     }
-
-
-    @Deprecated //unchecked
-    public void rebuildCollision() {
-        collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
-
-        entities.getChildren().forEach(entity -> {
-            if (entity instanceof Tree) {
-                collision.add((Tree) entity);
-            }
-        });
-    }
 }
