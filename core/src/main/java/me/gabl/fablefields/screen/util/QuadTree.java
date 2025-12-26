@@ -87,6 +87,10 @@ public class QuadTree<T extends Entity> {
         }
     }
 
+    public boolean overlapsAny(Entity entity) {
+        return overlapsAny(entity.getCollisionBox());
+    }
+
     public boolean overlapsAny(Rectangle bounds) {
         if (nodes != null) {
             for (T node : nodes) {
