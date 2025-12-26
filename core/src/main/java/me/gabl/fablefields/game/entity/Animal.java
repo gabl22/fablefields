@@ -58,7 +58,7 @@ public class Animal extends LivingEntity {
     }
 
     public boolean walk(float x, float y) {
-        if (chunk.containsTile((int) x, (int) y) && chunk.is(Movement.WALKABLE, x, y)) {
+        if (chunk.moveTo(this, x, y, Movement.WALKABLE)) {
             setPosition(x, y);
             return true;
         }

@@ -1,9 +1,15 @@
 package me.gabl.fablefields.game.entity;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public interface HitBox {
 
     static RectangularHitBox rect(float xMin, float xMax, float yMin, float yMax) {
         return new RectangularHitBox(xMin, xMax, yMin, yMax);
+    }
+
+    static Rectangle rectangle(float xMin, float xMax, float yMin, float yMax) {
+        return new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
     }
 
     /*

@@ -7,6 +7,7 @@ import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.HitBox;
 import me.gabl.fablefields.game.inventory.Inventory;
 import me.gabl.fablefields.map.logic.MapChunk;
+import me.gabl.fablefields.map.logic.PathFinder;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.screen.game.GameScreen;
 import me.gabl.fablefields.util.Logger;
@@ -35,6 +36,7 @@ public class Player extends Entity {
         this.worldController = new PlayerWorldController(this, chunk, gameScreen);
         this.attributes = new Attributes();
         setHitbox(HitBox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
+        setCollisionBoxRelative(HitBox.rectangle(-0.3f, 0.3f, 0.0f, 0.2f));
         setSize(6, 4);
         setOrigin(3f, 1.5f);
         action = RunningAction.get(Action.IDLE);
@@ -60,8 +62,11 @@ public class Player extends Entity {
                 moveBy = Movement.SWIM;
             }
 
-            setXCollide(super.getX() + movement.x * this.attributes.movementSpeed * delta * moveBy.speedFactor);
-            setYCollide(super.getY() + movement.y * this.attributes.movementSpeed * delta * moveBy.speedFactor);
+
+            float newX = super.getX() + movement.x * this.attributes.movementSpeed * delta * moveBy.speedFactor;
+            float newY = super.getY() + movement.y * this.attributes.movementSpeed * delta * moveBy.speedFactor;
+
+            chunk.moveTo(this, newX, newY, Movement.ACCESSIBLE);
             this.action = RunningAction.get(moveBy.action);
             if (movement.x > 0) {
                 this.direction = Direction.RIGHT;
@@ -97,14 +102,6 @@ public class Player extends Entity {
         gameScreen.keyManager.calculateMovement(movement);
     }
 
-    private void setXCollide(float x) {
-        if (gameScreen.getChunk().is(Movement.ACCESSIBLE, x, getY())) setX(x);
-    }
-
-    private void setYCollide(float y) {
-        if (gameScreen.getChunk().is(Movement.ACCESSIBLE, getX(), y)) setY(y);
-    }
-
     public void replaceAction(Action action) {
         replaceAction(RunningAction.get(action));
     }
@@ -114,16 +111,9 @@ public class Player extends Entity {
             return;
         }
 
-        Vector2 safePosition = findSafety((x, y) -> {
-            boolean walkable = Player.this.gameScreen.getChunk().is(Movement.WALKABLE, x, y);
-            logger.debug("Test " + x + " " + y + " " + walkable);
-            return walkable;
-        });
-        if (safePosition == null) {
-            logger.error("No safe position for player found.");
-            return;
+        if (!PathFinder.moveToSafety(this, chunk, (int) getX(), (int) getY(), 15, Movement.ACCESSIBLE)) {
+            logger.error("No safe position for entity found. id=" + id);
         }
-        setPosition(safePosition.x + 0.5f, safePosition.y);
     }
 
     public void replaceAction(RunningAction action) {
