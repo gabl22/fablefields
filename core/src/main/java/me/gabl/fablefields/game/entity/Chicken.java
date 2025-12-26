@@ -16,6 +16,7 @@ public class Chicken extends Animal {
         super.setSize(2, 2);
         setOrigin(1, 0.5f);
         setHitbox(HitBox.rect(-0.5f, 0.5f, 0.0f, 1.0f));
+        setCollisionBoxRelative(HitBox.rectangle(-0.2f, 0.2f, 0.0f, 0.2f));
         maxHealth = 12;
         health = maxHealth;
         getAnimation().setAnimationLayers(new Animation[]{getChickenAnimation()});

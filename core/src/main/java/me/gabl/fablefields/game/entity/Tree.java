@@ -18,13 +18,21 @@ public class Tree extends StaticTextureEntity {
         float width = texture.getWidth() / 16f;
         float height = texture.getHeight() / 16f;
         setSize(width, height);
-        setOrigin(width/2, 0);
-        setHitbox(HitBox.rect(-width/2, width/2, 0, height));
-                setCollisionBoxRelative(HitBox.rectangle(-width/2, width/2, 0.2f, 1.2f));
+        setOrigin(width / 2, 0);
+        setHitbox(HitBox.rect(-width / 2, width / 2, 0, height));
+        setCollisionBoxRelative(HitBox.rectangle(-width / 4, width / 4, 0.1f, 0.4f));
+    }
+
+    @Override
+    public boolean remove() {
+        boolean removed = super.remove();
+        chunk.rebuildCollision();
+        return removed;
     }
 
     @AllArgsConstructor
     public static final class Type {
+
         private final String texturePath;
     }
 }

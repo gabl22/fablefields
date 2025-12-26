@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.game.entity.Chicken;
+import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.Tree;
 import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
@@ -22,11 +23,13 @@ public class MapChunk {
     public final long seed;
     public final Noise2D noise;
 
+    public QuadTree<Tree> collision;
+    public final Entities entities;
+
     private final MapChunkLayers<Layer<MapTile>> tileLayers;
     @Setter
     @Getter
     private MapChunkRenderComponent renderComponent;
-
 
 
     public MapChunk(MapChunkLayers<MapTile[]> tileLayers, int width, int height, long seed) {
@@ -41,6 +44,8 @@ public class MapChunk {
         this.tileLayers = tileLayers.map(array -> new Layer<>(array, width, height));
         this.width = width;
         this.height = height;
+
+        this.entities = new Entities();
     }
 
     public void initRenderComponent() {
@@ -104,7 +109,7 @@ public class MapChunk {
         return getTile(layer, position(fx, fy));
     }
 
-    public void populate(Entities entities) {
+    public void populate() {
         for (int i = 0; i < 40; i++) {
             Chicken chicken = new Chicken(this);
             do {
@@ -113,22 +118,50 @@ public class MapChunk {
             entities.addActor(chicken);
         }
 
-        QuadTree<Tree> treeTree = new QuadTree<>(0, new Rectangle(0, 0, width, height));
+        collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
 
         //TODO max iterations!
-        for (int i = 0; i < 800;) {
+        for (int i = 0; i < 800; ) {
             float x = MathUtil.RANDOM.nextFloat() * width;
             float y = MathUtil.RANDOM.nextFloat() * height;
             if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {
                 Tree tree = new Tree(this, Tree.TYPES[i % Tree.TYPES.length]);
                 tree.setPosition(x, y);
-                if (!treeTree.bounds.contains(tree.getCollisionBox()) || treeTree.overlapsAny(tree.getCollisionBox())) {
+                if (!collision.bounds.contains(tree.getCollisionBox()) || collision.overlapsAny(tree.getCollisionBox())) {
                     continue;
                 }
                 i++;
-                treeTree.add(tree);
+                collision.add(tree);
                 entities.addActor(tree);
             }
         }
+    }
+
+    /**
+     * @return true iff entity moved
+     */
+    public boolean moveTo(Entity entity, float x, float y, Predicate<MapTile> movement) {
+        boolean moved = false;
+        if (is(movement, x, entity.getY()) && !collision.overlapsAny(entity.getCollisionBox(x, entity.getY()))) {
+            entity.setX(x);
+            moved = true;
+        }
+        if (is(movement, entity.getX(), y) && !collision.overlapsAny(entity.getCollisionBox(entity.getX(), y))) {
+            entity.setY(y);
+            return true;
+        }
+        return moved;
+    }
+
+
+    @Deprecated //unchecked
+    public void rebuildCollision() {
+        collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
+
+        entities.getChildren().forEach(entity -> {
+            if (entity instanceof Tree) {
+                collision.add((Tree) entity);
+            }
+        });
     }
 }

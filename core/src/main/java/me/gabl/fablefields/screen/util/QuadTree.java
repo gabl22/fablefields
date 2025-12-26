@@ -6,9 +6,11 @@ import me.gabl.fablefields.game.entity.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * not a classic quad tree
+ *
  * @param <T>
  */
 public class QuadTree<T extends Entity> {
@@ -69,6 +71,17 @@ public class QuadTree<T extends Entity> {
         }
     }
 
+    public void removeIf(Predicate<T> predicate) {
+        if (nodes != null) {
+            nodes.removeIf(predicate);
+            return;
+        }
+
+        for (QuadTree<T> child : children) {
+            child.removeIf(predicate);
+        }
+    }
+
     /**
      * @param consumer is called at least once per colliding entity, can be called more than once
      * @param bounds
@@ -96,6 +109,7 @@ public class QuadTree<T extends Entity> {
             }
             return false;
         }
+
         for (QuadTree<T> child : children) {
             if (child.bounds.overlaps(bounds) && child.overlapsAny(bounds)) return true;
         }

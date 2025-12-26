@@ -90,11 +90,10 @@ public class GameScreen extends BaseScreen {
                 toolTipHud, this.inventoryHud, this.inventoryHud.getStage(), this.camController, this.keyManager,
                 this.player.worldController));
 
-        Entities entities = new Entities();
-        stage.addActor(entities);
+        stage.addActor(chunk.entities);
 
-        entities.addActor(player);
-        chunk.populate(entities);
+        chunk.entities.addActor(player);
+        chunk.populate();
 
         this.cursorManager = new CursorManager(player, this, chunk, exitToMenuHud, inventoryHud, objectivesHud);
         multiplexer.show();
