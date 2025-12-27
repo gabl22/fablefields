@@ -1,57 +1,33 @@
 package me.gabl.fablefields.screen.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.game.inventory.ItemType;
-import me.gabl.fablefields.game.inventory.item.GenericItems;
+import me.gabl.fablefields.game.inventory.Slot;
 import me.gabl.fablefields.screen.ui.Hud;
 import me.gabl.fablefields.screen.ui.UiSkin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ToolTipHud extends Hud {
+public class ItemHoverNameHud extends Hud {
 
     private final Label label;
     private final Group root;
-    private final Image itemImage;
-    private final Image base;
 
-    public ToolTipHud(SpriteBatch batch) {
+    public ItemHoverNameHud(SpriteBatch batch) {
         super(batch);
         this.root = new Group();
 
         Skin skin = UiSkin.skin();
         this.label = new Label("!", skin, "background"); // need any symbol for correct label.height
-        Texture baseTexture = Asset.manager.get(Asset.getTexture("ui/itemdisc.png"));
-        this.base = new Image(baseTexture);
-        this.itemImage = new Image(GenericItems.WOOD.render()); // any item with item size
+        label.setPosition( -12,  - label.getHeight() / 2);
         root.addActor(label);
-        root.addActor(base);
-        root.addActor(itemImage);
-        base.setPosition(0, 0);
-        base.scaleBy(2f);
-        itemImage.scaleBy(2f);
-        itemImage.setPosition((base.getWidth() - itemImage.getWidth()) / 2 + 5,
-                (base.getHeight() - itemImage.getHeight()) / 2 + 5);
-        label.setPosition(base.getWidth() * base.getScaleX() - 12, (base.getHeight() * base.getScaleY() - label.getHeight()) / 2);
         stage.addActor(root);
-    }
-
-
-    public void update(@Nullable String text, @Nullable ItemType itemType) {
-        if (text == null || itemType == null) {
-            hide();
-            return;
-        }
-        this.label.setText("  " + text);
-        label.setWidth(label.getPrefWidth());
-        itemImage.setDrawable(itemType.render());
+        hide();
     }
 
     public void updatePosition(@NotNull Vector2 screenPosition) {
@@ -68,7 +44,7 @@ public class ToolTipHud extends Hud {
         if (x > width - rootHalfWidth) x = width - rootHalfWidth;
         if (y < rootHalfHeight) y = rootHalfHeight;
         if (y > height - rootHalfHeight) y = height - rootHalfHeight;
-        root.setPosition(x, height - y);
+        root.setPosition(x, y);
     }
 
     @Override
@@ -81,8 +57,24 @@ public class ToolTipHud extends Hud {
         return false;
     }
 
-    @Override
+    //dirty workaround
+    @Deprecated @Override
     public void show() {
-        this.root.setVisible(true);
+//        this.root.setVisible(true);
+    }
+
+    private void showTooltip() {
+        root.setVisible(true);
+    }
+
+    public void update(Slot stack) {
+        if (stack == null || stack.item == null) {
+            hide();
+            return;
+        }
+
+        showTooltip();
+        this.label.setText(stack.item.type.getName());
+        label.setWidth(label.getPrefWidth());
     }
 }

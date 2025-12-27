@@ -6,12 +6,21 @@
     "navigation/credits": "Credits",
     "navigation/start_game": "Start Game",
     "item/axe/tooltip/chop_tree": "CHOP",
+    "item/axe": "Axe",
     "item/hoe/tooltip/harvest_crop": "HARVEST %crop%",
+    "item/hoe": "Hoe",
     "item/shovel/tooltip/untill": "UNTILL",
     "item/shovel/tooltip/till": "TILL",
+    "item/shovel": "Shovel",
     "item/sword/tooltip/hit": "HIT %entity%",
+    "item/sword": "Sword",
     "item/watering_can/tooltip/water_crop": "WATER %crop%",
-    "item/seed/plant_crop": "PLANT %crop%",
+    "item/watering_can": "Watering Can",
+    "item/seed/tooltip/plant_crop": "PLANT %crop%",
+    "item/seed": "%crop% Seed",
+
+    "item/wood": "Wood",
+    "item/gold": "Gold Coin",
 
 
     "material/carrot": "Carrot",
