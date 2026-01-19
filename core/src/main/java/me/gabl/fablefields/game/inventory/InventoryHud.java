@@ -4,7 +4,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import me.gabl.fablefields.preference.KeyAction;
 import me.gabl.fablefields.preference.Settings;
 import me.gabl.fablefields.screen.game.HoverListener;
+import me.gabl.fablefields.screen.game.ItemHoverNameHud;
 import me.gabl.fablefields.screen.ui.Hud;
 import me.gabl.fablefields.screen.ui.UiSkin;
 
@@ -45,9 +48,12 @@ public class InventoryHud extends Hud {
     private Table visualInventory;
     private HoverListener inventoryHover;
 
-    public InventoryHud(SpriteBatch batch, Inventory inventory) {
+    private final ItemHoverNameHud itemNameHud;
+
+    public InventoryHud(SpriteBatch batch, Inventory inventory, ItemHoverNameHud itemNameHud) {
         super(batch);
         this.inventory = inventory;
+        this.itemNameHud = itemNameHud;
         inventory.onUpdate = this::update;
         assert inventory.size == COLUMNS * ROWS;
         slotImages = new ArrayList<>(COLUMNS * ROWS);
@@ -164,9 +170,30 @@ public class InventoryHud extends Hud {
                         setSwapSlot(-1);
                     }
                 });
+
+                slot.addListener(new InputListener() {
+                    @Override
+                    public void enter(InputEvent _event, float _x, float _y, int pointer, Actor fromActor) {
+                        if (pointer == -1) InventoryHud.this.enter(index);
+                    }
+
+                    @Override
+                    public void exit(InputEvent _event, float _x, float _y, int pointer, Actor toActor) {
+                        if (pointer == -1) InventoryHud.this.exit(index);
+                    }
+                });
             }
             visualInventory.row();
+
         }
+    }
+
+    public void enter(int slot) {
+        itemNameHud.update(inventory.getSlot(slot));
+    }
+
+    public void exit(int slot) {
+        itemNameHud.hide();
     }
 
     public void selectSlot(int slot) {

@@ -33,6 +33,10 @@ public class ItemType {
         return null;
     }
 
+    public String getName() {
+        return language("item/"+id);
+    }
+
     public String language(String name) {
         return Asset.LANGUAGE_SERVICE.get(name);
     }

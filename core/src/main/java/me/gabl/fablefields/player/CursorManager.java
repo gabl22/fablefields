@@ -35,6 +35,9 @@ public class CursorManager {
             return;
         }
 
+        Vector2 screenCords = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        screen.itemHoverNameHud.updatePosition(screenCords);
+
         for (Hud hud : huds) {
             if (hud.isHovering()) {
                 Cursors.arrow();
@@ -53,7 +56,7 @@ public class CursorManager {
                 Cursors.arrow();
                 String toolTip = selectedItem.type.getUseToolTip(context);
                 if (toolTip != null) {
-                    screen.toolTipHud.updatePosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                    screen.toolTipHud.updatePosition(screenCords);
                     screen.toolTipHud.update(toolTip, selectedItem.type);
                     screen.toolTipHud.show();
                 }

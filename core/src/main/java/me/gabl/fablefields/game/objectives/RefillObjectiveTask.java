@@ -34,7 +34,7 @@ public class RefillObjectiveTask extends SchedulerTask {
             }
         }
 
-        if (currentObjectives.size() > 5) return;
+        if (currentObjectives.size() > 2) return;
 
         Plant plant = MathUtil.random(Plant.VALUES);
 

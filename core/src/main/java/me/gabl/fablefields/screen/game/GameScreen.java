@@ -36,6 +36,7 @@ public class GameScreen extends BaseScreen {
     public InventoryHud inventoryHud;
     public ActSynchronousScheduler syncScheduler;
     public ToolTipHud toolTipHud;
+    public ItemHoverNameHud itemHoverNameHud;
     public ObjectivesHud objectivesHud;
     public ObjectivesList objectivesList;
     public EventBus eventBus;
@@ -76,19 +77,21 @@ public class GameScreen extends BaseScreen {
 
         player.inventory = inventory;
 
+        this.itemHoverNameHud = new ItemHoverNameHud(batch);
         this.toolTipHud = new ToolTipHud(batch);
         this.objectivesHud = new ObjectivesHud(batch);
         this.objectivesList = new ObjectivesList(this, this.player);
         this.objectivesList.addTutorialObjectives();
-        this.inventoryHud = new InventoryHud(batch, inventory);
+        this.inventoryHud = new InventoryHud(batch, inventory, itemHoverNameHud);
         ExitToMenuHud exitToMenuHud = new ExitToMenuHud(batch, game);
-        multiplexer.addProcessor(exitToMenuHud);
-        multiplexer.addProcessor(objectivesHud);
-        multiplexer.addProcessor(toolTipHud);
         multiplexer.addProcessor(inventoryHud);
+        multiplexer.addProcessor(itemHoverNameHud);
+        multiplexer.addProcessor(toolTipHud);
+        multiplexer.addProcessor(objectivesHud);
+        multiplexer.addProcessor(exitToMenuHud);
         Gdx.input.setInputProcessor(new InputMultiplexer(exitToMenuHud.getStage(), objectivesHud.getStage(),
-                toolTipHud, this.inventoryHud, this.inventoryHud.getStage(), this.camController, this.keyManager,
-                this.player.worldController));
+                toolTipHud, this.itemHoverNameHud, this.inventoryHud, this.inventoryHud.getStage(),
+                this.camController, this.keyManager, this.player.worldController));
 
         stage.addActor(chunk.entities);
 
