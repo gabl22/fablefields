@@ -190,6 +190,7 @@ characters/skeleton/skeleton_idle_strip6.png
 characters/skeleton/skeleton_jump_strip10.png
 characters/skeleton/skeleton_walk_strip8.png
 characters/skeleton/walk.png
+colors.pal
 credits.txt
 elements/animals/bird.png
 elements/animals/blinking.png
@@ -301,6 +302,11 @@ elements/trees/tree_round.png
 elements/trees/tree_slim.png
 fablefields.png
 language.json
+map/test1.tmx
+map/test2.png
+map/test2.tmx
+map/tileset.tsx
+map/tileset2.tsx
 tiles/ref.png
 tiles/tileset.json
 tiles/tileset.png
@@ -407,3 +413,4 @@ ui/uiskin.atlas
 ui/uiskin.json
 ui/uiskin.png
 ui/water.png
+xmlgdxpref/keybind.json

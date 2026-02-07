@@ -51,7 +51,8 @@ public class CursorManager {
         if (selectedItem == null) {
             Cursors.pointer();
         } else {
-            UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y, screen.entityHitCursor());
+            UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y,
+                    screen.entityHitCursor());
             if (selectedItem.type.isUsable(context)) {
                 Cursors.arrow();
                 String toolTip = selectedItem.type.getUseToolTip(context);

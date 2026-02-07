@@ -36,6 +36,11 @@ public final class Seed extends ItemType {
     }
 
     @Override
+    public String getName() {
+        return language("item/seed").replace("%crop%", language("material/" + Plant.get(this).id));
+    }
+
+    @Override
     protected String getUseToolTip() {
         return language("item/seed/tooltip/plant_crop").replace("%crop%", language("material/" + Plant.get(this).id));
     }

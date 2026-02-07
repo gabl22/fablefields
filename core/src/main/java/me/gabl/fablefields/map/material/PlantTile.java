@@ -36,7 +36,6 @@ public class PlantTile extends MapTile {
 
     public void water() {
         if (needsWater()) {
-
             watered = true;
             growTask.reschedule();
         }

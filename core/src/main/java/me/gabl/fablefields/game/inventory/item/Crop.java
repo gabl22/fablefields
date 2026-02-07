@@ -1,6 +1,7 @@
 package me.gabl.fablefields.game.inventory.item;
 
 import me.gabl.fablefields.game.inventory.ItemType;
+import me.gabl.fablefields.map.material.Plant;
 
 public class Crop extends ItemType {
 
@@ -15,6 +16,11 @@ public class Crop extends ItemType {
     public static final Crop BEETROOT = new Crop("beetroot");
     public static final Crop WHEAT = new Crop("wheat");
     public static final Crop LETTUCE = new Crop("lettuce");
+
+    @Override
+    public String getName() {
+        return language("material/" + Plant.get(this).id);
+    }
 
     public Crop(String id) {
         super(id);

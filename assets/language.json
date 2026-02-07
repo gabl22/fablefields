@@ -20,8 +20,7 @@
     "item/seed": "%crop% Seed",
 
     "item/wood": "Wood",
-    "item/gold": "Gold Coin",
-
+    "item/coin": "Coin",
 
     "material/carrot": "Carrot",
     "material/cauliflower": "Cauliflower",
