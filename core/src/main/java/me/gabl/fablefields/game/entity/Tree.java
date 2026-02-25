@@ -15,8 +15,8 @@ public class Tree extends StaticTextureEntity {
 
     public Tree(MapChunk chunk, Type type) {
         super(chunk, "tree", Asset.manager.get(Asset.getTexture(type.texturePath)));
-        float width = texture.getWidth() / 16f;
-        float height = texture.getHeight() / 16f;
+        float width = getTexture().getWidth() / 16f;
+        float height = getTexture().getHeight() / 16f;
         setSize(width, height);
         setOrigin(width / 2, 0);
         setHitbox(HitBox.rect(-width / 2, width / 2, 0, height));
