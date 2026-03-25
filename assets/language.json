@@ -18,9 +18,17 @@
     "item/watering_can": "Watering Can",
     "item/seed/tooltip/plant_crop": "PLANT %crop%",
     "item/seed": "%crop% Seed",
+    "item/pickaxe/tooltip/mine": "MINE %ore%",
+    "item/pickaxe": "Pickaxe",
 
     "item/wood": "Wood",
     "item/coin": "Coin",
+
+    "material/ore/coal": "Coal",
+    "material/ore/iron": "Iron",
+    "material/ore/gold": "Gold",
+    "material/ore/diamond": "Diamond",
+    "material/ore/stone": "Stone",
 
     "material/carrot": "Carrot",
     "material/cauliflower": "Cauliflower",

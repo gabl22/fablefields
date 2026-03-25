@@ -2,12 +2,14 @@ package me.gabl.fablefields.game.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.map.logic.MapChunk;
 
 public class StaticTextureEntity extends Entity {
 
-    public Texture texture;
+    @Setter @Getter
+    private Texture texture;
     @Setter
     private boolean flip;
 
