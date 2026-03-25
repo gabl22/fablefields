@@ -12,8 +12,8 @@ import me.gabl.fablefields.util.MathUtil;
 
 public class Cow extends Animal {
 
-    private static final float MILKABLE_MIN_INTERVAL = 5f;
-    private static final float MILKABLE_MAX_INTERVAL = 10f;
+    private static final float MILKABLE_MIN_INTERVAL = 20f;
+    private static final float MILKABLE_MAX_INTERVAL = 50f;
     private static final float MILKABLE_TIMEOUT = 20f;
 
     @Getter

@@ -1,5 +1,6 @@
 package me.gabl.fablefields.game.objectives;
 
+import me.gabl.fablefields.game.inventory.item.AnimalProduct;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.map.material.Plant;
 import me.gabl.fablefields.task.SchedulerTask;
@@ -35,6 +36,19 @@ public class RefillObjectiveTask extends SchedulerTask {
         }
 
         if (currentObjectives.size() > 2) return;
+
+        boolean hasAnimalProductObjective = currentObjectives.stream()
+                .anyMatch(o -> o instanceof CollectAnimalProductObjective);
+
+        // 30% chance to generate an animal product objective if no one is active rn active
+        if (!hasAnimalProductObjective && MathUtil.RANDOM.nextFloat() < 0.3f) {
+            AnimalProduct product = MathUtil.RANDOM.nextBoolean() ? AnimalProduct.EGG : AnimalProduct.MILK_BUCKET;
+            int count = product == AnimalProduct.EGG ? MathUtil.RANDOM.nextInt(3, 6) : MathUtil.RANDOM.nextInt(2, 4);
+            count += list.inventory.countOf(product);
+            int coinReward = (int) Math.floor(Math.pow(count, 0.5));
+            list.add(new CollectAnimalProductObjective(list, coinReward, count, product));
+            return;
+        }
 
         Plant plant = MathUtil.random(Plant.VALUES);
 

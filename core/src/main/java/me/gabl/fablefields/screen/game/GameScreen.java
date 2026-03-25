@@ -73,7 +73,6 @@ public class GameScreen extends BaseScreen {
         //TODO
         inventory.addItem(Tools.SWORD, 1);
         inventory.addItem(Tools.AXE, 1);
-        inventory.addItem(Tools.PICKAXE, 1);
 
 
         player.inventory = inventory;

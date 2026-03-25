@@ -1,7 +1,9 @@
 package me.gabl.fablefields.game.objectives;
 
 import me.gabl.fablefields.asset.Asset;
+import me.gabl.fablefields.game.inventory.item.AnimalProduct;
 import me.gabl.fablefields.game.inventory.item.GenericItems;
+import me.gabl.fablefields.game.inventory.item.Ore;
 import me.gabl.fablefields.game.inventory.item.Seed;
 import me.gabl.fablefields.game.inventory.item.tool.Tools;
 import me.gabl.fablefields.map.material.Materials;
@@ -60,7 +62,69 @@ public class Objectives {
             public void onComplete() {
                 objectivesList.inventory.addItem(Seed.CARROT, 5);
                 objectivesList.inventory.addItem(Seed.CAULIFLOWER, 5);
-                objectivesList.add(HiddenObjectives.awaitWaterNeeded(objectivesList));
+                objectivesList.add(plantSeeds(objectivesList));
+            }
+        };
+    }
+
+    public static Objective plantSeeds(ObjectivesList objectivesList) {
+        return new Objective("plant_seeds", objectivesList, 2) {
+
+            private PlantMaterial lastPlanted;
+
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"item/carrot_seed", "item/cauliflower_seed", "tile/soil/stage/0"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%noun%", noun("seed", remaining()));
+            }
+
+            @Subscribe
+            public void onItemUse(ItemUseEvent event) {
+                if (event.context.item.type instanceof Seed seed) {
+                    lastPlanted = Plant.get(seed).material;
+                    progress();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(awaitWaterNeeded(objectivesList, lastPlanted));
+            }
+        };
+    }
+
+    public static Objective awaitWaterNeeded(ObjectivesList objectivesList, PlantMaterial planted) {
+        return new Objective("await_water_needed", objectivesList) {
+
+            private PlantMaterial material;
+
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"icon/hourglass", "tile/soil/stage/0;tile/plant/" + planted.id + "/stage/0",
+                        "item/watering_can"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%plant%", Asset.LANGUAGE_SERVICE.get("material/" + planted.id));
+            }
+
+            @Subscribe
+            public void onPlantGrow(PlantGrowEvent event) {
+                if (event.tile.needsWater()) {
+                    material = event.tile.getMaterial();
+                    complete();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.inventory.addItem(Tools.WATERING_CAN);
+                objectivesList.add(waterPlant(objectivesList, material));
             }
         };
     }
@@ -139,6 +203,82 @@ public class Objectives {
             @Subscribe
             private void onPlantHarvest(PlantHarvestEvent _event) {
                 complete();
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.inventory.addItem(Tools.PICKAXE);
+                objectivesList.add(mineOre(objectivesList));
+            }
+        };
+    }
+
+    public static Objective mineOre(ObjectivesList objectivesList) {
+        return new Objective("mine_ore", objectivesList, 3) {
+
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"item/pickaxe", "item/coal", "item/iron", "item/gold"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%noun%", noun("ore", remaining()));
+            }
+
+            @Subscribe
+            public void onInventoryAddItem(InventoryAddItemEvent event) {
+                if (event.type() instanceof Ore) progress();
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(collectEggs(objectivesList));
+            }
+        };
+    }
+
+    public static Objective collectEggs(ObjectivesList objectivesList) {
+        return new Objective("collect_eggs", objectivesList, 3) {
+
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"item/egg"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%noun%", noun("egg", remaining()));
+            }
+
+            @Subscribe
+            public void onInventoryAddItem(InventoryAddItemEvent event) {
+                if (AnimalProduct.EGG.equals(event.type())) progress();
+            }
+
+            @Override
+            public void onComplete() {
+                objectivesList.add(collectMilk(objectivesList));
+            }
+        };
+    }
+
+    public static Objective collectMilk(ObjectivesList objectivesList) {
+        return new Objective("collect_milk", objectivesList, 2) {
+
+            @Override
+            public String[] getIconNames() {
+                return new String[]{"item/milk_bucket"};
+            }
+
+            @Override
+            protected String fillSpecificPlaceholders(String text) {
+                return text.replace("%noun%", noun("cow", remaining()));
+            }
+
+            @Subscribe
+            public void onInventoryAddItem(InventoryAddItemEvent event) {
+                if (AnimalProduct.MILK_BUCKET.equals(event.type())) progress();
             }
 
             @Override

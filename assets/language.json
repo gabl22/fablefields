@@ -52,6 +52,17 @@
     "item/milk_bucket": "Milk",
     "item/milk_bucket/tooltip/milk": "MILK",
 
+    "noun/seed/singular": "seed",
+    "noun/seed/plural": "seeds",
+    "noun/ore/singular": "ore",
+    "noun/ore/plural": "ores",
+    "noun/egg/singular": "egg",
+    "noun/egg/plural": "eggs",
+    "noun/cow/singular": "cow",
+    "noun/cow/plural": "cows",
+    "noun/coin/singular": "coin",
+    "noun/coin/plural": "coins",
+
     "credits/graphics": "Graphics",
     "credits/open_link": "Open Link",
     "credits/danieldiggle/reference": "DanielDiggle",
@@ -61,6 +72,10 @@
     "objective/get_wood/body": "Collect %remaining% more wood by chopping trees to obtain a shovel.",
     "objective/till_soil/title": "Till Dirt to Soil (%progress%)",
     "objective/till_soil/body": "Use your shovel to prepare the ground for sowing!",
+    "objective/plant_seeds/title": "Plant Seeds (%progress%)",
+    "objective/plant_seeds/body": "Plant %remaining% more %noun% in the tilled soil.",
+    "objective/await_water_needed/title": "Wait for %plant% to grow",
+    "objective/await_water_needed/body": "Your %plant% needs some time to grow before it needs water.",
     "objective/water_plant/title": "Plant in Need of Water!",
     "objective/water_plant/body": "Water your %plant%! All plants need water to grow.",
     "objective/await_plant_harvestable/title": "Wait for %plant% to grow",
@@ -68,8 +83,16 @@
     "objective/harvest_plant/title": "%plant% is ready for Harvest!",
     "objective/harvest_plant/body": "Use your Hoe to obtain %plant%. If lucky, you will be rewarded with extra seeds.",
     "objective/generic/harvest_new_seed/title": "Harvest %plant% (%progress%)",
-    "objective/generic/harvest_new_seed/body": "Collect %remaining% more %plant% to obtain %reward_count% %reward% seeds.",
+    "objective/generic/harvest_new_seed/body": "Collect %remaining% more %plant% to obtain %reward_count% %reward% %seed_noun%.",
+    "objective/mine_ore/title": "Mine Ore (%progress%)",
+    "objective/mine_ore/body": "Use your pickaxe to mine %remaining% more %noun% from ore lumps.",
+    "objective/collect_eggs/title": "Collect Eggs (%progress%)",
+    "objective/collect_eggs/body": "Pick up %remaining% more %noun% using your bare hands.",
+    "objective/collect_milk/title": "Collect Milk (%progress%)",
+    "objective/collect_milk/body": "Milk %remaining% more %noun% using your bare hands.",
+    "objective/generic/collect_animal_product/title": "Collect %product% (%progress%)",
+    "objective/generic/collect_animal_product/body": "Collect %remaining% more %product% to obtain %reward% %coin_noun%.",
     "objective/generic/crop_remove_coin/title": "Collect %plant% (%progress%)",
-    "objective/generic/crop_remove_coin/body": "Have %maxprogress%x %plant% in your inventory to receive %reward% coins in return."
+    "objective/generic/crop_remove_coin/body": "Have %maxprogress%x %plant% in your inventory to obtain %reward% coins in return."
   }
 }

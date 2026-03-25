@@ -110,7 +110,7 @@ public class MapChunk {
     public void populate() {
         collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
         //TODO max iterations!
-        for (int i = 0; i < 100; ) {
+        for (int i = 0; i < 400; ) {
             float x = MathUtil.RANDOM.nextFloat() * width;
             float y = MathUtil.RANDOM.nextFloat() * height;
             if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {

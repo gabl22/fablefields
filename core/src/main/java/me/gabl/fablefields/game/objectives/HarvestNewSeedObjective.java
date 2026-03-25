@@ -25,7 +25,8 @@ public class HarvestNewSeedObjective extends Objective {
     protected String fillSpecificPlaceholders(String text) {
         return text.replace("%plant%", required.toString())
                 .replace("%reward%", Asset.LANGUAGE_SERVICE.get("material/" + reward.id))
-                .replace("%reward_count%", String.valueOf(rewardCount));
+                .replace("%reward_count%", String.valueOf(rewardCount))
+                .replace("%seed_noun%", noun("seed", rewardCount));
     }
 
     @Subscribe

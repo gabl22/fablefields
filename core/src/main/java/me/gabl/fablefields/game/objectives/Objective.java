@@ -69,6 +69,10 @@ public class Objective {
         return null;
     }
 
+    protected int remaining() {
+        return maxProgress - progress;
+    }
+
     public void regress() {
         progress--;
         update();
@@ -90,5 +94,9 @@ public class Objective {
 
     protected String fillSpecificPlaceholders(String text) {
         return text;
+    }
+
+    protected static String noun(String id, int count) {
+        return Asset.LANGUAGE_SERVICE.get("noun/" + id + "/" + (count == 1 ? "singular" : "plural"));
     }
 }
