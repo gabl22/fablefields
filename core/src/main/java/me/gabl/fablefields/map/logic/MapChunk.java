@@ -3,11 +3,7 @@ package me.gabl.fablefields.map.logic;
 import com.badlogic.gdx.math.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
-import me.gabl.fablefields.game.entity.Chicken;
-import me.gabl.fablefields.game.entity.Cow;
-import me.gabl.fablefields.game.entity.Duck;
-import me.gabl.fablefields.game.entity.Entity;
-import me.gabl.fablefields.game.entity.Tree;
+import me.gabl.fablefields.game.entity.*;
 import me.gabl.fablefields.map.material.Materials;
 import me.gabl.fablefields.map.render.MapChunkRenderComponent;
 import me.gabl.fablefields.player.Movement;
@@ -25,7 +21,7 @@ public class MapChunk {
     public final long seed;
     public final Noise2D noise;
 
-    public QuadTree<Tree> collision;
+    public QuadTree<StaticTextureEntity> collision; //todo collidable entity
     public final Entities entities;
 
     private final MapChunkLayers<Layer<MapTile>> tileLayers;
@@ -112,12 +108,22 @@ public class MapChunk {
     }
 
     public void populate() {
-        for (int i = 0; i < 40; i++) {
-            Chicken chicken = new Chicken(this);
-            do {
-                chicken.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
-            } while (!this.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()));
-            entities.addActor(chicken);
+        collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
+        //TODO max iterations!
+        for (int i = 0; i < 100; ) {
+            float x = MathUtil.RANDOM.nextFloat() * width;
+            float y = MathUtil.RANDOM.nextFloat() * height;
+            if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {
+                StaticTextureEntity populant = getRandomPopulant();
+                populant.setPosition(x, y);
+                if (!collision.bounds.contains(populant.getCollisionBox()) || collision.overlapsAny(populant.getCollisionBox())) {
+                    continue;
+                }
+                i++;
+                System.out.println("Populated " + i + " entities");
+                collision.add(populant);
+                entities.addActor(populant);
+            }
         }
 
         for (int i = 0; i < 20; i++) {
@@ -136,23 +142,21 @@ public class MapChunk {
             entities.addActor(cow);
         }
 
-        collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));
-
-        //TODO max iterations!
-        for (int i = 0; i < 800; ) {
-            float x = MathUtil.RANDOM.nextFloat() * width;
-            float y = MathUtil.RANDOM.nextFloat() * height;
-            if (this.is(Movement.WALKABLE, x, y) && this.is(tile -> tile.material != Materials.SAND, x, y)) {
-                Tree tree = new Tree(this, Tree.TYPES[i % Tree.TYPES.length]);
-                tree.setPosition(x, y);
-                if (!collision.bounds.contains(tree.getCollisionBox()) || collision.overlapsAny(tree.getCollisionBox())) {
-                    continue;
-                }
-                i++;
-                collision.add(tree);
-                entities.addActor(tree);
-            }
+        for (int i = 0; i < 40; i++) {
+            Chicken chicken = new Chicken(this);
+            do {
+                chicken.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
+            } while (!this.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()) || collision.overlapsAny(chicken.getCollisionBox()));
+            entities.addActor(chicken);
         }
+    }
+
+    private StaticTextureEntity getRandomPopulant() {
+        if (MathUtil.RANDOM.nextFloat() < 0.9) {
+            return new Tree(this, Tree.TYPES[MathUtil.RANDOM.nextInt(Tree.TYPES.length)]);
+        }
+
+        return new OreLump(this, OreLump.Type.values()[MathUtil.RANDOM.nextInt(OreLump.Type.values().length)]);
     }
 
     /**
