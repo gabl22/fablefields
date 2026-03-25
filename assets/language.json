@@ -35,6 +35,14 @@
     "material/lettuce": "Lettuce",
 
     "entity/chicken": "Chicken",
+    "entity/duck": "Duck",
+    "entity/cow": "Cow",
+    "entity/egg": "Egg",
+
+    "item/egg": "Egg",
+    "item/egg/tooltip/collect": "COLLECT",
+    "item/milk_bucket": "Milk",
+    "item/milk_bucket/tooltip/milk": "MILK",
 
     "credits/graphics": "Graphics",
     "credits/open_link": "Open Link",

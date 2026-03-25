@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 import lombok.Getter;
 import lombok.Setter;
 import me.gabl.fablefields.game.entity.Chicken;
+import me.gabl.fablefields.game.entity.Cow;
+import me.gabl.fablefields.game.entity.Duck;
 import me.gabl.fablefields.game.entity.Entity;
 import me.gabl.fablefields.game.entity.Tree;
 import me.gabl.fablefields.map.material.Materials;
@@ -116,6 +118,22 @@ public class MapChunk {
                 chicken.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
             } while (!this.is(Movement.WALKABLE, chicken.tileX(), chicken.tileY()));
             entities.addActor(chicken);
+        }
+
+        for (int i = 0; i < 20; i++) {
+            Duck duck = new Duck(this);
+            do {
+                duck.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
+            } while (!this.is(Movement.SWIMMABLE, duck.tileX(), duck.tileY()));
+            entities.addActor(duck);
+        }
+
+        for (int i = 0; i < 25; i++) {
+            Cow cow = new Cow(this);
+            do {
+                cow.setPosition(MathUtil.RANDOM.nextFloat() * width, MathUtil.RANDOM.nextFloat() * height);
+            } while (!this.is(Movement.WALKABLE, cow.tileX(), cow.tileY()));
+            entities.addActor(cow);
         }
 
         collision = new QuadTree<>(0, new Rectangle(0, 0, width, height));

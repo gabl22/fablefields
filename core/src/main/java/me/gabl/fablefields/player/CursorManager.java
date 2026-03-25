@@ -3,8 +3,14 @@ package me.gabl.fablefields.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import me.gabl.fablefields.asset.Asset;
 import me.gabl.fablefields.asset.Cursors;
+import me.gabl.fablefields.game.entity.Cow;
+import me.gabl.fablefields.game.entity.Egg;
 import me.gabl.fablefields.game.inventory.Item;
+import me.gabl.fablefields.game.inventory.ItemType;
+import me.gabl.fablefields.game.inventory.item.AnimalProduct;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
@@ -49,7 +55,7 @@ public class CursorManager {
         getCursorPosition(position2);
         Item selectedItem = player.inventory.getSelectedItem();
         if (selectedItem == null) {
-            Cursors.pointer();
+            checkBareHandCursor(screenCords);
         } else {
             UseContext context = new UseContext(selectedItem, player, screen, chunk, position2.x, position2.y,
                     screen.entityHitCursor());
@@ -64,6 +70,33 @@ public class CursorManager {
             } else {
                 Cursors.unavailable();
             }
+        }
+    }
+
+    private void checkBareHandCursor(Vector2 screenCords) {
+        Actor hitActor = screen.entityHitCursor();
+        String toolTip = null;
+        ItemType displayItem = null;
+
+        if (hitActor instanceof Egg egg) {
+            if (player.inRange(Range.TOOL, egg.getX(), egg.getY())) {
+                toolTip = Asset.LANGUAGE_SERVICE.get("item/egg/tooltip/collect");
+                displayItem = AnimalProduct.EGG;
+            }
+        } else if (hitActor instanceof Cow cow) {
+            if (cow.isMilkable() && player.inRange(Range.TOOL, cow.getX(), cow.getY())) {
+                toolTip = Asset.LANGUAGE_SERVICE.get("item/milk_bucket/tooltip/milk");
+                displayItem = AnimalProduct.MILK_BUCKET;
+            }
+        }
+
+        if (toolTip == null) {
+            Cursors.pointer();
+        } else {
+            Cursors.arrow();
+            screen.toolTipHud.updatePosition(screenCords);
+            screen.toolTipHud.update(toolTip, displayItem);
+            screen.toolTipHud.show();
         }
     }
 

@@ -1,8 +1,12 @@
 package me.gabl.fablefields.player;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import lombok.AllArgsConstructor;
+import me.gabl.fablefields.game.entity.Cow;
+import me.gabl.fablefields.game.entity.Egg;
 import me.gabl.fablefields.game.inventory.Slot;
+import me.gabl.fablefields.game.inventory.item.AnimalProduct;
 import me.gabl.fablefields.game.inventory.item.UseContext;
 import me.gabl.fablefields.map.logic.MapChunk;
 import me.gabl.fablefields.screen.game.GameScreen;
@@ -28,16 +32,37 @@ public class PlayerWorldController implements DefaultInputProcessor {
 
     public void checkUse() {
         Slot slot = player.inventory.getSelectedSlot();
-        if (slot == null) return;
         Vector2 position = ScreenUtil.getPosition(screenVector.x, screenVector.y, screen);
-        UseContext context = new UseContext(slot.item, player, screen, chunk, position.x, position.y,
-                screen.entityHitCursor());
+        Actor hitActor = screen.entityHitCursor();
+
+        // No item selected - try bare-hand interactions
+        if (slot == null) {
+            checkBareHandUse(position, hitActor);
+            return;
+        }
+
+        UseContext context = new UseContext(slot.item, player, screen, chunk, position.x, position.y, hitActor);
         if (!slot.item.type.isUsable(context)) {
             return;
         }
         turnPlayer(context);
         slot.item.type.use(context);
         screen.eventBus.fire(new ItemUseEvent(context));
+    }
+
+    private void checkBareHandUse(Vector2 position, Actor hitActor) {
+        if (hitActor instanceof Egg egg) {
+            if (!player.inRange(Range.TOOL, egg.getX(), egg.getY())) return;
+            player.turnTo(egg.getX());
+            egg.remove();
+            player.inventory.addItem(AnimalProduct.EGG, 1);
+        } else if (hitActor instanceof Cow cow) {
+            if (!cow.isMilkable()) return;
+            if (!player.inRange(Range.TOOL, cow.getX(), cow.getY())) return;
+            player.turnTo(cow.getX());
+            cow.milk();
+            player.inventory.addItem(AnimalProduct.MILK_BUCKET, 1);
+        }
     }
 
     public void turnPlayer(UseContext context) {
